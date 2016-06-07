@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.apache.tomcat:tomcat-websocket-api:8.5.2" type="repository">
+    <properties maven-id="org.apache.tomcat:tomcat-websocket-api:8.5.2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/tomcat-websocket-api-8.5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
