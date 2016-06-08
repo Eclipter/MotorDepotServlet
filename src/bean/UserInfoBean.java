@@ -1,6 +1,6 @@
-package action.controller;
+package bean;
 
-import dao.DAODriver;
+import dao.DriverDAO;
 import entity.DriverEntity;
 import entity.UserEntity;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Created by USER on 29.05.2016.
  */
-public class UserController implements Serializable {
+public class UserInfoBean implements Serializable {
 
     private static final long serialVersionUID = -3901364261477685125L;
 
@@ -17,8 +17,8 @@ public class UserController implements Serializable {
     private boolean admin;
 
     private void checkForAdmin() {
-        DAODriver daoDriver = new DAODriver();
-        DriverEntity driverEntity = daoDriver.searchByUser(userEntity);
+        DriverDAO driverDAO = new DriverDAO();
+        DriverEntity driverEntity = driverDAO.searchByUser(userEntity);
         this.admin = driverEntity == null;
     }
 

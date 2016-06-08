@@ -1,6 +1,6 @@
 package filter;
 
-import action.controller.UserController;
+import bean.UserInfoBean;
 import util.ConfigurationManager;
 
 import javax.servlet.*;
@@ -31,21 +31,19 @@ public class AuthenticationFilter implements Filter {
         if(session == null || session.getAttribute("user") == null) {
             if(!"signup_form".equals(command) && !"signup".equals(command) && !"login".equals(command)) {
                 res.sendRedirect(contextPath + ConfigurationManager.getProperty("login"));
-            }
-            else {
-                filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
         }
         else {
-            UserController userController = (UserController) session.getAttribute("user");
-            if(!userController.isAdmin() &&
+            UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute("user");
+            if(!userInfoBean.isAdmin() &&
                     ("set_form".equals(command) || "trucks".equals(command))) {
                     res.sendRedirect(contextPath + ConfigurationManager.getProperty("login"));
-            }
-            else {
-                filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
         }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by USER on 20.04.2016.
  */
-public class MotorDepotServlet extends HttpServlet {
+public class MotorDepotController extends HttpServlet {
 
     private static final long serialVersionUID = -811960845105124825L;
     private static final Logger logger = LogManager.getLogger();

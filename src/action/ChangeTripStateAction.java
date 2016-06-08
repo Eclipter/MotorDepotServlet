@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAOTrip;
+import dao.TripDAO;
 import entity.TripEntity;
 import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +22,7 @@ public class ChangeTripStateAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         Integer tripId = Integer.valueOf(req.getParameter("tripId"));
         String chosenState = req.getParameter("chosenState");
-        DAOTrip daoTrip = new DAOTrip();
+        TripDAO daoTrip = new TripDAO();
 
         try {
             logger.info("changing trip " + tripId + " state to " + chosenState);

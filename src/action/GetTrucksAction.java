@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAOTruck;
+import dao.TruckDAO;
 import entity.TruckEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class GetTrucksAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all trucks");
-        DAOTruck daoTruck = new DAOTruck();
+        TruckDAO daoTruck = new TruckDAO();
         List<TruckEntity> allAutos = daoTruck.getAllTrucks();
         req.setAttribute("trucks", allAutos);
         return ConfigurationManager.getProperty("trucks");

@@ -18,16 +18,19 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>MyServlet</servlet-name>
+        <servlet-name>MotorDepotServlet</servlet-name>
     </filter-mapping>
     <servlet>
-        <servlet-name>MyServlet</servlet-name>
-        <servlet-class>servlet.MotorDepotServlet</servlet-class>
+        <servlet-name>MotorDepotServlet</servlet-name>
+        <servlet-class>servlet.MotorDepotController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>MyServlet</servlet-name>
+        <servlet-name>MotorDepotServlet</servlet-name>
         <url-pattern>/motor_depot</url-pattern>
     </servlet-mapping>
+    <session-config>
+        <session-timeout>1800</session-timeout>
+    </session-config>
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>

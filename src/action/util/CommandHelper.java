@@ -9,7 +9,7 @@ import java.util.Map;
  * Class that helps to get an action class corresponding to the command name
  * Created by USER on 25.04.2016.
  */
-public class CommandHelper {
+public final class CommandHelper {
 
     private static final Map<ActionEnum, Action> actionMap = new EnumMap<>(ActionEnum.class);
 
@@ -19,7 +19,7 @@ public class CommandHelper {
         actionMap.put(ActionEnum.GET_TRUCKS, new GetTrucksAction());
         actionMap.put(ActionEnum.CHANGE_TRUCK_STATE, new ChangeTruckStateAction());
         actionMap.put(ActionEnum.GET_DRIVERS, new GetDriversAction());
-        actionMap.put(ActionEnum.GET_APPLICATIONS, new GetApplicationsAction());
+        actionMap.put(ActionEnum.GET_REQUESTS, new GetRequestsAction());
         actionMap.put(ActionEnum.GET_TRIPS, new GetTripsAction());
         actionMap.put(ActionEnum.GET_TRIPS_BY_DRIVER, new GetTripsByDriverAction());
         actionMap.put(ActionEnum.GET_SETTING_FORM, new GetSettingFormAction());

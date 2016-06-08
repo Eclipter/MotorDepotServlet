@@ -54,11 +54,11 @@ public class UserEntity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return getId() == that.getId() &&
-                Objects.equals(getLogin(), that.getLogin()) &&
-                Objects.equals(getPassword(), that.getPassword());
+        return Objects.equals(id, that.id) &&
+                Objects.equals(login, that.login) &&
+                Objects.equals(password, that.password);
     }
 
     @Override

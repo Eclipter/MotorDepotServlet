@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,18 +25,18 @@
                     <tr>
                         <th>Id</th>
                         <th>Вес груза</th>
-                        <th>Выполнена/выполняется</th>
+                        <th>Распределена</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${applications}" var="application">
+                    <c:forEach items="${requests}" var="request">
                         <tr>
-                            <td>${application.applicationEntity.id}</td>
-                            <td>${application.applicationEntity.cargoWeight}</td>
+                            <td>${request.requestEntity.id}</td>
+                            <td>${request.requestEntity.cargoWeight}</td>
                             <c:choose>
-                                <c:when test="${application.driverEntity != null}">
+                                <c:when test="${request.driverEntity != null}">
                                     <td>
-                                        <a href="#" data-toggle="popover" title="Выполнена/выполняется:" data-trigger="hover" data-content="Водитель ${application.driverEntity.userId}">
+                                        <a href="#" data-toggle="popover" title="Распределена:" data-trigger="hover" data-content="Водитель ${request.driverEntity.userId}">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </a>
                                     </td>

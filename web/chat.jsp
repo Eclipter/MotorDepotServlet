@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -67,6 +68,14 @@
         document.getElementById('message').value = "";
     }
     window.addEventListener('load', connect);
+
+    document.getElementById("message")
+            .addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode == 13) {
+                    document.getElementById("sendButton").click();
+                }
+            });
 </script>
 <body>
 <%@include file="navbar.jsp"%>
@@ -104,9 +113,9 @@
 
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" id="message" class="form-control" placeholder="Сообщение"/>
+                        <input type="text" id="message" class="form-control" placeholder="Сообщение" required/>
                     <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" onclick="sendMessage()">Отправить</button>
+                        <button id="sendButton" class="btn btn-primary" type="button" onclick="sendMessage()">Отправить</button>
                     </span>
                     </div>
                 </div>

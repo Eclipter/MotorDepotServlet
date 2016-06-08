@@ -48,10 +48,10 @@ public class TruckEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TruckEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         TruckEntity that = (TruckEntity) o;
-        return getId() == that.getId() &&
-                getCapacity() == that.getCapacity();
+        return Objects.equals(id, that.id) &&
+                Objects.equals(capacity, that.capacity);
     }
 
     @Override

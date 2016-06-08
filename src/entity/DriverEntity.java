@@ -43,10 +43,10 @@ public class DriverEntity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DriverEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         DriverEntity that = (DriverEntity) o;
-        return Objects.equals(getTruckByTruckId(), that.getTruckByTruckId()) &&
-                Objects.equals(getUserByUserId(), that.getUserByUserId());
+        return Objects.equals(truckByTruckId, that.truckByTruckId) &&
+                Objects.equals(userId, that.userId);
     }
 
     @Override

@@ -41,10 +41,10 @@ public class StateEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof StateEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         StateEntity that = (StateEntity) o;
-        return getId() == that.getId() &&
-                Objects.equals(getStateName(), that.getStateName());
+        return Objects.equals(id, that.id) &&
+                stateName == that.stateName;
     }
 
     @Override

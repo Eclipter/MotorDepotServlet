@@ -1,7 +1,7 @@
 package action;
 
-import action.controller.UserController;
-import dao.DAOUser;
+import bean.UserInfoBean;
+import dao.UserDAO;
 import entity.UserEntity;
 import exception.DAOException;
 import exception.ExceptionalMessage;
@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,7 +25,7 @@ public class LoginAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            DAOUser daoUser = new DAOUser();
+            UserDAO daoUser = new UserDAO();
             String userName = req.getParameter("username");
             String password = req.getParameter("password");
             logger.info("authenticating user: " + userName + " " + password);
@@ -35,13 +34,9 @@ public class LoginAction implements Action {
                 logger.info("user found");
                 UserEntity userEntity = userEntityList.get(0);
                 HttpSession session = req.getSession();
-                UserController userController = new UserController();
-                userController.setUserEntity(userEntity);
-                session.setAttribute("user", userController);
-                session.setMaxInactiveInterval(30 * 60);
-                Cookie userCookie = new Cookie("userName", userEntity.getLogin());
-                userCookie.setMaxAge(30 * 60);
-                resp.addCookie(userCookie);
+                UserInfoBean userInfoBean = new UserInfoBean();
+                userInfoBean.setUserEntity(userEntity);
+                session.setAttribute("user", userInfoBean);
                 return ConfigurationManager.getProperty("index");
             } else {
                 throw new DAOException(ExceptionalMessage.WRONG_LOGIN_PASS);

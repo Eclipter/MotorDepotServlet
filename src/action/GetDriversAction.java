@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAODriver;
+import dao.DriverDAO;
 import entity.DriverEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +21,8 @@ public class GetDriversAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all drivers");
-        DAODriver daoDriver = new DAODriver();
-        List<DriverEntity> allDrivers = daoDriver.getAllDrivers();
+        DriverDAO driverDAO = new DriverDAO();
+        List<DriverEntity> allDrivers = driverDAO.getAllDrivers();
         req.setAttribute("drivers", allDrivers);
         return ConfigurationManager.getProperty("drivers");
     }

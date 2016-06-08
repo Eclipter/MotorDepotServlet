@@ -38,8 +38,8 @@ public class TripListTag extends TagSupport {
             for(TripEntity tripEntity : trips) {
                 out.write("<tr>");
                 out.write("<td>" + tripEntity.getId() + "</td>");
-                out.write("<td>Id: " + tripEntity.getApplicationByApplicationId().getId() +
-                        ", груз: " + tripEntity.getApplicationByApplicationId().getCargoWeight() + "</td>");
+                out.write("<td>Id: " + tripEntity.getRequestByRequestId().getId() +
+                        ", груз: " + tripEntity.getRequestByRequestId().getCargoWeight() + "</td>");
                 out.write("<td>Id: " + tripEntity.getDriverByDriverUserId().getUserId() +
                         ", имя: " + tripEntity.getDriverByDriverUserId().getUserByUserId().getLogin() + "</td>");
                 if(tripEntity.getIsComplete()) {

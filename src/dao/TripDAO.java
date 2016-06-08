@@ -3,8 +3,7 @@ package dao;
 import entity.*;
 import exception.DAOException;
 import exception.ExceptionalMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -12,9 +11,7 @@ import java.util.List;
 /**
  * Created by USER on 07.03.2016.
  */
-public class DAOTrip extends DAOMotorDepot {
-
-    static Logger logger = LogManager.getLogger();
+public class TripDAO extends MotorDepotDAO {
 
     /**
      * Get all trips method.
@@ -22,7 +19,6 @@ public class DAOTrip extends DAOMotorDepot {
      * @return list of trips
      */
     public List<TripEntity> getAllTrips() {
-        logger.info("Executing SELECT statement.");
         TypedQuery<TripEntity> query = getManager().createNamedQuery("TripEntity.getAll", TripEntity.class);
         return query.getResultList();
     }
@@ -34,7 +30,6 @@ public class DAOTrip extends DAOMotorDepot {
      * @return list of trips
      */
     public List<TripEntity> getTripsByDriver(int driverId) {
-        logger.info("Executing SELECT statement.");
         DriverEntity driverEntity = getManager().find(DriverEntity.class, driverId);
         return driverEntity.getTripsByUserId();
     }
@@ -51,12 +46,9 @@ public class DAOTrip extends DAOMotorDepot {
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
+            RequestEntity requestEntity = getManager().find(RequestEntity.class, applicationId);
+            int cargoWeight = requestEntity.getCargoWeight();
 
-            logger.info("Executing SELECT statement.");
-            ApplicationEntity applicationEntity = getManager().find(ApplicationEntity.class, applicationId);
-            int cargoWeight = applicationEntity.getCargoWeight();
-
-            logger.info("Executing SELECT statement.");
             DriverEntity driverEntity = getManager().find(DriverEntity.class, driverId);
             TruckEntity truckEntity = driverEntity.getTruckByTruckId();
             int capacity = truckEntity.getCapacity();
@@ -68,12 +60,10 @@ public class DAOTrip extends DAOMotorDepot {
                 throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
             }
 
-            logger.info("Executing INSERT statement.");
-
             TripEntity tripEntity = new TripEntity();
             tripEntity.setIsComplete(false);
             tripEntity.setDriverByDriverUserId(driverEntity);
-            tripEntity.setApplicationByApplicationId(applicationEntity);
+            tripEntity.setRequestByRequestId(requestEntity);
             getManager().persist(tripEntity);
             transaction.commit();
         } finally {
@@ -84,13 +74,11 @@ public class DAOTrip extends DAOMotorDepot {
     public void changeTripState(Integer tripId, boolean state) throws DAOException {
         EntityTransaction transaction = getManager().getTransaction();
         transaction.begin();
-        logger.info("Executing SELECT statement.");
         TripEntity tripEntity = getManager().find(TripEntity.class, tripId);
         if(state == tripEntity.getIsComplete()) {
             throw new DAOException(ExceptionalMessage.TRIP_HAS_THIS_STATE);
         }
 
-        logger.info("Executing UPDATE statement.");
         tripEntity.setIsComplete(state);
         transaction.commit();
     }

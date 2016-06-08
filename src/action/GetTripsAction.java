@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAOTrip;
+import dao.TripDAO;
 import entity.TripEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ public class GetTripsAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all trips");
-        DAOTrip daoTrip = new DAOTrip();
+        TripDAO daoTrip = new TripDAO();
         List<TripEntity> allTrips = daoTrip.getAllTrips();
         req.setAttribute("trips", allTrips);
         return ConfigurationManager.getProperty("trip_list");

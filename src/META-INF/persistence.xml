@@ -6,7 +6,7 @@
 
     <persistence-unit name="MotorDepotHibernateManager">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>entity.ApplicationEntity</class>
+        <class>entity.RequestEntity</class>
         <class>entity.TruckEntity</class>
         <class>entity.DriverEntity</class>
         <class>entity.StateEntity</class>

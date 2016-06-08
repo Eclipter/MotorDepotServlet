@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -14,7 +15,7 @@
                 <a href="<c:url value="motor_depot"><c:param name="command" value="get_drivers"/></c:url>"><span class="glyphicon glyphicon-user"></span> Водители</a>
             </li>
             <li>
-                <a href="<c:url value="motor_depot"><c:param name="command" value="get_applications"/></c:url>"><span class="glyphicon glyphicon-list-alt"></span> Заявки</a>
+                <a href="<c:url value="motor_depot"><c:param name="command" value="get_requests"/></c:url>"><span class="glyphicon glyphicon-list-alt"></span> Заявки</a>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

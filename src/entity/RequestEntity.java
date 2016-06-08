@@ -7,13 +7,13 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "application", schema = "motor_depot")
+@Table(name = "request", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "ApplicationEntity.getAll", query = "SELECT a FROM ApplicationEntity a"),
-        @NamedQuery(name = "ApplicationEntity.searchForDriver",
-                query = "SELECT t.driverByDriverUserId FROM TripEntity t WHERE t.applicationByApplicationId = :application")
+        @NamedQuery(name = "RequestEntity.getAll", query = "SELECT a FROM RequestEntity a"),
+        @NamedQuery(name = "RequestEntity.searchForDriver",
+                query = "SELECT t.driverByDriverUserId FROM TripEntity t WHERE t.requestByRequestId = :request")
 })
-public class ApplicationEntity {
+public class RequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -42,10 +42,10 @@ public class ApplicationEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ApplicationEntity)) return false;
-        ApplicationEntity that = (ApplicationEntity) o;
-        return getId() == that.getId() &&
-                getCargoWeight() == that.getCargoWeight();
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestEntity that = (RequestEntity) o;
+        return id == that.id &&
+                cargoWeight == that.cargoWeight;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ApplicationEntity {
 
     @Override
     public String toString() {
-        return "ApplicationEntity{" +
+        return "RequestEntity{" +
                 "id=" + id +
                 ", cargoWeight=" + cargoWeight +
                 '}';

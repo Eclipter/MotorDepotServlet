@@ -18,4 +18,5 @@ public class ExceptionalMessage {
     public static final String LOGIN_OCCUPIED = "There is a user with such login, please choose another";
     public static final String TRUCK_CAPACITY_BELOW_ZERO = "Truck capacity can't be below zero";
     public static final String TRIP_HAS_THIS_STATE = "This trip already has this state.";
+    public static final String WRONG_INPUT_FOR_CAPACITY = "Wrong input for capacity";
 }

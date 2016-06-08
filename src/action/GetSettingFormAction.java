@@ -1,8 +1,8 @@
 package action;
 
-import dao.DAOApplication;
-import dao.DAODriver;
-import entity.ApplicationEntity;
+import dao.RequestDAO;
+import dao.DriverDAO;
+import entity.RequestEntity;
 import entity.DriverEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,10 +23,10 @@ public class GetSettingFormAction implements Action  {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting setting form: available applications and drivers");
-        DAOApplication daoApplication = new DAOApplication();
-        DAODriver daoDriver = new DAODriver();
-        List<ApplicationEntity> unsetApplications = daoApplication.getUnsetApplications();
-        List<DriverEntity> driverEntityList = daoDriver.getDriversWithHealthyAutos();
+        RequestDAO requestDAO = new RequestDAO();
+        DriverDAO driverDAO = new DriverDAO();
+        List<RequestEntity> unsetApplications = requestDAO.getUnsetRequests();
+        List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyAutos();
         req.setAttribute("applications", unsetApplications);
         req.setAttribute("drivers", driverEntityList);
         return ConfigurationManager.getProperty("set_form");

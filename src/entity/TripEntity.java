@@ -20,8 +20,8 @@ public class TripEntity {
     private boolean isComplete;
 
     @OneToOne
-    @JoinColumn(name = "APPLICATION_ID", referencedColumnName = "ID")
-    private ApplicationEntity applicationByApplicationId;
+    @JoinColumn(name = "REQUEST_ID", referencedColumnName = "ID")
+    private RequestEntity requestByRequestId;
 
     @ManyToOne
     @JoinColumn(name = "DRIVER_USER_ID", referencedColumnName = "USER_ID")
@@ -46,10 +46,10 @@ public class TripEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TripEntity)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         TripEntity that = (TripEntity) o;
-        return getId() == that.getId() &&
-                isComplete == that.isComplete;
+        return isComplete == that.isComplete &&
+                Objects.equals(id, that.id);
     }
 
     @Override
@@ -57,12 +57,12 @@ public class TripEntity {
         return Objects.hash(getId(), isComplete);
     }
 
-    public ApplicationEntity getApplicationByApplicationId() {
-        return applicationByApplicationId;
+    public RequestEntity getRequestByRequestId() {
+        return requestByRequestId;
     }
 
-    public void setApplicationByApplicationId(ApplicationEntity applicationByApplicationId) {
-        this.applicationByApplicationId = applicationByApplicationId;
+    public void setRequestByRequestId(RequestEntity applicationByApplicationId) {
+        this.requestByRequestId = applicationByApplicationId;
     }
 
 
@@ -79,7 +79,7 @@ public class TripEntity {
         return "TripEntity{" +
                 "id=" + id +
                 ", isComplete=" + isComplete +
-                ", applicationByApplicationId=" + applicationByApplicationId +
+                ", applicationByApplicationId=" + requestByRequestId +
                 ", driverByDriverUserId=" + driverByDriverUserId +
                 '}';
     }

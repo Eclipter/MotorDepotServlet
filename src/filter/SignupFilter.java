@@ -16,8 +16,7 @@ import java.io.IOException;
  */
 public class SignupFilter implements Filter {
 
-    static Logger logger = LogManager.getLogger();
-
+    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -36,7 +35,6 @@ public class SignupFilter implements Filter {
             return;
         }
 
-        String username = req.getParameter("username");
         String password = req.getParameter("password");
         String passwordRepeat = req.getParameter("passwordRepeat");
         String truckCapacity = req.getParameter("truckCapacity");
@@ -53,8 +51,13 @@ public class SignupFilter implements Filter {
             if(capacity <= 0) {
                 throw new DAOException(ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO);
             }
-        } catch (DAOException | NumberFormatException ex) {
-            req.getSession().setAttribute("errorMessage", ex.getMessage());
+        } catch (DAOException e) {
+            req.getSession().setAttribute("errorMessage", e.getMessage());
+            res.sendRedirect(contextPath + ConfigurationManager.getProperty("signup_form"));
+            return;
+        }
+        catch (NumberFormatException e) {
+            req.getSession().setAttribute("errorMessage", ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
             res.sendRedirect(contextPath + ConfigurationManager.getProperty("signup_form"));
             return;
         }

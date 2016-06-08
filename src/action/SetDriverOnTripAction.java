@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAOTrip;
+import dao.TripDAO;
 import entity.TripEntity;
 import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +21,7 @@ public class SetDriverOnTripAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        DAOTrip daoTrip = new DAOTrip();
+        TripDAO daoTrip = new TripDAO();
         Integer chosenApplicationId = Integer.valueOf(req.getParameter("chosenApplication"));
         Integer chosenDriverId = Integer.valueOf(req.getParameter("chosenDriver"));
         try {
@@ -35,6 +35,16 @@ public class SetDriverOnTripAction implements Action {
 
         logger.info("requesting all trips");
         List<TripEntity> allTrips = daoTrip.getAllTrips();
+        //TODO: fix trip list request
+        //TODO: fix reloading applications list
+        //TODO: rewrite user tag
+        //TODO: make ActionException and catch it in servlet
+        //TODO: make drivers see only applications that are not binded to any drivers
+        //TODO: make a message when admin is not online
+        //TODO: make class with page names constants
+        //TODO: make class with request params
+        //TODO: check request params for null
+        //TODO: check for all exceptions
         req.setAttribute("trips", allTrips);
         return ConfigurationManager.getProperty("trip_list");
     }

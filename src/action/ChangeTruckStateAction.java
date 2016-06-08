@@ -1,6 +1,6 @@
 package action;
 
-import dao.DAOTruck;
+import dao.TruckDAO;
 import entity.State;
 import entity.TruckEntity;
 import exception.DAOException;
@@ -24,7 +24,7 @@ public class ChangeTruckStateAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         Integer chosenTruckParameter = Integer.valueOf(req.getParameter("chosenTruck"));
         String chosenStateParameter = req.getParameter("chosenState");
-        DAOTruck daoTruck = new DAOTruck();
+        TruckDAO daoTruck = new TruckDAO();
 
         try {
             logger.info("changing truck " + chosenTruckParameter + " state to " + chosenStateParameter);

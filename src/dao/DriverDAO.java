@@ -5,8 +5,6 @@ import entity.TruckEntity;
 import entity.UserEntity;
 import exception.DAOException;
 import exception.ExceptionalMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -15,14 +13,15 @@ import java.util.List;
 /**
  * Created by USER on 21.04.2016.
  */
-public class DAODriver extends DAOMotorDepot {
+public class DriverDAO extends MotorDepotDAO {
 
-    static Logger logger = LogManager.getLogger();
+    private static final String CARGO_WEIGHT_PARAMETER = "cargoWeight";
+    private static final String LOGIN_PARAMETER = "login";
 
     public List<DriverEntity> getDriversWithCarOfCapacity(int cargoWeight) {
         TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriverWithCarOfCapacity",
                 DriverEntity.class);
-        namedQuery.setParameter("cargoWeight", cargoWeight);
+        namedQuery.setParameter(CARGO_WEIGHT_PARAMETER, cargoWeight);
         return namedQuery.getResultList();
     }
 
@@ -38,7 +37,7 @@ public class DAODriver extends DAOMotorDepot {
 
     public DriverEntity getDriverByLogin(String login) {
         TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriverByLogin", DriverEntity.class);
-        namedQuery.setParameter("login", login);
+        namedQuery.setParameter(LOGIN_PARAMETER, login);
         return namedQuery.getResultList().get(0);
     }
 
@@ -50,8 +49,6 @@ public class DAODriver extends DAOMotorDepot {
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
-
-            logger.info("Executing INSERT statement.");
             DriverEntity driverEntity = new DriverEntity();
             driverEntity.setUserId(userEntity.getId());
             driverEntity.setUserByUserId(userEntity);

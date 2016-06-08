@@ -1,14 +1,16 @@
 package dao;
 
+import dao.util.EntityManagerFactoryProvider;
+
 import javax.persistence.EntityManager;
 
 /**
  * Created by USER on 07.03.2016.
  */
-public abstract class DAOMotorDepot {
+public abstract class MotorDepotDAO {
     private EntityManager manager;
 
-    public DAOMotorDepot() {
+    public MotorDepotDAO() {
         this.manager = EntityManagerFactoryProvider.getInstance().getFactory().createEntityManager();
     }
 

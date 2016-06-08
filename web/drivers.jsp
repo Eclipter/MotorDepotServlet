@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +23,6 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Логин</th>
                         <th>Id автомобиля</th>
                     </tr>
@@ -30,7 +30,6 @@
                     <tbody>
                     <c:forEach items="${drivers}" var="driver">
                         <tr>
-                            <td>${driver.userId}</td>
                             <td>${driver.userByUserId.login}</td>
                             <td>
                                 <a href="#" data-toggle="popover" title="Truck ${driver.truckByTruckId.id}" data-trigger="hover" data-content="State: ${driver.truckByTruckId.stateByStateId.stateName}, Capacity: ${driver.truckByTruckId.capacity}">

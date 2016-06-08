@@ -1,6 +1,8 @@
 package socket;
 
-import action.controller.UserController;
+import bean.UserInfoBean;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,24 +26,29 @@ import java.util.stream.Collectors;
 @ServerEndpoint(value = "/chat", configurator = HttpSessionConfigurator.class)
 public class ChatEndPoint {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private Session session;
-    private static Map<Session, UserController> loginMap = Collections.synchronizedMap(new HashMap<>());
+    private static Map<Session, UserInfoBean> loginMap = Collections.synchronizedMap(new HashMap<>());
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
+        logger.info("chat session opened");
         this.session = session;
         HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        UserController userController = (UserController) httpSession.getAttribute("user");
-        loginMap.put(session, userController);
+        UserInfoBean userInfoBean = (UserInfoBean) httpSession.getAttribute("user");
+        loginMap.put(session, userInfoBean);
     }
 
     @OnClose
     public void onClose(Session session) {
         loginMap.remove(session);
+        logger.info("chat session closed");
     }
 
     @OnMessage
     public void onMessage(String JSONMessage, Session session) {
+        logger.info("incoming message");
         try {
             Message message = parseJSONMessage(JSONMessage);
             if(message.getMessageType() == MessageType.GET_ONLINE_USERS) {
@@ -49,41 +56,40 @@ public class ChatEndPoint {
                 session.getBasicRemote().sendText(jsonMessage);
             }
             else if(message.getMessageType() == MessageType.MESSAGE) {
-                if(message.getUsername().equals("All users")) {
-                    for(Map.Entry<Session, UserController> entry : loginMap.entrySet()) {
-                        entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
-                                message.getMessage()));
-                    }
-                }
-                else if(message.getUsername().equals("admin")) {
-                    for(Map.Entry<Session, UserController> entry : loginMap.entrySet()) {
-                        if(entry.getValue().isAdmin()) {
+                switch (message.getUsername()) {
+                    case "All users":
+                        for (Map.Entry<Session, UserInfoBean> entry : loginMap.entrySet()) {
                             entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
                                     message.getMessage()));
                         }
-                        else if(entry.getKey().equals(session)) {
-                            entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
-                                    message.getMessage()));
-                        }
-                    }
-                }
-                else {
-                    for(Map.Entry<Session, UserController> entry : loginMap.entrySet()) {
-                        if(entry.getValue().getUserEntity().getLogin().equals(message.getUsername())) {
-                            entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
-                                    message.getMessage()));
-                        }
-                        else if(entry.getKey().equals(session)) {
-                            if(entry.getValue().isAdmin()) {
-                                entry.getKey().getBasicRemote().sendText(buildMessageFromAdmin(loginMap.get(session).getUserEntity().getLogin(),
-                                        message.getUsername(), message.getMessage()));
-                            }
-                            else {
+                        break;
+                    case "admin":
+                        for (Map.Entry<Session, UserInfoBean> entry : loginMap.entrySet()) {
+                            if (entry.getValue().isAdmin()) {
+                                entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
+                                        message.getMessage()));
+                            } else if (entry.getKey().equals(session)) {
                                 entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
                                         message.getMessage()));
                             }
                         }
-                    }
+                        break;
+                    default:
+                        for (Map.Entry<Session, UserInfoBean> entry : loginMap.entrySet()) {
+                            if (entry.getValue().getUserEntity().getLogin().equals(message.getUsername())) {
+                                entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
+                                        message.getMessage()));
+                            } else if (entry.getKey().equals(session)) {
+                                if (entry.getValue().isAdmin()) {
+                                    entry.getKey().getBasicRemote().sendText(buildMessageFromAdmin(loginMap.get(session).getUserEntity().getLogin(),
+                                            message.getUsername(), message.getMessage()));
+                                } else {
+                                    entry.getKey().getBasicRemote().sendText(buildMessage(loginMap.get(session).getUserEntity().getLogin(),
+                                            message.getMessage()));
+                                }
+                            }
+                        }
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -96,7 +102,7 @@ public class ChatEndPoint {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "All users");
         jsonArray.add(jsonObject);
-        jsonArray.addAll(loginMap.entrySet().stream().map((Function<Map.Entry<Session, UserController>, Object>) loginEntry -> {
+        jsonArray.addAll(loginMap.entrySet().stream().map((Function<Map.Entry<Session, UserInfoBean>, Object>) loginEntry -> {
             JSONObject userJsonObject = new JSONObject();
             userJsonObject.put("name", loginEntry.getValue().getUserEntity().getLogin());
             return userJsonObject;
