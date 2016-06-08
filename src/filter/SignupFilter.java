@@ -5,6 +5,7 @@ import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class SignupFilter implements Filter {
         if(!password.equals(passwordRepeat)) {
             logger.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
             req.getSession().setAttribute("errorMessage", ExceptionalMessage.PASSWORDS_NOT_EQUAL);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty("signup_form"));
+            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }
 
@@ -53,12 +54,12 @@ public class SignupFilter implements Filter {
             }
         } catch (DAOException e) {
             req.getSession().setAttribute("errorMessage", e.getMessage());
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty("signup_form"));
+            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }
         catch (NumberFormatException e) {
             req.getSession().setAttribute("errorMessage", ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty("signup_form"));
+            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }
 

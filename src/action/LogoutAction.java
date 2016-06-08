@@ -3,6 +3,7 @@ package action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,6 +20,6 @@ public class LogoutAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("invalidating session");
         req.getSession().invalidate();
-        return ConfigurationManager.getProperty("login");
+        return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
     }
 }

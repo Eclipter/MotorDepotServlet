@@ -8,6 +8,7 @@ import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class LoginAction implements Action {
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUserEntity(userEntity);
                 session.setAttribute("user", userInfoBean);
-                return ConfigurationManager.getProperty("index");
+                return ConfigurationManager.getProperty(PageNamesConstants.INDEX);
             } else {
                 throw new DAOException(ExceptionalMessage.WRONG_LOGIN_PASS);
             }
@@ -45,7 +46,7 @@ public class LoginAction implements Action {
         catch (DAOException e) {
             logger.error("error durng authenticating", e);
             req.setAttribute("errorMessage", e.getMessage());
-            return ConfigurationManager.getProperty("error");
+            return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
     }
 }

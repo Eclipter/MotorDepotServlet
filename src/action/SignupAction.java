@@ -10,6 +10,7 @@ import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class SignupAction implements Action {
             if(daoUser.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
                 req.getSession().setAttribute("errorMessage", ExceptionalMessage.LOGIN_OCCUPIED);
-                return ConfigurationManager.getProperty("signup_form");
+                return ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM);
             }
 
             logger.info("registering new user");
@@ -47,9 +48,9 @@ public class SignupAction implements Action {
         } catch (DAOException e) {
             logger.error("error during registering new user", e);
             req.setAttribute("errorMessage", e.getMessage());
-            return ConfigurationManager.getProperty("error");
+            return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 
-        return ConfigurationManager.getProperty("login");
+        return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
     }
 }

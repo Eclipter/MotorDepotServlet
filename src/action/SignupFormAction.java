@@ -3,6 +3,7 @@ package action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,6 @@ public class SignupFormAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting signup form");
-        return ConfigurationManager.getProperty("signup_form");
+        return ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM);
     }
 }

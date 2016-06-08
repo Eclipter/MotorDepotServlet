@@ -7,6 +7,7 @@ import entity.DriverEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,6 @@ public class GetSettingFormAction implements Action  {
         List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyAutos();
         req.setAttribute("applications", unsetApplications);
         req.setAttribute("drivers", driverEntityList);
-        return ConfigurationManager.getProperty("set_form");
+        return ConfigurationManager.getProperty(PageNamesConstants.SET_FORM);
     }
 }

@@ -7,6 +7,7 @@ import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,6 +39,6 @@ public class ChangeTruckStateAction implements Action {
         logger.info("requesting all trucks");
         List<TruckEntity> allAutos = daoTruck.getAllTrucks();
         req.setAttribute("trucks", allAutos);
-        return ConfigurationManager.getProperty("trucks");
+        return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
     }
 }

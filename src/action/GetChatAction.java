@@ -3,6 +3,7 @@ package action;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,6 @@ public class GetChatAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("redirecting to chat page");
-        return ConfigurationManager.getProperty("chat");
+        return ConfigurationManager.getProperty(PageNamesConstants.CHAT);
     }
 }

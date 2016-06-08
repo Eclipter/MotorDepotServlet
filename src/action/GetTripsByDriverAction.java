@@ -7,6 +7,7 @@ import entity.TripEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,6 @@ public class GetTripsByDriverAction implements Action {
         logger.info("requesting trips of driver " + driverId);
         List<TripEntity> allTrips = daoTrip.getTripsByDriver(driverId);
         req.setAttribute("trips", allTrips);
-        return ConfigurationManager.getProperty("trip_list");
+        return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
     }
 }

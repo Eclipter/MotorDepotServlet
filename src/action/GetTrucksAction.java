@@ -5,6 +5,7 @@ import entity.TruckEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,6 @@ public class GetTrucksAction implements Action {
         TruckDAO daoTruck = new TruckDAO();
         List<TruckEntity> allAutos = daoTruck.getAllTrucks();
         req.setAttribute("trucks", allAutos);
-        return ConfigurationManager.getProperty("trucks");
+        return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
     }
 }

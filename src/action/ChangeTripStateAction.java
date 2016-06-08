@@ -6,6 +6,7 @@ import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
+import util.PageNamesConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +31,12 @@ public class ChangeTripStateAction implements Action {
         } catch (DAOException e) {
             logger.error("error during changing trip state", e);
             req.setAttribute("errorMessage", e.getMessage());
-            return ConfigurationManager.getProperty("error");
+            return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 
         logger.info("requesting all trips");
         List<TripEntity> allTrips = daoTrip.getAllTrips();
         req.setAttribute("trips", allTrips);
-        return ConfigurationManager.getProperty("trip_list");
+        return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
     }
 }
