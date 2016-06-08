@@ -19,4 +19,8 @@ public class ExceptionalMessage {
     public static final String TRUCK_CAPACITY_BELOW_ZERO = "Truck capacity can't be below zero";
     public static final String TRIP_HAS_THIS_STATE = "This trip already has this state.";
     public static final String WRONG_INPUT_FOR_CAPACITY = "Wrong input for capacity";
+    public static final String NO_COMMAND = "No command to execute";
+    public static final String MISSING_REQUEST_PARAMETERS = "Missing parameters";
+    public static final String NO_ACTION = "No such action";
+    public static final String WRONG_COMMAND = "Wrong command name";
 }

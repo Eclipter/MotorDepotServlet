@@ -3,7 +3,7 @@
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.jsp">Главная</a>
+            <a class="navbar-brand" href="<c:url value="motor_depot"><c:param name="command" value="get_index_page"/></c:url>">Главная</a>
         </div>
         <ul class="nav navbar-nav">
             <c:if test="${sessionScope.user.admin}">

@@ -28,9 +28,9 @@
                 <strong>Регистрация</strong>
             </div>
             <div class="panel-body">
-                <c:if test="${sessionScope.errorMessage != null}">
+                <c:if test="${requestScope.errorMessage != null}">
                     <div class="alert alert-danger">
-                        <c:out value="${sessionScope.errorMessage}"/>
+                        <c:out value="${requestScope.errorMessage}"/>
                         <c:remove var="errorMessage" scope="session"/>
                     </div>
                 </c:if>

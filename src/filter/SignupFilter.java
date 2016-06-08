@@ -1,6 +1,6 @@
 package filter;
 
-import exception.DAOException;
+import action.util.ActionEnum;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,39 +32,49 @@ public class SignupFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         String contextPath = req.getContextPath();
 
-        if(!"signup".equals(req.getParameter(RequestParametersNames.COMMAND))) {
+        String command = req.getParameter(RequestParametersNames.COMMAND);
+        ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
+        if(!ActionEnum.SIGNUP.equals(actionEnum)) {
             filterChain.doFilter(servletRequest, servletResponse);
-            return;
         }
+        else {
+            String password = req.getParameter(RequestParametersNames.PASSWORD);
+            String passwordRepeat = req.getParameter(RequestParametersNames.PASSWORD_REPEAT);
+            String truckCapacity = req.getParameter(RequestParametersNames.TRUCK_CAPACITY);
 
-        String password = req.getParameter(RequestParametersNames.PASSWORD);
-        String passwordRepeat = req.getParameter(RequestParametersNames.PASSWORD_REPEAT);
-        String truckCapacity = req.getParameter(RequestParametersNames.TRUCK_CAPACITY);
-
-        if(!password.equals(passwordRepeat)) {
-            logger.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
-            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.PASSWORDS_NOT_EQUAL);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
-            return;
-        }
-
-        try {
-            int capacity = Integer.parseInt(truckCapacity);
-            if(capacity <= 0) {
-                throw new DAOException(ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO);
+            if(password == null || passwordRepeat == null || truckCapacity == null) {
+                logger.warn("missing signup parameters");
+                req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE
+                        , ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.ERROR));
             }
-        } catch (DAOException e) {
-            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
-            return;
-        }
-        catch (NumberFormatException e) {
-            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
-            return;
-        }
+            else if(!password.equals(passwordRepeat)) {
+                logger.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
+                req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.PASSWORDS_NOT_EQUAL);
+                res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
+            }
+            else {
+                try {
+                    int capacity = Integer.parseInt(truckCapacity);
+                    if(capacity <= 0) {
+                        logger.warn("truck capacity below zero");
+                        req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE
+                                , ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO);
+                        res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
+                        return;
+                    }
+                }
+                catch (NumberFormatException e) {
+                    logger.warn("wrong input for truck capacity");
+                    req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE,
+                            ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
+                    res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
+                    return;
+                }
 
-        filterChain.doFilter(servletRequest, servletResponse);
+                filterChain.doFilter(servletRequest, servletResponse);
+            }
+        }
     }
 
     @Override

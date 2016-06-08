@@ -5,6 +5,7 @@ import dao.TruckDAO;
 import dao.UserDAO;
 import entity.TruckEntity;
 import entity.UserEntity;
+import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
@@ -24,17 +25,18 @@ public class SignupAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
-
-        String username = req.getParameter(RequestParametersNames.USERNAME);
-        String password = req.getParameter(RequestParametersNames.PASSWORD);
-        int truckCapacity = Integer.parseInt(req.getParameter(RequestParametersNames.TRUCK_CAPACITY));
-
-        TruckDAO daoTruck = new TruckDAO();
-        DriverDAO driverDAO = new DriverDAO();
-        UserDAO daoUser = new UserDAO();
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
+            String username = req.getParameter(RequestParametersNames.USERNAME);
+            String password = req.getParameter(RequestParametersNames.PASSWORD);
+            Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParametersNames.TRUCK_CAPACITY));
+            if(username == null || password == null || truckCapacity == null) {
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+            }
+            TruckDAO daoTruck = new TruckDAO();
+            DriverDAO driverDAO = new DriverDAO();
+            UserDAO daoUser = new UserDAO();
             logger.info("checking new user");
             if(daoUser.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
@@ -46,12 +48,9 @@ public class SignupAction implements Action {
             UserEntity userEntity = daoUser.registerNewUser(username, password);
             TruckEntity truckEntity = daoTruck.addNewTruck(truckCapacity);
             driverDAO.registerNewDriver(userEntity, truckEntity);
+            return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
         } catch (DAOException e) {
-            logger.error("error during registering new user", e);
-            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
-            return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
+            throw new ActionExecutionException("error during registering new user", e);
         }
-
-        return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
     }
 }

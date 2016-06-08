@@ -1,5 +1,6 @@
 package filter;
 
+import action.util.ActionEnum;
 import bean.UserInfoBean;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
@@ -30,22 +31,25 @@ public class AuthenticationFilter implements Filter {
         String contextPath = req.getContextPath();
         HttpSession session = req.getSession(false);
         String command = req.getParameter(RequestParametersNames.COMMAND);
-        if(session == null || session.getAttribute(RequestParametersNames.USER) == null) {
-            if(!"signup_form".equals(command) && !"signup".equals(command) && !"login".equals(command)) {
+        ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
+        UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParametersNames.USER);
+        if(session == null || userInfoBean == null) {
+            if(!ActionEnum.SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
+                    && !ActionEnum.LOGIN.equals(actionEnum)) {
                 res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
-                return;
             }
+            else {
+                filterChain.doFilter(servletRequest, servletResponse);
+            }
+        }
+        else if(!userInfoBean.isAdmin() &&
+                (ActionEnum.GET_SETTING_FORM.equals(actionEnum) || ActionEnum.GET_TRUCKS.equals(actionEnum))) {
+            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
         }
         else {
-            UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParametersNames.USER);
-            if(!userInfoBean.isAdmin() &&
-                    ("set_form".equals(command) || "trucks".equals(command))) {
-                    res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
-                return;
-            }
+            filterChain.doFilter(servletRequest, servletResponse);
+            //TODO
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

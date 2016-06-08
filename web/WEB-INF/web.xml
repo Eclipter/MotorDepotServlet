@@ -5,6 +5,14 @@
          version="3.1">
 
     <filter>
+        <filter-name>CommandFilter</filter-name>
+        <filter-class>filter.CommandFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CommandFilter</filter-name>
+        <url-pattern>/motor_depot</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>SignupFilter</filter-name>
         <filter-class>filter.SignupFilter</filter-class>
     </filter>
@@ -18,11 +26,11 @@
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
-        <servlet-name>MotorDepotServlet</servlet-name>
+        <url-pattern>/motor_depot</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>MotorDepotServlet</servlet-name>
-        <servlet-class>servlet.MotorDepotController</servlet-class>
+        <servlet-class>controller.MotorDepotController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MotorDepotServlet</servlet-name>
