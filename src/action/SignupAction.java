@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,9 +26,9 @@ public class SignupAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
 
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        int truckCapacity = Integer.parseInt(req.getParameter("truckCapacity"));
+        String username = req.getParameter(RequestParametersNames.USERNAME);
+        String password = req.getParameter(RequestParametersNames.PASSWORD);
+        int truckCapacity = Integer.parseInt(req.getParameter(RequestParametersNames.TRUCK_CAPACITY));
 
         TruckDAO daoTruck = new TruckDAO();
         DriverDAO driverDAO = new DriverDAO();
@@ -37,7 +38,7 @@ public class SignupAction implements Action {
             logger.info("checking new user");
             if(daoUser.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
-                req.getSession().setAttribute("errorMessage", ExceptionalMessage.LOGIN_OCCUPIED);
+                req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
                 return ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM);
             }
 
@@ -47,7 +48,7 @@ public class SignupAction implements Action {
             driverDAO.registerNewDriver(userEntity, truckEntity);
         } catch (DAOException e) {
             logger.error("error during registering new user", e);
-            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
             return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 

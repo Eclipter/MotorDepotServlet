@@ -23,9 +23,9 @@
                 <form action="motor_depot" method="post">
                     <div class="form-group">
                         <label for="applicationSelect" class="control-label">Выберите заявку</label>
-                        <select class="form-control" id="applicationSelect" name="chosenApplication">
-                            <c:forEach items="${applications}" var="application">
-                                <option value="${application.id}">Id: ${application.id}, вес груза: ${application.cargoWeight}</option>
+                        <select class="form-control" id="applicationSelect" name="chosenRequest">
+                            <c:forEach items="${requests}" var="request">
+                                <option value="${request.id}">Id: ${request.id}, вес груза: ${request.cargoWeight}</option>
                             </c:forEach>
                         </select>
                     </div>

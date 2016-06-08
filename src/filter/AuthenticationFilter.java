@@ -3,6 +3,7 @@ package filter;
 import bean.UserInfoBean;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -28,15 +29,15 @@ public class AuthenticationFilter implements Filter {
 
         String contextPath = req.getContextPath();
         HttpSession session = req.getSession(false);
-        String command = req.getParameter("command");
-        if(session == null || session.getAttribute("user") == null) {
+        String command = req.getParameter(RequestParametersNames.COMMAND);
+        if(session == null || session.getAttribute(RequestParametersNames.USER) == null) {
             if(!"signup_form".equals(command) && !"signup".equals(command) && !"login".equals(command)) {
                 res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
                 return;
             }
         }
         else {
-            UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute("user");
+            UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParametersNames.USER);
             if(!userInfoBean.isAdmin() &&
                     ("set_form".equals(command) || "trucks".equals(command))) {
                     res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));

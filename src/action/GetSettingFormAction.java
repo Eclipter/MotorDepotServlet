@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,8 +29,8 @@ public class GetSettingFormAction implements Action  {
         DriverDAO driverDAO = new DriverDAO();
         List<RequestEntity> unsetApplications = requestDAO.getUnsetRequests();
         List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyAutos();
-        req.setAttribute("applications", unsetApplications);
-        req.setAttribute("drivers", driverEntityList);
+        req.setAttribute(RequestParametersNames.REQUESTS, unsetApplications);
+        req.setAttribute(RequestParametersNames.DRIVERS, driverEntityList);
         return ConfigurationManager.getProperty(PageNamesConstants.SET_FORM);
     }
 }

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class GetRequestsAction implements Action {
                 requestViewBeanList.add(new RequestViewBean(requestEntity, driverEntityList.get(0)));
             }
         }
-        req.setAttribute("requests", requestViewBeanList);
+        req.setAttribute(RequestParametersNames.REQUESTS, requestViewBeanList);
         return ConfigurationManager.getProperty(PageNamesConstants.REQUESTS);
     }
 }

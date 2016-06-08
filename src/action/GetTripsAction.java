@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class GetTripsAction implements Action {
         logger.info("requesting all trips");
         TripDAO daoTrip = new TripDAO();
         List<TripEntity> allTrips = daoTrip.getAllTrips();
-        req.setAttribute("trips", allTrips);
+        req.setAttribute(RequestParametersNames.TRIPS, allTrips);
         return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
     }
 }

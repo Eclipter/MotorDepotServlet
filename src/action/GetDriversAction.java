@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class GetDriversAction implements Action {
         logger.info("requesting all drivers");
         DriverDAO driverDAO = new DriverDAO();
         List<DriverEntity> allDrivers = driverDAO.getAllDrivers();
-        req.setAttribute("drivers", allDrivers);
+        req.setAttribute(RequestParametersNames.DRIVERS, allDrivers);
         return ConfigurationManager.getProperty(PageNamesConstants.DRIVERS);
     }
 }

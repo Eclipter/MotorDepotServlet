@@ -4,6 +4,7 @@ import action.Action;
 import action.util.CommandHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import util.RequestParametersNames;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +21,7 @@ public class MotorDepotController extends HttpServlet {
     private static final Logger logger = LogManager.getLogger();
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String command = req.getParameter("command");
+        String command = req.getParameter(RequestParametersNames.COMMAND);
         logger.info("processing " + command + " command");
         Action action = CommandHelper.getCommand(command);
         String result = action.execute(req, resp);

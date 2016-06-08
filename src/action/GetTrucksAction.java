@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +24,8 @@ public class GetTrucksAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all trucks");
         TruckDAO daoTruck = new TruckDAO();
-        List<TruckEntity> allAutos = daoTruck.getAllTrucks();
-        req.setAttribute("trucks", allAutos);
+        List<TruckEntity> allTrucks = daoTruck.getAllTrucks();
+        req.setAttribute(RequestParametersNames.TRUCKS, allTrucks);
         return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
     }
 }

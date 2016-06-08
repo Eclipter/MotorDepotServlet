@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +24,14 @@ public class SetDriverOnTripAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         TripDAO daoTrip = new TripDAO();
-        Integer chosenApplicationId = Integer.valueOf(req.getParameter("chosenApplication"));
-        Integer chosenDriverId = Integer.valueOf(req.getParameter("chosenDriver"));
+        Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParametersNames.CHOSEN_REQUEST));
+        Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParametersNames.CHOSEN_DRIVER));
         try {
-            logger.info("setting driver " + chosenDriverId + " for application " + chosenApplicationId);
-            daoTrip.setDriverOnTrip(chosenApplicationId, chosenDriverId);
+            logger.info("setting driver " + chosenDriverId + " for request " + chosenRequestId);
+            daoTrip.setDriverOnTrip(chosenRequestId, chosenDriverId);
         } catch (DAOException e) {
             logger.error("error during setting driver on trip", e);
-            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
             return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 
@@ -42,11 +43,10 @@ public class SetDriverOnTripAction implements Action {
         //TODO: make ActionException and catch it in servlet
         //TODO: make drivers see only applications that are not binded to any drivers
         //TODO: make a message when admin is not online
-        //TODO: make class with page names constants
-        //TODO: make class with request params
         //TODO: check request params for null
         //TODO: check for all exceptions
-        req.setAttribute("trips", allTrips);
+        //TODO: move bundle names to a class
+        req.setAttribute(RequestParametersNames.TRIPS, allTrips);
         return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
     }
 }

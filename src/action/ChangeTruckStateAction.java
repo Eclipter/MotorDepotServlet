@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,8 +24,8 @@ public class ChangeTruckStateAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        Integer chosenTruckParameter = Integer.valueOf(req.getParameter("chosenTruck"));
-        String chosenStateParameter = req.getParameter("chosenState");
+        Integer chosenTruckParameter = Integer.valueOf(req.getParameter(RequestParametersNames.CHOSEN_TRUCK));
+        String chosenStateParameter = req.getParameter(RequestParametersNames.CHOSEN_STATE);
         TruckDAO daoTruck = new TruckDAO();
 
         try {
@@ -32,13 +33,13 @@ public class ChangeTruckStateAction implements Action {
             daoTruck.changeTruckState(chosenTruckParameter, State.valueOf(chosenStateParameter));
         } catch (DAOException e) {
             logger.error("error during changing truck state", e);
-            req.setAttribute("errorMessage", e.getMessage());
-            return ConfigurationManager.getProperty("error");
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
+            return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 
         logger.info("requesting all trucks");
-        List<TruckEntity> allAutos = daoTruck.getAllTrucks();
-        req.setAttribute("trucks", allAutos);
+        List<TruckEntity> allTrucks = daoTruck.getAllTrucks();
+        req.setAttribute(RequestParametersNames.TRUCKS, allTrucks);
         return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
     }
 }

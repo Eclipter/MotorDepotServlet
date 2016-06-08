@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -31,18 +32,18 @@ public class SignupFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         String contextPath = req.getContextPath();
 
-        if(!"signup".equals(req.getParameter("command"))) {
+        if(!"signup".equals(req.getParameter(RequestParametersNames.COMMAND))) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
-        String password = req.getParameter("password");
-        String passwordRepeat = req.getParameter("passwordRepeat");
-        String truckCapacity = req.getParameter("truckCapacity");
+        String password = req.getParameter(RequestParametersNames.PASSWORD);
+        String passwordRepeat = req.getParameter(RequestParametersNames.PASSWORD_REPEAT);
+        String truckCapacity = req.getParameter(RequestParametersNames.TRUCK_CAPACITY);
 
         if(!password.equals(passwordRepeat)) {
             logger.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
-            req.getSession().setAttribute("errorMessage", ExceptionalMessage.PASSWORDS_NOT_EQUAL);
+            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.PASSWORDS_NOT_EQUAL);
             res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }
@@ -53,12 +54,12 @@ public class SignupFilter implements Filter {
                 throw new DAOException(ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO);
             }
         } catch (DAOException e) {
-            req.getSession().setAttribute("errorMessage", e.getMessage());
+            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
             res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }
         catch (NumberFormatException e) {
-            req.getSession().setAttribute("errorMessage", ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
+            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY);
             res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM));
             return;
         }

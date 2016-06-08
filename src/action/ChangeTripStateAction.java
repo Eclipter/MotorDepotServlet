@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +22,8 @@ public class ChangeTripStateAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        Integer tripId = Integer.valueOf(req.getParameter("tripId"));
-        String chosenState = req.getParameter("chosenState");
+        Integer tripId = Integer.valueOf(req.getParameter(RequestParametersNames.TRIP_ID));
+        String chosenState = req.getParameter(RequestParametersNames.CHOSEN_STATE);
         TripDAO daoTrip = new TripDAO();
 
         try {
@@ -30,13 +31,13 @@ public class ChangeTripStateAction implements Action {
             daoTrip.changeTripState(tripId, chosenState.equals("true"));
         } catch (DAOException e) {
             logger.error("error during changing trip state", e);
-            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
             return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
 
         logger.info("requesting all trips");
         List<TripEntity> allTrips = daoTrip.getAllTrips();
-        req.setAttribute("trips", allTrips);
+        req.setAttribute(RequestParametersNames.TRIPS, allTrips);
         return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
     }
 }

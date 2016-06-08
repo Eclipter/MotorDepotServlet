@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
 import util.PageNamesConstants;
+import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,8 +28,8 @@ public class LoginAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         try {
             UserDAO daoUser = new UserDAO();
-            String userName = req.getParameter("username");
-            String password = req.getParameter("password");
+            String userName = req.getParameter(RequestParametersNames.USERNAME);
+            String password = req.getParameter(RequestParametersNames.PASSWORD);
             logger.info("authenticating user: " + userName + " " + password);
             List<UserEntity> userEntityList = daoUser.authenticateUser(userName, password);
             if (!userEntityList.isEmpty()) {
@@ -37,7 +38,7 @@ public class LoginAction implements Action {
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUserEntity(userEntity);
-                session.setAttribute("user", userInfoBean);
+                session.setAttribute(RequestParametersNames.USER, userInfoBean);
                 return ConfigurationManager.getProperty(PageNamesConstants.INDEX);
             } else {
                 throw new DAOException(ExceptionalMessage.WRONG_LOGIN_PASS);
@@ -45,7 +46,7 @@ public class LoginAction implements Action {
         }
         catch (DAOException e) {
             logger.error("error durng authenticating", e);
-            req.setAttribute("errorMessage", e.getMessage());
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
             return ConfigurationManager.getProperty(PageNamesConstants.ERROR);
         }
     }
