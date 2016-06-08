@@ -8,7 +8,7 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "user", schema = "mydb")
+@Table(name = "user", schema = "motor_depot")
 @NamedQueries({
         @NamedQuery(name = "UserEntity.search", query = "SELECT u FROM UserEntity u WHERE u.login = :login AND u.password = :pass"),
         @NamedQuery(name = "UserEntity.searchByLogin", query = "SELECT u FROM UserEntity u WHERE u.login = :login")
@@ -17,7 +17,7 @@ public class UserEntity implements Serializable {
     private static final long serialVersionUID = 2003176459216446136L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Integer id;
 

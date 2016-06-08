@@ -7,7 +7,7 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "application", schema = "mydb")
+@Table(name = "application", schema = "motor_depot")
 @NamedQueries({
         @NamedQuery(name = "ApplicationEntity.getAll", query = "SELECT a FROM ApplicationEntity a"),
         @NamedQuery(name = "ApplicationEntity.searchForDriver",
@@ -16,7 +16,7 @@ import java.util.Objects;
 public class ApplicationEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private int id;
 

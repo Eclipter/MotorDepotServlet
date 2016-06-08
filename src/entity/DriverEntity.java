@@ -9,7 +9,7 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "driver", schema = "mydb")
+@Table(name = "driver", schema = "motor_depot")
 @NamedQueries({
         @NamedQuery(name = "DriverEntity.getAll", query = "SELECT d FROM DriverEntity d"),
         @NamedQuery(name = "DriverEntity.getDriverWithCarOfCapacity", query = "SELECT d FROM DriverEntity d where " +

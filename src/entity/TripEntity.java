@@ -7,12 +7,12 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "trip", schema = "mydb")
+@Table(name = "trip", schema = "motor_depot")
 @NamedQuery(name = "TripEntity.getAll", query = "SELECT t FROM TripEntity t")
 public class TripEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Integer id;
 

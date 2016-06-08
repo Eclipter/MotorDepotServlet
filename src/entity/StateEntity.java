@@ -8,7 +8,7 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "state", schema = "mydb")
+@Table(name = "state", schema = "motor_depot")
 public class StateEntity {
 
     @Id
