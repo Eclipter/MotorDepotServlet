@@ -42,9 +42,11 @@ public class AuthenticationFilter implements Filter {
             if(!ActionEnum.SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
                     && !ActionEnum.LOGIN.equals(actionEnum)) {
                 res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
+                return;
             }
             else {
                 filterChain.doFilter(servletRequest, servletResponse);
+                return;
             }
         }
         else if(!userInfoBean.isAdmin()) {
