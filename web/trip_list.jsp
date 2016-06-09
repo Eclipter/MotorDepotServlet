@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="trtg" uri="triptags" %>
+<%@ taglib prefix="trtg" tagdir="/WEB-INF/tags" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
                 Список рейсов
             </div>
             <div class="panel-body">
-                <trtg:trip-list trips="${trips}" admin="${sessionScope.user.admin}"/>
+                <trtg:triptable trips="${trips}"/>
             </div>
         </div>
     </div>

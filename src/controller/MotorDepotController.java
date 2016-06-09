@@ -36,11 +36,15 @@ public class MotorDepotController extends HttpServlet {
             req.getRequestDispatcher(result).forward(req, resp);
         } catch (ActionExecutionException e) {
             logger.error(e);
-            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage()+ ": " + e.getCause().getMessage());
+            String message = e.getMessage();
+            if(e.getCause() != null) {
+                message += ": " + e.getCause().getMessage();
+            }
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, message);
             req.getRequestDispatcher(ConfigurationManager.getProperty(PageNamesConstants.ERROR)).forward(req, resp);
         } catch (Exception e) {
             logger.error("unexpected error", e);
-            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, e.getMessage());
+            req.setAttribute(RequestParametersNames.ERROR_MESSAGE, "Unexpected error: " + e.getMessage());
             req.getRequestDispatcher(ConfigurationManager.getProperty(PageNamesConstants.ERROR)).forward(req, resp);
         }
     }

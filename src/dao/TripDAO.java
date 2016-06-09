@@ -13,6 +13,9 @@ import java.util.List;
  */
 public class TripDAO extends MotorDepotDAO {
 
+    private static final String DRIVER_ID_PARAMETER = "driverId";
+    private static final String REQUEST_ID_PARAMETER = "requestId";
+
     /**
      * Get all trips method.
      *
@@ -34,19 +37,27 @@ public class TripDAO extends MotorDepotDAO {
         return driverEntity.getTripsByUserId();
     }
 
+    public List<TripEntity> getTripByDriverAndRequest(int driverId, int requestId) {
+        TypedQuery<TripEntity> namedQuery = getManager().createNamedQuery("TripEntity.getByDriverAndRequest",
+                TripEntity.class);
+        namedQuery.setParameter(DRIVER_ID_PARAMETER, driverId);
+        namedQuery.setParameter(REQUEST_ID_PARAMETER, requestId);
+        return namedQuery.getResultList();
+    }
+
     /**
      * Sets driver on a trip
      *
-     * @param applicationId
+     * @param requestId
      * @param driverId
      * @throws DAOException
      */
-    public void setDriverOnTrip(int applicationId, int driverId) throws DAOException {
+    public void setDriverOnTrip(int requestId, int driverId) throws DAOException {
 
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
-            RequestEntity requestEntity = getManager().find(RequestEntity.class, applicationId);
+            RequestEntity requestEntity = getManager().find(RequestEntity.class, requestId);
             int cargoWeight = requestEntity.getCargoWeight();
 
             DriverEntity driverEntity = getManager().find(DriverEntity.class, driverId);

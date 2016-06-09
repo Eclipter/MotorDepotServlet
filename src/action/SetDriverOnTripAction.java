@@ -33,21 +33,24 @@ public class SetDriverOnTripAction implements Action {
             if(chosenDriverId == null || chosenRequestId == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
+            logger.info("checking parameters");
+            List<TripEntity> tripsByDriverAndRequest = daoTrip.getTripByDriverAndRequest(chosenDriverId, chosenRequestId);
+            if(!tripsByDriverAndRequest.isEmpty()) {
+                throw new ActionExecutionException(ExceptionalMessage.TRIP_EXISTS);
+            }
             logger.info("setting driver " + chosenDriverId + " for request " + chosenRequestId);
             daoTrip.setDriverOnTrip(chosenRequestId, chosenDriverId);
-            logger.info("requesting all trips");
+            logger.info("requesting all trips and unset requests");
             List<TripEntity> allTrips = daoTrip.getAllTrips();
             req.setAttribute(RequestParametersNames.TRIPS, allTrips);
             return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
         } catch (DAOException e) {
             throw new ActionExecutionException("error during setting driver on trip", e);
         }
-        //TODO: fix trip list request
-        //TODO: fix reloading applications list
-        //TODO: rewrite user tag
         //TODO: make drivers see only applications that are not binded to any drivers
         //TODO: make a message when admin is not online
         //TODO: move bundle names to a class
         //TODO: add addApplication feature
+        //TODO: internationalize exceptional messages and JSP text
     }
 }

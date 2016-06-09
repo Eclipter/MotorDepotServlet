@@ -29,6 +29,7 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.CHANGE_TRIP_STATE, new ChangeTripStateAction());
         actionMap.put(ActionEnum.CHAT, new GetChatAction());
         actionMap.put(ActionEnum.GET_INDEX_PAGE, new GetIndexPageAction());
+        actionMap.put(ActionEnum.ADD_REQUEST, new AddRequestAction());
     }
 
     public static Action getCommand(String command) {

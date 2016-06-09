@@ -28,16 +28,17 @@ public class ChangeTruckStateAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            Integer chosenTruckParameter = Integer.valueOf(req.getParameter(RequestParametersNames.CHOSEN_TRUCK));
+            String chosenTruckParameter = req.getParameter(RequestParametersNames.CHOSEN_TRUCK);
             String chosenStateParameter = req.getParameter(RequestParametersNames.CHOSEN_STATE);
             if(chosenTruckParameter == null || chosenStateParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
-            TruckDAO daoTruck = new TruckDAO();
-            logger.info("changing truck " + chosenTruckParameter + " state to " + chosenStateParameter);
-            daoTruck.changeTruckState(chosenTruckParameter, State.valueOf(chosenStateParameter));
+            Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
+            TruckDAO truckDAO = new TruckDAO();
+            logger.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
+            truckDAO.changeTruckState(chosenTruck, State.valueOf(chosenStateParameter));
             logger.info("requesting all trucks");
-            List<TruckEntity> allTrucks = daoTruck.getAllTrucks();
+            List<TruckEntity> allTrucks = truckDAO.getAllTrucks();
             req.setAttribute(RequestParametersNames.TRUCKS, allTrucks);
             return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
         } catch (DAOException e) {

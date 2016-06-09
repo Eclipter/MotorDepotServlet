@@ -42,10 +42,4 @@
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
-    <jsp-config>
-        <taglib>
-            <taglib-uri>triptags</taglib-uri>
-            <taglib-location>/WEB-INF/tld/triptags.tld</taglib-location>
-        </taglib>
-    </jsp-config>
 </web-app>

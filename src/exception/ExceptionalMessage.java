@@ -23,4 +23,5 @@ public class ExceptionalMessage {
     public static final String MISSING_REQUEST_PARAMETERS = "Missing parameters";
     public static final String NO_ACTION = "No such action";
     public static final String WRONG_COMMAND = "Wrong command name";
+    public static final String TRIP_EXISTS = "This trip already exists";
 }

@@ -26,11 +26,12 @@ public class ChangeTripStateAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            Integer tripId = Integer.valueOf(req.getParameter(RequestParametersNames.TRIP_ID));
+            String tripIdString = req.getParameter(RequestParametersNames.TRIP_ID);
             String chosenState = req.getParameter(RequestParametersNames.CHOSEN_STATE);
-            if(tripId == null || chosenState == null) {
+            if(tripIdString == null || chosenState == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
+            Integer tripId = Integer.valueOf(tripIdString);
             TripDAO daoTrip = new TripDAO();
             logger.info("changing trip " + tripId + " state to " + chosenState);
             daoTrip.changeTripState(tripId, chosenState.equals("true"));

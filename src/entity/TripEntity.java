@@ -8,7 +8,11 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "trip", schema = "motor_depot")
-@NamedQuery(name = "TripEntity.getAll", query = "SELECT t FROM TripEntity t")
+@NamedQueries({
+        @NamedQuery(name = "TripEntity.getAll", query = "SELECT t FROM TripEntity t"),
+        @NamedQuery(name = "TripEntity.getByDriverAndRequest", query = "SELECT t FROM  TripEntity t " +
+                "WHERE t.requestByRequestId.id = :requestId AND t.driverByDriverUserId.id = :driverId")
+})
 public class TripEntity {
 
     @Id
