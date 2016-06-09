@@ -36,7 +36,8 @@
                             <c:choose>
                                 <c:when test="${request.driverEntity != null}">
                                     <td>
-                                        <a href="#" data-toggle="popover" title="Распределена:" data-trigger="hover" data-content="Водитель ${request.driverEntity.userId}">
+                                        <a href="#" data-toggle="popover" title="Распределена:"
+                                           data-trigger="hover" data-content="Водитель ${request.driverEntity.userId}">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </a>
                                     </td>
@@ -49,6 +50,33 @@
                     </c:forEach>
                     </tbody>
                 </table>
+                <c:if test="${sessionScope.user.admin}">
+                    <button type="button" class="btn btn-primary"
+                            data-toggle="modal" data-target="#myModal">Добавить заявку</button>
+                </c:if>
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <form action="motor_depot" METHOD="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Добавить заявку</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="inputWeight" class="control-label">Вес груза</label>
+                                        <input id="inputWeight" type="text" class="form-control" placeholder="Weight"
+                                               name="cargoWeight" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="command" value="add_request"/>
+                                    <button type="submit" class="btn btn-primary">Добавить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

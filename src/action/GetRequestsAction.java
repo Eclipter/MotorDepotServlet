@@ -1,9 +1,9 @@
 package action;
 
-import dao.RequestDAO;
-import entity.RequestEntity;
 import bean.RequestViewBean;
-import entity.DriverEntity;
+import dao.RequestDAO;
+import dao.util.RequestViewBeanListProvider;
+import entity.RequestEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
@@ -12,7 +12,6 @@ import util.RequestParametersNames;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,17 +26,9 @@ public class GetRequestsAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all requests");
         RequestDAO requestDAO = new RequestDAO();
-        List<RequestEntity> allApplications = requestDAO.getAllRequests();
-        List<RequestViewBean> requestViewBeanList = new ArrayList<>();
-        for(RequestEntity requestEntity : allApplications) {
-            List<DriverEntity> driverEntityList = requestDAO.searchForDriverCompletingRequest(requestEntity);
-            if(driverEntityList.isEmpty()) {
-                requestViewBeanList.add(new RequestViewBean(requestEntity));
-            }
-            else {
-                requestViewBeanList.add(new RequestViewBean(requestEntity, driverEntityList.get(0)));
-            }
-        }
+        List<RequestEntity> allRequests = requestDAO.getAllRequests();
+        List<RequestViewBean> requestViewBeanList =
+                RequestViewBeanListProvider.createRequestViewBeanList(allRequests);
         req.setAttribute(RequestParametersNames.REQUESTS, requestViewBeanList);
         return ConfigurationManager.getProperty(PageNamesConstants.REQUESTS);
     }

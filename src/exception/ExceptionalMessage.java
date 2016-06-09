@@ -24,4 +24,5 @@ public class ExceptionalMessage {
     public static final String NO_ACTION = "No such action";
     public static final String WRONG_COMMAND = "Wrong command name";
     public static final String TRIP_EXISTS = "This trip already exists";
+    public static final String WRONG_INPUT_FOR_WEIGHT = "Wrong input for cargo weight field";
 }
