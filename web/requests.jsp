@@ -17,7 +17,14 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Заявки
+                <c:choose>
+                    <c:when test="${sessionScope.user.admin}">
+                        Заявки
+                    </c:when>
+                    <c:otherwise>
+                        Нараспределённые заявки
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="panel-body">
                 <table class="table">

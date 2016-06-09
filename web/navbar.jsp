@@ -15,7 +15,14 @@
                 <a href="<c:url value="motor_depot"><c:param name="command" value="get_drivers"/></c:url>"><span class="glyphicon glyphicon-user"></span> Водители</a>
             </li>
             <li>
-                <a href="<c:url value="motor_depot"><c:param name="command" value="get_requests"/></c:url>"><span class="glyphicon glyphicon-list-alt"></span> Заявки</a>
+                <c:choose>
+                    <c:when test="${sessionScope.user.admin}">
+                        <a href="<c:url value="motor_depot"><c:param name="command" value="get_requests"/></c:url>"><span class="glyphicon glyphicon-list-alt"></span> Заявки</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="<c:url value="motor_depot"><c:param name="command" value="get_unset_requests"/></c:url>"><span class="glyphicon glyphicon-list-alt"></span> Заявки</a>
+                    </c:otherwise>
+                </c:choose>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -30,6 +30,7 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.CHAT, new GetChatAction());
         actionMap.put(ActionEnum.GET_INDEX_PAGE, new GetIndexPageAction());
         actionMap.put(ActionEnum.ADD_REQUEST, new AddRequestAction());
+        actionMap.put(ActionEnum.GET_UNSET_REQUESTS, new GetUnsetRequestsAction());
     }
 
     public static Action getCommand(String command) {

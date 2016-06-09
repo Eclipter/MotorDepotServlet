@@ -37,6 +37,9 @@ public class AddRequestAction implements Action {
             } catch (NumberFormatException e) {
                 throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
             }
+            if(cargoWeight <= 0) {
+                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
+            }
             RequestDAO requestDAO = new RequestDAO();
             logger.info("adding new request with cargo weight: " + cargoWeight);
             requestDAO.registerNewRequest(cargoWeight);

@@ -47,7 +47,6 @@ public class SetDriverOnTripAction implements Action {
         } catch (DAOException e) {
             throw new ActionExecutionException("error during setting driver on trip", e);
         }
-        //TODO: make drivers see only applications that are not binded to any drivers
         //TODO: make a message when admin is not online
         //TODO: internationalize exceptional messages and JSP text
     }

@@ -57,9 +57,9 @@
                                         </select>
                                         <label for="stateList">Состояние</label>
                                         <select class="form-control" id="stateList" name="chosenState">
-                                            <option value="OK">OK</option>
-                                            <option value="BROKEN">BROKEN</option>
-                                            <option value="UNDER_REPAIR">UNDER_REPAIR</option>
+                                            <option value="OK">В порядке</option>
+                                            <option value="BROKEN">Сломана</option>
+                                            <option value="UNDER_REPAIR">На ремонте</option>
                                         </select>
                                     </div>
                                 </div>

@@ -17,6 +17,11 @@ import java.io.IOException;
  */
 public class AuthenticationFilter implements Filter {
 
+    private static final ActionEnum[] commandsForbiddenForDrivers = { ActionEnum.CHANGE_TRUCK_STATE,
+            ActionEnum.CHANGE_TRIP_STATE, ActionEnum.ADD_REQUEST, ActionEnum.GET_REQUESTS,
+            ActionEnum.GET_TRIPS, ActionEnum.GET_SETTING_FORM, ActionEnum.GET_TRUCKS, ActionEnum.SET_DRIVER_ON_TRIP
+    };
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -42,13 +47,15 @@ public class AuthenticationFilter implements Filter {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         }
-        else if(!userInfoBean.isAdmin() &&
-                (ActionEnum.GET_SETTING_FORM.equals(actionEnum) || ActionEnum.GET_TRUCKS.equals(actionEnum))) {
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
+        else if(!userInfoBean.isAdmin()) {
+            for(ActionEnum forbiddenCommand : commandsForbiddenForDrivers) {
+                if(actionEnum == forbiddenCommand) {
+                    res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
+                    return;
+                }
+            }
         }
-        else {
-            filterChain.doFilter(servletRequest, servletResponse);
-        }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

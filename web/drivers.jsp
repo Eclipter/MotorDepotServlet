@@ -32,7 +32,9 @@
                         <tr>
                             <td>${driver.userByUserId.login}</td>
                             <td>
-                                <a href="#" data-toggle="popover" title="Truck ${driver.truckByTruckId.id}" data-trigger="hover" data-content="State: ${driver.truckByTruckId.stateByStateId.stateName}, Capacity: ${driver.truckByTruckId.capacity}">
+                                <a href="#" data-toggle="popover"
+                                   title="Truck ${driver.truckByTruckId.id}"
+                                   data-trigger="hover" data-content="State: ${driver.truckByTruckId.stateByStateId.stateName}">
                                     ${driver.truckByTruckId.id}
                                 </a>
                             </td>
