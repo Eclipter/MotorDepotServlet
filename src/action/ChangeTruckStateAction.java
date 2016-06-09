@@ -1,20 +1,19 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import dao.TruckDAO;
 import entity.State;
-import entity.TruckEntity;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
 import util.RequestParametersNames;
+import util.URLConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Changes state of car.
@@ -25,7 +24,7 @@ public class ChangeTruckStateAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
             String chosenTruckParameter = req.getParameter(RequestParametersNames.CHOSEN_TRUCK);
@@ -37,10 +36,7 @@ public class ChangeTruckStateAction implements Action {
             TruckDAO truckDAO = new TruckDAO();
             logger.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, State.valueOf(chosenStateParameter));
-            logger.info("requesting all trucks");
-            List<TruckEntity> allTrucks = truckDAO.getAllTrucks();
-            req.setAttribute(RequestParametersNames.TRUCKS, allTrucks);
-            return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
+            return new ActionResponse(URLConstants.GET_TRUCKS, ActionType.REDIRECT);
         } catch (DAOException e) {
             throw new ActionExecutionException("error during changing truck state", e);
         }

@@ -22,7 +22,7 @@ public class RequestDAO extends MotorDepotDAO {
         return namedQuery.getResultList();
     }
 
-    public List<RequestEntity> getUnsetRequests() {
+    public List<RequestEntity> getUnassignedRequests() {
         TypedQuery<RequestEntity> namedQuery = getManager().createNamedQuery("RequestEntity.getAll", RequestEntity.class);
         List<RequestEntity> requestEntityList = namedQuery.getResultList();
         List<RequestEntity> unsetApplications = new ArrayList<>();

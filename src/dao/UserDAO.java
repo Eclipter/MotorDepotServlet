@@ -23,12 +23,11 @@ public class UserDAO extends MotorDepotDAO {
         return !resultList.isEmpty();
     }
 
-    public List<UserEntity> authenticateUser(String login, String pass) throws DAOException {
+    public List<UserEntity> authenticateUser(String login, String pass) {
         TypedQuery<UserEntity> query = getManager().createNamedQuery("UserEntity.search", UserEntity.class);
         query.setParameter(LOGIN_PARAMETER, login);
         query.setParameter(PASSWORD_PARAMETER, pass);
-        List<UserEntity> resultList = query.getResultList();
-        return resultList;
+        return query.getResultList();
     }
 
     public UserEntity registerNewUser(String login, String password) throws DAOException {

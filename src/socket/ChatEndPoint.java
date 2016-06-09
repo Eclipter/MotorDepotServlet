@@ -29,7 +29,7 @@ public class ChatEndPoint {
     private static final Logger logger = LogManager.getLogger();
 
     private Session session;
-    private static Map<Session, UserInfoBean> loginMap = Collections.synchronizedMap(new HashMap<>());
+    private static final Map<Session, UserInfoBean> loginMap = Collections.synchronizedMap(new HashMap<>());
 
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {

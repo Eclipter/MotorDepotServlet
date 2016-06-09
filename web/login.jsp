@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${language}" />
-<fmt:setBundle basename="resources.jsp_text" />
-<html lang="${language}">
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="bundle.jspf"%>
+<c:set var="req" value="${pageContext.request}" />
+<c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 1,
+         fn:length(req.requestURI)), req.contextPath)}" />
+<c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_login_form')}"/>
+<html>
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="login.heading"/></title>
@@ -15,6 +17,18 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="${currentURL}&language=ru"><img class="language-icon" src="images/icon-rus.ico"/></a>
+            </li>
+            <li>
+                <a href="${currentURL}&language=en"><img class="language-icon" src="images/icon-us.ico"/></a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="container" style="margin-top: 240px">
     <div class="row">
         <div class="col-md-4 col-md-offset-8 col-xs-4 col-xs-offset-8">
@@ -23,30 +37,19 @@
                     <strong><fmt:message key="login.heading"/></strong>
                 </div>
                 <div class="panel-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label for="language" class="col-sm-3 control-label"><fmt:message key="login.label.language"/></label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="language" name="language" onchange="submit()">
-                                    <option value="en" ${language == 'en' ? 'selected' : ''}><fmt:message key="login.select.english"/></option>
-                                    <option value="ru" ${language == 'ru' ? 'selected' : ''}><fmt:message key="login.select.russian"/></option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
                     <form method="post" action="motor_depot" class="form-horizontal">
                         <div class="form-group">
                             <label for="inputLogin" class="col-sm-3 control-label"><fmt:message key="login.label.login"/></label>
                             <div class="col-sm-9">
                                 <input type="text" name="username" class="form-control" id="inputLogin"
-                                       placeholder="Login" required>
+                                       placeholder="<fmt:message key="login.label.password"/>" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-3 control-label"><fmt:message key="login.label.password"/></label>
                             <div class="col-sm-9">
                                 <input type="password" name="password" class="form-control" id="inputPassword"
-                                       placeholder="Password" required>
+                                       placeholder="<fmt:message key="login.label.login"/>" required>
                             </div>
                         </div>
                         <div class="form-group last">

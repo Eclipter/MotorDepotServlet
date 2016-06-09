@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import dao.RequestDAO;
 import dao.DriverDAO;
 import entity.RequestEntity;
@@ -18,19 +20,20 @@ import java.util.List;
  * Get setting form for trips.
  * Created by USER on 26.04.2016.
  */
-public class GetSettingFormAction implements Action  {
+public class GetAssignationFormAction implements Action  {
 
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting setting form: available applications and drivers");
         RequestDAO requestDAO = new RequestDAO();
         DriverDAO driverDAO = new DriverDAO();
-        List<RequestEntity> unsetApplications = requestDAO.getUnsetRequests();
+        List<RequestEntity> unsetApplications = requestDAO.getUnassignedRequests();
         List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyAutos();
         req.setAttribute(RequestParametersNames.REQUESTS, unsetApplications);
         req.setAttribute(RequestParametersNames.DRIVERS, driverEntityList);
-        return ConfigurationManager.getProperty(PageNamesConstants.SET_FORM);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.ASSIGNATION_FORM),
+                ActionType.FORWARD);
     }
 }

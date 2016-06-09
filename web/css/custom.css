@@ -2,3 +2,7 @@ body {
     background: url(../images/back.jpg) no-repeat;
     background-size: cover;
 }
+
+.language-icon {
+    max-height: 20px;
+}

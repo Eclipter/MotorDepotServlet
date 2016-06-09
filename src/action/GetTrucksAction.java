@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import dao.TruckDAO;
 import entity.TruckEntity;
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +23,12 @@ public class GetTrucksAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all trucks");
         TruckDAO daoTruck = new TruckDAO();
         List<TruckEntity> allTrucks = daoTruck.getAllTrucks();
         req.setAttribute(RequestParametersNames.TRUCKS, allTrucks);
-        return ConfigurationManager.getProperty(PageNamesConstants.TRUCKS);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.TRUCKS),
+                ActionType.FORWARD);
     }
 }

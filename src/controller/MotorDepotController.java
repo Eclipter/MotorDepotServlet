@@ -1,6 +1,8 @@
 package controller;
 
 import action.Action;
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import action.util.CommandHelper;
 import exception.ActionExecutionException;
 import exception.ExceptionalMessage;
@@ -32,8 +34,13 @@ public class MotorDepotController extends HttpServlet {
             if(action == null) {
                 throw new ActionExecutionException(ExceptionalMessage.NO_ACTION);
             }
-            String result = action.execute(req, resp);
-            req.getRequestDispatcher(result).forward(req, resp);
+            ActionResponse result = action.execute(req, resp);
+            if(result.getActionType() == ActionType.FORWARD) {
+                req.getRequestDispatcher(result.getUrl()).forward(req, resp);
+            }
+            else {
+                resp.sendRedirect(result.getUrl());
+            }
         } catch (ActionExecutionException e) {
             logger.error(e);
             String message = e.getMessage();

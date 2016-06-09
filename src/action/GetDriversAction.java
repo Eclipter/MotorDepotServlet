@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import dao.DriverDAO;
 import entity.DriverEntity;
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +23,12 @@ public class GetDriversAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all drivers");
         DriverDAO driverDAO = new DriverDAO();
         List<DriverEntity> allDrivers = driverDAO.getAllDrivers();
         req.setAttribute(RequestParametersNames.DRIVERS, allDrivers);
-        return ConfigurationManager.getProperty(PageNamesConstants.DRIVERS);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.DRIVERS),
+                ActionType.FORWARD);
     }
 }

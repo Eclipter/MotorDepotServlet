@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter {
 
     private static final ActionEnum[] commandsForbiddenForDrivers = { ActionEnum.CHANGE_TRUCK_STATE,
             ActionEnum.CHANGE_TRIP_STATE, ActionEnum.ADD_REQUEST, ActionEnum.GET_REQUESTS,
-            ActionEnum.GET_TRIPS, ActionEnum.GET_SETTING_FORM, ActionEnum.GET_TRUCKS, ActionEnum.SET_DRIVER_ON_TRIP
+            ActionEnum.GET_TRIPS, ActionEnum.GET_ASSIGNATION_FORM, ActionEnum.GET_TRUCKS, ActionEnum.ASSIGN_DRIVER_TO_A_TRIP
     };
 
     @Override
@@ -40,7 +40,7 @@ public class AuthenticationFilter implements Filter {
         UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParametersNames.USER);
         if(session == null || userInfoBean == null) {
             if(!ActionEnum.SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
-                    && !ActionEnum.LOGIN.equals(actionEnum)) {
+                    && !ActionEnum.LOGIN.equals(actionEnum) && !ActionEnum.GET_LOGIN_FORM.equals(actionEnum)) {
                 res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
                 return;
             }

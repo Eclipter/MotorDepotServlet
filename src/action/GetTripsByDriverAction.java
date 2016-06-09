@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import bean.UserInfoBean;
 import dao.TripDAO;
 import entity.TripEntity;
@@ -24,7 +26,7 @@ public class GetTripsByDriverAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         TripDAO daoTrip = new TripDAO();
         UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
         if(userInfoBean == null) {
@@ -34,6 +36,7 @@ public class GetTripsByDriverAction implements Action {
         logger.info("requesting trips of driver " + driverId);
         List<TripEntity> allTrips = daoTrip.getTripsByDriver(driverId);
         req.setAttribute(RequestParametersNames.TRIPS, allTrips);
-        return ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST),
+                ActionType.FORWARD);
     }
 }

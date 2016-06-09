@@ -1,0 +1,3 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : pageContext.request.locale}"/>
+<fmt:setBundle basename="resources.jsp_text" />

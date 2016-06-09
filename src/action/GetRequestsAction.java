@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import bean.RequestViewBean;
 import dao.RequestDAO;
 import dao.util.RequestViewBeanListProvider;
@@ -23,13 +25,14 @@ public class GetRequestsAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all requests");
         RequestDAO requestDAO = new RequestDAO();
         List<RequestEntity> allRequests = requestDAO.getAllRequests();
         List<RequestViewBean> requestViewBeanList =
                 RequestViewBeanListProvider.createRequestViewBeanList(allRequests);
         req.setAttribute(RequestParametersNames.REQUESTS, requestViewBeanList);
-        return ConfigurationManager.getProperty(PageNamesConstants.REQUESTS);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.REQUESTS),
+                ActionType.FORWARD);
     }
 }

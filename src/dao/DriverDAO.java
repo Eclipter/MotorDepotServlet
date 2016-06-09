@@ -18,13 +18,6 @@ public class DriverDAO extends MotorDepotDAO {
     private static final String CARGO_WEIGHT_PARAMETER = "cargoWeight";
     private static final String LOGIN_PARAMETER = "login";
 
-    public List<DriverEntity> getDriversWithCarOfCapacity(int cargoWeight) {
-        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriverWithCarOfCapacity",
-                DriverEntity.class);
-        namedQuery.setParameter(CARGO_WEIGHT_PARAMETER, cargoWeight);
-        return namedQuery.getResultList();
-    }
-
     public List<DriverEntity> getAllDrivers() {
         TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getAll", DriverEntity.class);
         return namedQuery.getResultList();
@@ -33,12 +26,6 @@ public class DriverDAO extends MotorDepotDAO {
     public List<DriverEntity> getDriversWithHealthyAutos() {
         TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriversWithHealthyAutos", DriverEntity.class);
         return namedQuery.getResultList();
-    }
-
-    public DriverEntity getDriverByLogin(String login) {
-        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriverByLogin", DriverEntity.class);
-        namedQuery.setParameter(LOGIN_PARAMETER, login);
-        return namedQuery.getResultList().get(0);
     }
 
     public DriverEntity searchByUser(UserEntity userEntity) {

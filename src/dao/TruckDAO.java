@@ -1,6 +1,5 @@
 package dao;
 
-import entity.DriverEntity;
 import entity.State;
 import entity.StateEntity;
 import entity.TruckEntity;
@@ -21,22 +20,6 @@ public class TruckDAO extends MotorDepotDAO {
     public List<TruckEntity> getAllTrucks() {
         TypedQuery<TruckEntity> namedQuery = getManager().createNamedQuery("TruckEntity.getAll", TruckEntity.class);
         return namedQuery.getResultList();
-    }
-
-    public List<TruckEntity> getTruckByDriver(DriverEntity driverEntity) {
-        TypedQuery<TruckEntity> namedQuery = getManager().createNamedQuery("TruckEntity.getByDriver", TruckEntity.class);
-        namedQuery.setParameter(DRIVER_PARAMETER, driverEntity);
-        return namedQuery.getResultList();
-    }
-
-    /**
-     * Gets list of repairing trucks
-     *
-     * @return list of autos
-     */
-    public List<TruckEntity> getRepairingTrucks() {
-        StateEntity stateEntity = getManager().find(StateEntity.class, State.UNDER_REPAIR.ordinal() + 1);
-        return stateEntity.getTrucksById();
     }
 
     /**

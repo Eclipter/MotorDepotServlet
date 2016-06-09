@@ -22,10 +22,6 @@ public class UserInfoBean implements Serializable {
         this.admin = driverEntity == null;
     }
 
-    public void reset() {
-        userEntity = null;
-    }
-
     public UserEntity getUserEntity() {
         return userEntity;
     }

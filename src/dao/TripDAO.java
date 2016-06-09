@@ -52,7 +52,7 @@ public class TripDAO extends MotorDepotDAO {
      * @param driverId
      * @throws DAOException
      */
-    public void setDriverOnTrip(int requestId, int driverId) throws DAOException {
+    public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
 
         EntityTransaction transaction = getManager().getTransaction();
         try {

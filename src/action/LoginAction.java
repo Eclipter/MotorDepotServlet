@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import bean.UserInfoBean;
 import dao.UserDAO;
 import entity.UserEntity;
@@ -8,9 +10,8 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
 import util.RequestParametersNames;
+import util.URLConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class LoginAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             UserDAO daoUser = new UserDAO();
             String userName = req.getParameter(RequestParametersNames.USERNAME);
@@ -43,7 +44,7 @@ public class LoginAction implements Action {
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUserEntity(userEntity);
                 session.setAttribute(RequestParametersNames.USER, userInfoBean);
-                return ConfigurationManager.getProperty(PageNamesConstants.INDEX);
+                return new ActionResponse(URLConstants.GET_INDEX_PAGE, ActionType.REDIRECT);
             } else {
                 throw new DAOException(ExceptionalMessage.WRONG_LOGIN_PASS);
             }

@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.ConfigurationManager;
@@ -17,9 +19,10 @@ public class LogoutAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("invalidating session");
         req.getSession().invalidate();
-        return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
+        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.LOGIN),
+                ActionType.FORWARD);
     }
 }

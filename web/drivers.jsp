@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<html lang="en">
+<%@ include file="bundle.jspf" %>
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Водители</title>
+    <title><fmt:message key="drivers.heading"/></title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
@@ -12,30 +12,41 @@
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
-<%@include file="navbar.jsp"%>
+<%@include file="navbar.jspf" %>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Водители
+                <fmt:message key="drivers.heading"/>
             </div>
             <div class="panel-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Логин</th>
-                        <th>Id автомобиля</th>
+                        <th><fmt:message key="drivers.table.login"/></th>
+                        <th><fmt:message key="drivers.table.truck_id"/></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${drivers}" var="driver">
+                    <c:forEach items="${requestScope.drivers}" var="driver">
                         <tr>
                             <td>${driver.userByUserId.login}</td>
                             <td>
                                 <a href="#" data-toggle="popover"
-                                   title="Truck ${driver.truckByTruckId.id}"
-                                   data-trigger="hover" data-content="State: ${driver.truckByTruckId.stateByStateId.stateName}">
-                                    ${driver.truckByTruckId.id}
+                                   title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truckByTruckId.id}"
+                                   data-trigger="hover" data-content="<fmt:message key="trucks.table.state"/>:
+                                   <c:choose>
+                                       <c:when test="${driver.truckByTruckId.stateByStateId.stateName eq 'OK'}">
+                                        <fmt:message key="trucks.table.state.ok"/>
+                                       </c:when>
+                                       <c:when test="${driver.truckByTruckId.stateByStateId.stateName eq 'BROKEN'}">
+                                        <fmt:message key="trucks.table.state.broken"/>
+                                       </c:when>
+                                       <c:otherwise>
+                                        <fmt:message key="trucks.table.state.under_repair"/>
+                                       </c:otherwise>
+                                   </c:choose>">
+                                        ${driver.truckByTruckId.id}
                                 </a>
                             </td>
                         </tr>
@@ -47,7 +58,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
     });
 </script>

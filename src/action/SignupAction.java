@@ -1,5 +1,7 @@
 package action;
 
+import action.bean.ActionResponse;
+import action.bean.ActionType;
 import dao.DriverDAO;
 import dao.TruckDAO;
 import dao.UserDAO;
@@ -10,9 +12,8 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
 import util.RequestParametersNames;
+import util.URLConstants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class SignupAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
             String username = req.getParameter(RequestParametersNames.USERNAME);
@@ -41,14 +42,14 @@ public class SignupAction implements Action {
             if(daoUser.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
                 req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
-                return ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM);
+                return new ActionResponse(URLConstants.GET_SIGNUP_FORM, ActionType.REDIRECT);
             }
 
             logger.info("registering new user");
             UserEntity userEntity = daoUser.registerNewUser(username, password);
             TruckEntity truckEntity = daoTruck.addNewTruck(truckCapacity);
             driverDAO.registerNewDriver(userEntity, truckEntity);
-            return ConfigurationManager.getProperty(PageNamesConstants.LOGIN);
+            return new ActionResponse(URLConstants.GET_LOGIN_FORM, ActionType.REDIRECT);
         } catch (DAOException e) {
             throw new ActionExecutionException("error during registering new user", e);
         }

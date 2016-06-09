@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ include file="bundle.jspf"%>
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -78,7 +78,7 @@
             });
 </script>
 <body>
-<%@include file="navbar.jsp"%>
+<%@include file="navbar.jspf"%>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -108,6 +108,7 @@
                 </c:if>
 
                 <div class="form-group">
+                    <label for="chatArea">Chat</label>
                     <textarea id="chatArea" rows="10" class="form-control" disabled></textarea>
                 </div>
 

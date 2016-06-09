@@ -22,4 +22,5 @@ public class RequestParametersNames {
     public static final String TRUCK_CAPACITY = "truckCapacity";
     public static final String COMMAND = "command";
     public static final String CARGO_WEIGHT = "cargoWeight";
+    public static final String LANGUAGE = "language";
 }
