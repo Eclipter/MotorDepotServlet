@@ -49,8 +49,6 @@ public class SetDriverOnTripAction implements Action {
         }
         //TODO: make drivers see only applications that are not binded to any drivers
         //TODO: make a message when admin is not online
-        //TODO: move bundle names to a class
-        //TODO: add addApplication feature
         //TODO: internationalize exceptional messages and JSP text
     }
 }
