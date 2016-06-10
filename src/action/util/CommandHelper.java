@@ -37,4 +37,7 @@ public final class CommandHelper {
     public static Action getCommand(String command) {
         return actionMap.get(ActionEnum.valueOf(command.toUpperCase()));
     }
+
+    private CommandHelper() {
+    }
 }

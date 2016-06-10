@@ -8,9 +8,12 @@ import java.util.ResourceBundle;
  */
 public final class InternationalizedBundleManager {
 
+    public static final String LANGUAGE_ENGLISH = "en";
+    public static final String LANGUAGE_RUSSIAN = "ru";
+
     public static String getProperty(String bundleName, String key, String languageTag) {
         Locale locale;
-        if(languageTag.equals("en") || languageTag.equals("ru")) {
+        if(languageTag.equals(LANGUAGE_ENGLISH) || languageTag.equals(LANGUAGE_RUSSIAN)) {
             locale = new Locale(languageTag);
         } else {
             locale = Locale.getDefault();
