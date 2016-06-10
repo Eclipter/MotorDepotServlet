@@ -1,10 +1,8 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import exception.ActionExecutionException;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
+import util.PageNameConstant;
+import util.PagesBundleManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GetLoginFormAction implements Action {
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.LOGIN),
-                ActionType.FORWARD);
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+        return PagesBundleManager.getProperty(PageNameConstant.LOGIN);
     }
 }

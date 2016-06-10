@@ -1,14 +1,12 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import dao.TripDAO;
 import entity.TripEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
-import util.RequestParametersNames;
+import util.PageNameConstant;
+import util.PagesBundleManager;
+import util.RequestParameterName;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,12 +21,11 @@ public class GetTripsAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting all trips");
         TripDAO daoTrip = new TripDAO();
         List<TripEntity> allTrips = daoTrip.getAllTrips();
-        req.setAttribute(RequestParametersNames.TRIPS, allTrips);
-        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST),
-                ActionType.FORWARD);
+        req.setAttribute(RequestParameterName.TRIPS, allTrips);
+        return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
     }
 }

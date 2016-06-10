@@ -1,5 +1,7 @@
 package entity;
 
+import entity.util.TruckState;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -8,8 +10,8 @@ import java.util.Objects;
  * Created by Vladislav on 05.03.2016.
  */
 @Entity
-@Table(name = "state", schema = "motor_depot")
-public class StateEntity {
+@Table(name = "truck_state", schema = "motor_depot")
+public class TruckStateEntity {
 
     @Id
     @Column(name = "ID")
@@ -17,7 +19,7 @@ public class StateEntity {
 
     @Column(name = "STATE_NAME")
     @Enumerated(EnumType.STRING)
-    private State stateName;
+    private TruckState truckStateName;
 
     @OneToMany(mappedBy = "stateByStateId")
     private List<TruckEntity> trucksById;
@@ -30,26 +32,26 @@ public class StateEntity {
         this.id = id;
     }
 
-    public State getStateName() {
-        return stateName;
+    public TruckState getTruckStateName() {
+        return truckStateName;
     }
 
-    public void setStateName(State stateName) {
-        this.stateName = stateName;
+    public void setTruckStateName(TruckState truckStateName) {
+        this.truckStateName = truckStateName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StateEntity that = (StateEntity) o;
+        TruckStateEntity that = (TruckStateEntity) o;
         return Objects.equals(id, that.id) &&
-                stateName == that.stateName;
+                truckStateName == that.truckStateName;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getStateName());
+        return Objects.hash(getId(), getTruckStateName());
     }
 
     public List<TruckEntity> getTrucksById() {
@@ -62,9 +64,9 @@ public class StateEntity {
 
     @Override
     public String toString() {
-        return "StateEntity{" +
+        return "TruckStateEntity{" +
                 "id=" + id +
-                ", stateName=" + stateName.toString() +
+                ", truckStateName=" + truckStateName.toString() +
                 '}';
     }
 }

@@ -1,16 +1,16 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import dao.TruckDAO;
-import entity.State;
+import entity.util.TruckState;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.RequestParametersNames;
-import util.URLConstants;
+import util.BundleName;
+import util.InternationalizedBundleManager;
+import util.RequestParameterName;
+import util.URLConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,21 +24,25 @@ public class ChangeTruckStateAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            String chosenTruckParameter = req.getParameter(RequestParametersNames.CHOSEN_TRUCK);
-            String chosenStateParameter = req.getParameter(RequestParametersNames.CHOSEN_STATE);
+            String chosenTruckParameter = req.getParameter(RequestParameterName.CHOSEN_TRUCK);
+            String chosenStateParameter = req.getParameter(RequestParameterName.CHOSEN_STATE);
             if(chosenTruckParameter == null || chosenStateParameter == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
             TruckDAO truckDAO = new TruckDAO();
             logger.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
-            truckDAO.changeTruckState(chosenTruck, State.valueOf(chosenStateParameter));
-            return new ActionResponse(URLConstants.GET_TRUCKS, ActionType.REDIRECT);
+            truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
+            return URLConstant.GET_TRUCKS;
         } catch (DAOException e) {
-            throw new ActionExecutionException("error during changing truck state", e);
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    e.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
         }
     }
 }

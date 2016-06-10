@@ -2,9 +2,9 @@ package filter;
 
 import action.util.ActionEnum;
 import bean.UserInfoBean;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
-import util.RequestParametersNames;
+import util.PagesBundleManager;
+import util.PageNameConstant;
+import util.RequestParameterName;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class AuthenticationFilter implements Filter {
 
-    private static final ActionEnum[] commandsForbiddenForDrivers = { ActionEnum.CHANGE_TRUCK_STATE,
+    private static final ActionEnum[] ADMIN_COMMANDS = { ActionEnum.CHANGE_TRUCK_STATE,
             ActionEnum.CHANGE_TRIP_STATE, ActionEnum.ADD_REQUEST, ActionEnum.GET_REQUESTS,
             ActionEnum.GET_TRIPS, ActionEnum.GET_ASSIGNATION_FORM, ActionEnum.GET_TRUCKS, ActionEnum.ASSIGN_DRIVER_TO_A_TRIP
     };
@@ -35,13 +35,13 @@ public class AuthenticationFilter implements Filter {
 
         String contextPath = req.getContextPath();
         HttpSession session = req.getSession(false);
-        String command = req.getParameter(RequestParametersNames.COMMAND);
+        String command = req.getParameter(RequestParameterName.COMMAND);
         ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
-        UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParametersNames.USER);
-        if(session == null || userInfoBean == null) {
+        UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParameterName.USER);
+        if(userInfoBean == null) {
             if(!ActionEnum.SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
                     && !ActionEnum.LOGIN.equals(actionEnum) && !ActionEnum.GET_LOGIN_FORM.equals(actionEnum)) {
-                res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
+                res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
                 return;
             }
             else {
@@ -50,9 +50,9 @@ public class AuthenticationFilter implements Filter {
             }
         }
         else if(!userInfoBean.isAdmin()) {
-            for(ActionEnum forbiddenCommand : commandsForbiddenForDrivers) {
+            for(ActionEnum forbiddenCommand : ADMIN_COMMANDS) {
                 if(actionEnum == forbiddenCommand) {
-                    res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.LOGIN));
+                    res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
                     return;
                 }
             }

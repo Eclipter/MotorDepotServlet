@@ -1,4 +1,4 @@
-package socket;
+package chat;
 
 /**
  * Created by USER on 29.05.2016.

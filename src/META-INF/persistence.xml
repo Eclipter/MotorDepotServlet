@@ -9,7 +9,7 @@
         <class>entity.RequestEntity</class>
         <class>entity.TruckEntity</class>
         <class>entity.DriverEntity</class>
-        <class>entity.StateEntity</class>
+        <class>entity.TruckStateEntity</class>
         <class>entity.TripEntity</class>
         <class>entity.UserEntity</class>
         <properties>

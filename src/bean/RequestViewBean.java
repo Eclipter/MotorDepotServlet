@@ -3,11 +3,13 @@ package bean;
 import entity.RequestEntity;
 import entity.DriverEntity;
 
+import java.io.Serializable;
+
 /**
  * Bean that is used to show the information about requests and corresponding drivers in requests.jsp page.
  * Created by USER on 25.04.2016.
  */
-public class RequestViewBean {
+public class RequestViewBean implements Serializable {
 
     private RequestEntity requestEntity;
     private DriverEntity driverEntity;

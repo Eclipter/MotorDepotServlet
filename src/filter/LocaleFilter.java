@@ -1,9 +1,7 @@
 package filter;
 
 import exception.ExceptionalMessage;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
-import util.RequestParametersNames;
+import util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +24,18 @@ public class LocaleFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         String contextPath = req.getContextPath();
-        String languageParameter = req.getParameter(RequestParametersNames.LANGUAGE);
+        String languageParameter = req.getParameter(RequestParameterName.LANGUAGE);
 
         if(languageParameter != null) {
             if(!languageParameter.equals("ru") && !languageParameter.equals("en")) {
-                req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.WRONG_COMMAND);
-                res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.ERROR));
+                req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                        InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                                ExceptionalMessage.WRONG_COMMAND,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             }
             else {
-                req.getSession().setAttribute(RequestParametersNames.LANGUAGE, languageParameter);
+                req.getSession().setAttribute(RequestParameterName.LANGUAGE, languageParameter);
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         }

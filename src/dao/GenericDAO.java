@@ -7,11 +7,11 @@ import javax.persistence.EntityManager;
 /**
  * Created by USER on 07.03.2016.
  */
-public abstract class MotorDepotDAO {
+public abstract class GenericDAO {
 
     private final EntityManager manager;
 
-    public MotorDepotDAO() {
+    public GenericDAO() {
         this.manager = EntityManagerFactoryProvider.getInstance().getFactory().createEntityManager();
     }
 

@@ -3,7 +3,7 @@ package util;
 /**
  * Created by USER on 08.06.2016.
  */
-public class PageNamesConstants {
+public final class PageNameConstant {
 
     public static final String REQUESTS = "requests";
     public static final String TRUCKS = "trucks";
@@ -15,4 +15,7 @@ public class PageNamesConstants {
     public static final String TRIP_LIST = "trip_list";
     public static final String SIGNUP_FORM = "signup_form";
     public static final String CHAT = "chat";
+
+    private PageNameConstant() {
+    }
 }

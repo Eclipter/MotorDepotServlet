@@ -8,7 +8,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -36,10 +36,10 @@
                                    title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truckByTruckId.id}"
                                    data-trigger="hover" data-content="<fmt:message key="trucks.table.state"/>:
                                    <c:choose>
-                                       <c:when test="${driver.truckByTruckId.stateByStateId.stateName eq 'OK'}">
+                                       <c:when test="${driver.truckByTruckId.stateByStateId.truckStateName eq 'OK'}">
                                         <fmt:message key="trucks.table.state.ok"/>
                                        </c:when>
-                                       <c:when test="${driver.truckByTruckId.stateByStateId.stateName eq 'BROKEN'}">
+                                       <c:when test="${driver.truckByTruckId.stateByStateId.truckStateName eq 'BROKEN'}">
                                         <fmt:message key="trucks.table.state.broken"/>
                                        </c:when>
                                        <c:otherwise>

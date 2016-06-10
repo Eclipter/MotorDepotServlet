@@ -1,7 +1,7 @@
 package dao;
 
-import entity.State;
-import entity.StateEntity;
+import entity.util.TruckState;
+import entity.TruckStateEntity;
 import entity.TruckEntity;
 import exception.DAOException;
 import exception.ExceptionalMessage;
@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Created by USER on 08.03.2016.
  */
-public class TruckDAO extends MotorDepotDAO {
+public class TruckDAO extends GenericDAO {
 
-    private static final String DRIVER_PARAMETER = "driver";
+    private static final String GET_ALL_QUERY = "TruckEntity.getAll";
 
     public List<TruckEntity> getAllTrucks() {
-        TypedQuery<TruckEntity> namedQuery = getManager().createNamedQuery("TruckEntity.getAll", TruckEntity.class);
+        TypedQuery<TruckEntity> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, TruckEntity.class);
         return namedQuery.getResultList();
     }
 
@@ -28,17 +28,17 @@ public class TruckDAO extends MotorDepotDAO {
      * @param truckId
      * @throws DAOException
      */
-    public void changeTruckState(int truckId, State stateToSet) throws DAOException {
+    public void changeTruckState(int truckId, TruckState truckStateToSet) throws DAOException {
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
             TruckEntity truckEntity = getManager().find(TruckEntity.class, truckId);
-            StateEntity stateEntity = truckEntity.getStateByStateId();
-            if(stateToSet.equals(stateEntity.getStateName())) {
+            TruckStateEntity truckStateEntity = truckEntity.getStateByStateId();
+            if(truckStateToSet.equals(truckStateEntity.getTruckStateName())) {
                 throw new DAOException(ExceptionalMessage.TRUCK_HAS_THE_SAME_STATE);
             }
 
-            StateEntity newEntity = getManager().find(StateEntity.class, stateToSet.ordinal() + 1);
+            TruckStateEntity newEntity = getManager().find(TruckStateEntity.class, truckStateToSet.ordinal() + 1);
             truckEntity.setStateByStateId(newEntity);
             transaction.commit();
         } finally {
@@ -53,8 +53,8 @@ public class TruckDAO extends MotorDepotDAO {
             transaction.begin();
 
             truckEntity.setCapacity(capacity);
-            StateEntity stateEntity = getManager().find(StateEntity.class, State.OK.ordinal() + 1);
-            truckEntity.setStateByStateId(stateEntity);
+            TruckStateEntity truckStateEntity = getManager().find(TruckStateEntity.class, TruckState.OK.ordinal() + 1);
+            truckEntity.setStateByStateId(truckStateEntity);
             getManager().persist(truckEntity);
             transaction.commit();
         } catch (Exception ex) {

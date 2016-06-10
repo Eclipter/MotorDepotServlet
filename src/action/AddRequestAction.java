@@ -1,15 +1,15 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import dao.RequestDAO;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.RequestParametersNames;
-import util.URLConstants;
+import util.BundleName;
+import util.InternationalizedBundleManager;
+import util.RequestParameterName;
+import util.URLConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,27 +22,36 @@ public class AddRequestAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            String cargoWeightParameter = req.getParameter(RequestParametersNames.CARGO_WEIGHT);
+            String cargoWeightParameter = req.getParameter(RequestParameterName.CARGO_WEIGHT);
             if(cargoWeightParameter == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             Integer cargoWeight;
             try {
                 cargoWeight = Integer.valueOf(cargoWeightParameter);
             } catch (NumberFormatException e) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
+                throw new ActionExecutionException(
+                        InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                                ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             if(cargoWeight <= 0) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
+                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                        ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             RequestDAO requestDAO = new RequestDAO();
             logger.info("adding new request with cargo weight: " + cargoWeight);
             requestDAO.registerNewRequest(cargoWeight);
-            return new ActionResponse(URLConstants.GET_REQUESTS, ActionType.REDIRECT);
+            return URLConstant.GET_REQUESTS;
         } catch (DAOException e) {
-            throw new ActionExecutionException("error during registering new request", e);
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    e.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
         }
     }
 }

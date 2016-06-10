@@ -24,7 +24,7 @@ public class TruckEntity {
 
     @ManyToOne
     @JoinColumn(name = "STATE_ID", referencedColumnName = "ID", nullable = false)
-    private StateEntity stateByStateId;
+    private TruckStateEntity stateByStateId;
 
     @OneToOne(mappedBy = "truckByTruckId")
     private DriverEntity driverById;
@@ -59,11 +59,11 @@ public class TruckEntity {
         return Objects.hash(getId(), getCapacity());
     }
 
-    public StateEntity getStateByStateId() {
+    public TruckStateEntity getStateByStateId() {
         return stateByStateId;
     }
 
-    public void setStateByStateId(StateEntity stateByStateId) {
+    public void setStateByStateId(TruckStateEntity stateByStateId) {
         this.stateByStateId = stateByStateId;
     }
 

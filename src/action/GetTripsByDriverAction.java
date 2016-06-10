@@ -1,7 +1,5 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import bean.UserInfoBean;
 import dao.TripDAO;
 import entity.TripEntity;
@@ -9,9 +7,7 @@ import exception.ActionExecutionException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
-import util.RequestParametersNames;
+import util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,17 +22,18 @@ public class GetTripsByDriverAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         TripDAO daoTrip = new TripDAO();
         UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
         if(userInfoBean == null) {
-            throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
         }
         Integer driverId = userInfoBean.getUserEntity().getId();
         logger.info("requesting trips of driver " + driverId);
         List<TripEntity> allTrips = daoTrip.getTripsByDriver(driverId);
-        req.setAttribute(RequestParametersNames.TRIPS, allTrips);
-        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.TRIP_LIST),
-                ActionType.FORWARD);
+        req.setAttribute(RequestParameterName.TRIPS, allTrips);
+        return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
     }
 }

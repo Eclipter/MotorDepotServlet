@@ -11,20 +11,22 @@ import java.util.List;
 /**
  * Created by USER on 21.04.2016.
  */
-public class UserDAO extends MotorDepotDAO {
+public class UserDAO extends GenericDAO {
 
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "pass";
+    private static final String SEARCH_BY_LOGIN_QUERY = "UserEntity.searchByLogin";
+    private static final String SEARCH_QUERY = "UserEntity.search";
 
     public boolean isLoginOccupied(String login) {
-        TypedQuery<UserEntity> query = getManager().createNamedQuery("UserEntity.searchByLogin", UserEntity.class);
+        TypedQuery<UserEntity> query = getManager().createNamedQuery(SEARCH_BY_LOGIN_QUERY, UserEntity.class);
         query.setParameter(LOGIN_PARAMETER, login);
         List<UserEntity> resultList = query.getResultList();
         return !resultList.isEmpty();
     }
 
     public List<UserEntity> authenticateUser(String login, String pass) {
-        TypedQuery<UserEntity> query = getManager().createNamedQuery("UserEntity.search", UserEntity.class);
+        TypedQuery<UserEntity> query = getManager().createNamedQuery(SEARCH_QUERY, UserEntity.class);
         query.setParameter(LOGIN_PARAMETER, login);
         query.setParameter(PASSWORD_PARAMETER, pass);
         return query.getResultList();

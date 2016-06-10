@@ -1,6 +1,7 @@
 package dao;
 
 import entity.*;
+import entity.util.TruckState;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 
@@ -11,10 +12,12 @@ import java.util.List;
 /**
  * Created by USER on 07.03.2016.
  */
-public class TripDAO extends MotorDepotDAO {
+public class TripDAO extends GenericDAO {
 
     private static final String DRIVER_ID_PARAMETER = "driverId";
     private static final String REQUEST_ID_PARAMETER = "requestId";
+    private static final String GET_ALL_QUERY = "TripEntity.getAll";
+    private static final String GET_BY_DRIVER_AND_REQUEST_QUERY = "TripEntity.getByDriverAndRequest";
 
     /**
      * Get all trips method.
@@ -22,7 +25,7 @@ public class TripDAO extends MotorDepotDAO {
      * @return list of trips
      */
     public List<TripEntity> getAllTrips() {
-        TypedQuery<TripEntity> query = getManager().createNamedQuery("TripEntity.getAll", TripEntity.class);
+        TypedQuery<TripEntity> query = getManager().createNamedQuery(GET_ALL_QUERY, TripEntity.class);
         return query.getResultList();
     }
 
@@ -38,7 +41,7 @@ public class TripDAO extends MotorDepotDAO {
     }
 
     public List<TripEntity> getTripByDriverAndRequest(int driverId, int requestId) {
-        TypedQuery<TripEntity> namedQuery = getManager().createNamedQuery("TripEntity.getByDriverAndRequest",
+        TypedQuery<TripEntity> namedQuery = getManager().createNamedQuery(GET_BY_DRIVER_AND_REQUEST_QUERY,
                 TripEntity.class);
         namedQuery.setParameter(DRIVER_ID_PARAMETER, driverId);
         namedQuery.setParameter(REQUEST_ID_PARAMETER, requestId);
@@ -66,8 +69,8 @@ public class TripDAO extends MotorDepotDAO {
             if (cargoWeight > capacity) {
                 throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
             }
-            StateEntity stateEntity = truckEntity.getStateByStateId();
-            if (!State.OK.equals(stateEntity.getStateName())) {
+            TruckStateEntity truckStateEntity = truckEntity.getStateByStateId();
+            if (!TruckState.OK.equals(truckStateEntity.getTruckStateName())) {
                 throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
             }
 

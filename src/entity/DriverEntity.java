@@ -12,12 +12,9 @@ import java.util.Objects;
 @Table(name = "driver", schema = "motor_depot")
 @NamedQueries({
         @NamedQuery(name = "DriverEntity.getAll", query = "SELECT d FROM DriverEntity d"),
-        @NamedQuery(name = "DriverEntity.getDriverWithCarOfCapacity", query = "SELECT d FROM DriverEntity d where " +
-                "d.truckByTruckId IN (SELECT a FROM TruckEntity a WHERE a.capacity > :cargoWeight AND a.stateByStateId = " +
-                "(SELECT s FROM StateEntity s WHERE s.id = 1))"),
-        @NamedQuery(name = "DriverEntity.getDriversWithHealthyAutos", query = "SELECT d FROM DriverEntity d where" +
+        @NamedQuery(name = "DriverEntity.getDriversWithHealthyTrucks", query = "SELECT d FROM DriverEntity d where" +
                 " d.truckByTruckId IN (SELECT a FROM TruckEntity a WHERE a.stateByStateId = " +
-                "(SELECT s FROM StateEntity s WHERE s.id = 1))"),
+                "(SELECT s FROM TruckStateEntity s WHERE s.id = 1))"),
         @NamedQuery(name = "DriverEntity.getDriverByLogin", query = "SELECT d FROM DriverEntity d WHERE d.userByUserId =" +
                 " (SELECT u FROM UserEntity u WHERE u.login = :login)")
 })

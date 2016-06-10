@@ -2,9 +2,7 @@ package filter;
 
 import action.util.ActionEnum;
 import exception.ExceptionalMessage;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
-import util.RequestParametersNames;
+import util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -28,18 +26,24 @@ public class CommandFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         String contextPath = req.getContextPath();
 
-        String command = req.getParameter(RequestParametersNames.COMMAND);
+        String command = req.getParameter(RequestParameterName.COMMAND);
         if(command == null) {
-            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.NO_COMMAND);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.ERROR));
+            req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                    InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                            ExceptionalMessage.NO_COMMAND,
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             return;
         }
-        ActionEnum actionEnum;
+
         try {
-            actionEnum = ActionEnum.valueOf(command.toUpperCase());
+            ActionEnum.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException e) {
-            req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.WRONG_COMMAND);
-            res.sendRedirect(contextPath + ConfigurationManager.getProperty(PageNamesConstants.ERROR));
+            req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                    InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                            ExceptionalMessage.WRONG_COMMAND,
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             return;
         }
 

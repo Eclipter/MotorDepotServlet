@@ -1,11 +1,9 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.ConfigurationManager;
-import util.PageNamesConstants;
+import util.PageNameConstant;
+import util.PagesBundleManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +16,8 @@ public class SignupFormAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("requesting signup form");
-        return new ActionResponse(ConfigurationManager.getProperty(PageNamesConstants.SIGNUP_FORM),
-                ActionType.FORWARD);
+        return PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM);
     }
 }

@@ -3,7 +3,7 @@ package util;
 /**
  * Created by USER on 08.06.2016.
  */
-public class RequestParametersNames {
+public final class RequestParameterName {
 
     public static final String TRIP_ID = "trip_id";
     public static final String CHOSEN_STATE = "chosenState";
@@ -23,4 +23,7 @@ public class RequestParametersNames {
     public static final String COMMAND = "command";
     public static final String CARGO_WEIGHT = "cargoWeight";
     public static final String LANGUAGE = "language";
+
+    private RequestParameterName() {
+    }
 }

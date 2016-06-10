@@ -13,18 +13,19 @@ import java.util.List;
 /**
  * Created by USER on 21.04.2016.
  */
-public class DriverDAO extends MotorDepotDAO {
+public class DriverDAO extends GenericDAO {
 
-    private static final String CARGO_WEIGHT_PARAMETER = "cargoWeight";
-    private static final String LOGIN_PARAMETER = "login";
+    private static final String GET_ALL_QUERY = "DriverEntity.getAll";
+    private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "DriverEntity.getDriversWithHealthyTrucks";
 
     public List<DriverEntity> getAllDrivers() {
-        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getAll", DriverEntity.class);
+        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, DriverEntity.class);
         return namedQuery.getResultList();
     }
 
     public List<DriverEntity> getDriversWithHealthyAutos() {
-        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery("DriverEntity.getDriversWithHealthyAutos", DriverEntity.class);
+        TypedQuery<DriverEntity> namedQuery = getManager().createNamedQuery(GET_DRIVERS_HEALTHY_TRUCKS_QUERY,
+                DriverEntity.class);
         return namedQuery.getResultList();
     }
 

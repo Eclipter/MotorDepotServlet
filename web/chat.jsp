@@ -4,14 +4,14 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Чат с администратором</title>
+    <title><fmt:message key="chat.heading"/></title>
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <link href="css/custom.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
 <script type="text/javascript">
-    var socket;
+    var chat;
     function connect() {
         socket = new WebSocket("ws://localhost:9090/chat");
         socket.onmessage = function (event) {
@@ -83,7 +83,7 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>Отправьте сообщение</h3>
+                <h3><fmt:message key="chat.panel.heading"/></h3>
             </div>
             <div class="panel-body">
 
@@ -99,7 +99,7 @@
                 <c:if test="${sessionScope.user.admin}">
                     <div class="form-group">
                         <button class="btn btn-info"
-                                  onclick="getOnlineUsers()">Получить список пользователей онлайн</button>
+                                  onclick="getOnlineUsers()"><fmt:message key="chat.button.online_users"/></button>
                     </div>
                     <div class="form-group">
                         <form id="users" role="form">
@@ -108,7 +108,7 @@
                 </c:if>
 
                 <div class="form-group">
-                    <label for="chatArea">Chat</label>
+                    <label for="chatArea"><fmt:message key="chat.label.chat"/></label>
                     <textarea id="chatArea" rows="10" class="form-control" disabled></textarea>
                 </div>
 
@@ -116,7 +116,7 @@
                     <div class="input-group">
                         <input type="text" id="message" class="form-control" placeholder="Сообщение" required/>
                     <span class="input-group-btn">
-                        <button id="sendButton" class="btn btn-primary" type="button" onclick="sendMessage()">Отправить</button>
+                        <button id="sendButton" class="btn btn-primary" type="button" onclick="sendMessage()"><fmt:message key="chat.button.send"/></button>
                     </span>
                     </div>
                 </div>

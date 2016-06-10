@@ -1,7 +1,5 @@
 package action;
 
-import action.bean.ActionResponse;
-import action.bean.ActionType;
 import dao.DriverDAO;
 import dao.TruckDAO;
 import dao.UserDAO;
@@ -12,8 +10,10 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.RequestParametersNames;
-import util.URLConstants;
+import util.BundleName;
+import util.InternationalizedBundleManager;
+import util.RequestParameterName;
+import util.URLConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,14 +26,16 @@ public class SignupAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public ActionResponse execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            String username = req.getParameter(RequestParametersNames.USERNAME);
-            String password = req.getParameter(RequestParametersNames.PASSWORD);
-            Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParametersNames.TRUCK_CAPACITY));
+            String username = req.getParameter(RequestParameterName.USERNAME);
+            String password = req.getParameter(RequestParameterName.PASSWORD);
+            Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
             if(username == null || password == null || truckCapacity == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             TruckDAO daoTruck = new TruckDAO();
             DriverDAO driverDAO = new DriverDAO();
@@ -41,17 +43,19 @@ public class SignupAction implements Action {
             logger.info("checking new user");
             if(daoUser.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
-                req.getSession().setAttribute(RequestParametersNames.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
-                return new ActionResponse(URLConstants.GET_SIGNUP_FORM, ActionType.REDIRECT);
+                req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
+                return URLConstant.GET_SIGNUP_FORM;
             }
 
             logger.info("registering new user");
             UserEntity userEntity = daoUser.registerNewUser(username, password);
             TruckEntity truckEntity = daoTruck.addNewTruck(truckCapacity);
             driverDAO.registerNewDriver(userEntity, truckEntity);
-            return new ActionResponse(URLConstants.GET_LOGIN_FORM, ActionType.REDIRECT);
+            return URLConstant.GET_LOGIN_FORM;
         } catch (DAOException e) {
-            throw new ActionExecutionException("error during registering new user", e);
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    e.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
         }
     }
 }
