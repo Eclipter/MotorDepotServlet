@@ -7,7 +7,7 @@ public class ExceptionalMessage {
     public static final String WEIGHT_MORE_THAN_CAPACITY = "cargo_heavier_than_capacity";
     public static final String TRUCK_NOT_OK = "truck_not_ok";
     public static final String TRUCK_HAS_THE_SAME_STATE = "truck_same_state";
-    public static final String SQL_EXCEPTION = "sql_error";
+    public static final String DML_EXCEPTION = "dml_error";
     public static final String WRONG_LOGIN_PASS = "wrong_login_pass";
     public static final String PASSWORDS_NOT_EQUAL = "pass_not_equal";
     public static final String LOGIN_OCCUPIED = "login_occupied";

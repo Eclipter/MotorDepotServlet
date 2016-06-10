@@ -58,7 +58,7 @@ public class TruckDAO extends GenericDAO {
             getManager().persist(truckEntity);
             transaction.commit();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.SQL_EXCEPTION);
+            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }

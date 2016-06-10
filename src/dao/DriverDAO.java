@@ -44,7 +44,7 @@ public class DriverDAO extends GenericDAO {
             getManager().persist(driverEntity);
             transaction.commit();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.SQL_EXCEPTION);
+            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }
