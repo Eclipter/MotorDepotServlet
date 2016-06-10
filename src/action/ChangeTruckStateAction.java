@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Changes state of car.
+ * Action, responsible for changing truck state
  * Created by USER on 25.04.2016.
  */
 public class ChangeTruckStateAction implements Action {

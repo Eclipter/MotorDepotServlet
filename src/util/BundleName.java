@@ -1,6 +1,7 @@
 package util;
 
 /**
+ * Class with all resource bundle names
  * Created by USER on 09.06.2016.
  */
 public final class BundleName {

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * Login process
+ * Action, responsible for authentication process
  * Created by USER on 25.04.2016.
  */
 public class LoginAction implements Action {

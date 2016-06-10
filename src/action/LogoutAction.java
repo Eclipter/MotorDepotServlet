@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Logout process
+ * Action, responsible for logout process
  * Created by USER on 25.04.2016.
  */
 public class LogoutAction implements Action {

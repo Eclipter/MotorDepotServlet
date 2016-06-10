@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Filter that checks if the signup form fields are filled correctly
  * Created by USER on 15.05.2016.
  */
 public class SignupFilter implements Filter {

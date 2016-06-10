@@ -8,7 +8,7 @@ import util.PagesBundleManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
+/** Action, responsible for providing chat page
  * Created by USER on 07.06.2016.
  */
 public class GetChatAction implements Action {

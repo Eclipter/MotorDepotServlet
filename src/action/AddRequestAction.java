@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Action, responsible for adding new request to the database
  * Created by USER on 09.06.2016.
  */
 public class AddRequestAction implements Action {
@@ -46,7 +47,7 @@ public class AddRequestAction implements Action {
             }
             RequestDAO requestDAO = new RequestDAO();
             logger.info("adding new request with cargo weight: " + cargoWeight);
-            requestDAO.registerNewRequest(cargoWeight);
+            requestDAO.addNewRequest(cargoWeight);
             return URLConstant.GET_REQUESTS;
         } catch (DAOException e) {
             throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,

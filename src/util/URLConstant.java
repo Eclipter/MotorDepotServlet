@@ -3,6 +3,7 @@ package util;
 import action.util.ActionEnum;
 
 /**
+ * Class with URL constants used to redirect user after POST requests
  * Created by USER on 10.06.2016.
  */
 public final class URLConstant {

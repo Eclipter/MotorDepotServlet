@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get all drivers
+ * Action, responsible for providing page with information about all drivers
  * Created by USER on 25.04.2016.
  */
 public class GetDriversAction implements Action {

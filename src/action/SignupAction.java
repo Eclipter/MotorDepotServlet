@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Action, responsible for signup process
  * Created by USER on 15.05.2016.
  */
 public class SignupAction implements Action {
@@ -48,7 +49,7 @@ public class SignupAction implements Action {
             }
 
             logger.info("registering new user");
-            UserEntity userEntity = daoUser.registerNewUser(username, password);
+            UserEntity userEntity = daoUser.addNewUser(username, password);
             TruckEntity truckEntity = daoTruck.addNewTruck(truckCapacity);
             driverDAO.registerNewDriver(userEntity, truckEntity);
             return URLConstant.GET_LOGIN_FORM;

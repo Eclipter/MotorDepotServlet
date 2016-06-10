@@ -1,6 +1,7 @@
 package util;
 
 /**
+ * Class with all names of request parameters
  * Created by USER on 08.06.2016.
  */
 public final class RequestParameterName {

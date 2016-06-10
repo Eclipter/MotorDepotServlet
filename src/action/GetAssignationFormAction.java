@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get setting form for trips.
+ * Action, responsible for preparing and providing an assignation form
  * Created by USER on 26.04.2016.
  */
 public class GetAssignationFormAction implements Action  {
@@ -28,7 +28,7 @@ public class GetAssignationFormAction implements Action  {
         RequestDAO requestDAO = new RequestDAO();
         DriverDAO driverDAO = new DriverDAO();
         List<RequestEntity> unsetApplications = requestDAO.getUnassignedRequests();
-        List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyAutos();
+        List<DriverEntity> driverEntityList = driverDAO.getDriversWithHealthyTrucks();
         req.setAttribute(RequestParameterName.REQUESTS, unsetApplications);
         req.setAttribute(RequestParameterName.DRIVERS, driverEntityList);
         return PagesBundleManager.getProperty(PageNameConstant.ASSIGNATION_FORM);

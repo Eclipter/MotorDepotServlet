@@ -7,6 +7,8 @@ import entity.UserEntity;
 import java.io.Serializable;
 
 /**
+ * Bean that is kept in session attributes.
+ * Used to retrieve information about the user that is currently online
  * Created by USER on 29.05.2016.
  */
 public class UserInfoBean implements Serializable {

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Main controller that handles GET and POST requests from clients
  * Created by USER on 20.04.2016.
  */
 public class MotorDepotController extends HttpServlet {
@@ -22,6 +23,13 @@ public class MotorDepotController extends HttpServlet {
     private static final long serialVersionUID = -811960845105124825L;
     private static final Logger logger = LogManager.getLogger();
 
+    /**
+     * Executes action depending on command that is kept in request parameters
+     * @param req servlet request
+     * @param resp servlet response
+     * @return URL, to which client must be forwarded or redirected
+     * @throws ActionExecutionException
+     */
     private String executeAction(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         String command = req.getParameter(RequestParameterName.COMMAND);
         logger.info("processing " + command + " command");

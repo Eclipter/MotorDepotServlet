@@ -1,6 +1,7 @@
 package chat;
 
 /**
+ * Message bean used to process incoming messages from clients
  * Created by USER on 29.05.2016.
  */
 public class Message {

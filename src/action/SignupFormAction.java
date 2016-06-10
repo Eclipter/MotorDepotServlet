@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Action, responsible for providing signup form
  * Created by USER on 15.05.2016.
  */
 public class SignupFormAction implements Action {

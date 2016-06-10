@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get all trips of a particular driver.
+ * Action, responsible for providing trips of a driver, which is requesting the page
  * Created by USER on 26.04.2016.
  */
 public class GetTripsByDriverAction implements Action {

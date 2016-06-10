@@ -9,10 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Util class used to convert lists of RequestEntities to RequestViewBean lists (includes drivers if present)
  * Created by USER on 09.06.2016.
  */
-public class RequestViewBeanListProvider {
+public final class RequestViewBeanListProvider {
 
+    /**
+     * Finds drivers for each request and includes them into result beans
+     * @param requestEntityList lis to convert
+     * @return list of view beans
+     */
     public static List<RequestViewBean> createRequestViewBeanList(List<RequestEntity> requestEntityList) {
         RequestDAO requestDAO = new RequestDAO();
         List<RequestViewBean> requestViewBeanList = new ArrayList<>();
@@ -26,5 +32,8 @@ public class RequestViewBeanListProvider {
             }
         }
         return requestViewBeanList;
+    }
+
+    private RequestViewBeanListProvider() {
     }
 }

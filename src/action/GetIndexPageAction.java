@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Action, responsible for providing index page
  * Created by USER on 08.06.2016.
  */
 public class GetIndexPageAction implements Action {

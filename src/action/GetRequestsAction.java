@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get all the requests.
+ * Action, responsible for providing page with all requests
  * Created by USER on 25.04.2016.
  */
 public class GetRequestsAction implements Action {

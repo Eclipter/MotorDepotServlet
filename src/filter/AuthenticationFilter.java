@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
+ * Filter used to check the page the client is requesting.
  * Created by USER on 15.05.2016.
  */
 public class AuthenticationFilter implements Filter {

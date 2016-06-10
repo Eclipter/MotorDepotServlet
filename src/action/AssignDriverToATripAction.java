@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Assigns driver to a trip.
+ * Action, responsible for assigning driver to a trip
  * Created by USER on 26.04.2016.
  */
 public class AssignDriverToATripAction implements Action {

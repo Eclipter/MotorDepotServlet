@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get all autos.
+ * Action, responsible for providing information about all trucks
  * Created by USER on 25.04.2016.
  */
 public class GetTrucksAction implements Action {

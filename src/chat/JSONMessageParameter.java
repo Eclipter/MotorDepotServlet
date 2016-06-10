@@ -1,6 +1,7 @@
 package chat;
 
 /**
+ * JSON message parameter names
  * Created by USER on 10.06.2016.
  */
 public final class JSONMessageParameter {

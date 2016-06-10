@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Filter that checks if the language parameter is present in the request.
+ * And if yes, it is saved into the session attribute
  * Created by USER on 09.06.2016.
  */
 public class LocaleFilter implements Filter {

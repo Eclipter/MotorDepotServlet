@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Filter used to check if the client specified any command to execute
  * Created by USER on 08.06.2016.
  */
 public class CommandFilter implements Filter {

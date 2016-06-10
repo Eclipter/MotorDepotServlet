@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * Get all trips.
+ * Action, responsible for providing all trips
  * Created by USER on 25.04.2016.
  */
 public class GetTripsAction implements Action {

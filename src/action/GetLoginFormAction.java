@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Action, responsible for providing authentication form
  * Created by USER on 09.06.2016.
  */
 public class GetLoginFormAction implements Action {

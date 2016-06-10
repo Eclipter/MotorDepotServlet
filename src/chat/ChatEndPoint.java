@@ -23,6 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * Server endpoint class that is used to receive and send chat messages using websockets
  * Created by USER on 30.05.2016.
  */
 @ServerEndpoint(value = "/chat", configurator = HttpSessionConfigurator.class)
@@ -125,6 +126,15 @@ public class ChatEndPoint {
         }
     }
 
+
+    /**
+     * Creates JSONArray with names of all users that are currently online.
+     * Used to provide possibility for admin to choose whom to send message.
+     * Resulting list also has the parameter "All users" at first place.
+     * Used in cases when admin wants to send message to all users
+     * @param session HttpSession parameter used to get user's locale
+     * @return String representation of a JSONArray response
+     */
     private String createOnlineUsersList(HttpSession session) {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
@@ -143,17 +153,36 @@ public class ChatEndPoint {
         return jsonArray.toJSONString();
     }
 
+
+    /**
+     * Builds message in an appropriate form. With current time, login of sender and message
+     * @param senderLogin login of a sender
+     * @param message the actual message
+     * @return String used to send to client
+     */
     private String buildMessage(String senderLogin, String message) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         return String.format("%s (%s): %s", simpleDateFormat.format(new Date()), senderLogin, message);
     }
 
+    /**
+     * Does the same as buildMessage() method but also includes username of the receiver in a response
+     * @param senderLogin username of sender
+     * @param receiverLogin username of receiver
+     * @param message the actual message
+     * @return String used to send to client
+     */
     private String buildMessageFromAdmin(String senderLogin, String receiverLogin, String message) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         return String.format("%s (%s -> %s): %s", simpleDateFormat.format(new Date()),
                 senderLogin, receiverLogin, message);
     }
 
+    /**
+     * Parses JSON string and returns Message object
+     * @param JSONMessage message to parse
+     * @return readable message
+     */
     private Message parseJSONMessage(String JSONMessage) {
         JSONParser jsonParser = new JSONParser();
         Message message = new Message();

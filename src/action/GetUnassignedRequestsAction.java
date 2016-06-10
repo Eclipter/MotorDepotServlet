@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
+/** Action, responsible for providing information about unassigned requests
  * Created by USER on 09.06.2016.
  */
 public class GetUnassignedRequestsAction implements Action {

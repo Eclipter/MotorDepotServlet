@@ -1,6 +1,7 @@
 package exception;
 
 /**
+ * Class with resource bundle keys of exceptional messages
  * Created by USER on 15.02.2016.
  */
 public class ExceptionalMessage {
