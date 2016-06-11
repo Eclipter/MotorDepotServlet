@@ -3,7 +3,7 @@
 <%@ include file="bundle.jspf"%>
 <html>
 <head>
-    <title>Ошибка</title>
+    <title><fmt:message key="errorpage.heading"/></title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
@@ -17,7 +17,7 @@
     <div class="row">
         <div class="panel panel-danger">
             <div class="panel-heading">
-                Ошибка
+                <fmt:message key="errorpage.heading"/>
             </div>
             <div class="panel-body">
                 <h3>${errorMessage}</h3>

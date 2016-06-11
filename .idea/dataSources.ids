@@ -190,4 +190,7 @@
       </key>
     </database-model>
   </data-source>
+  <data-source name="MotorDepotHibernateManager/Hibernate" uuid="620d84d9-aad4-4ecb-a449-74eb5fb324af">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
 </component>

@@ -16,7 +16,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="MotorDepotHibernateManager" value="b3608666-8479-4c71-8418-ab8b3f96b35f" />
+          <factory-entry name="MotorDepotHibernateManager" value="620d84d9-aad4-4ecb-a449-74eb5fb324af" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
       </configuration>
