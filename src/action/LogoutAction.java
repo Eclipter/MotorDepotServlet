@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import util.PageNameConstant;
 import util.PagesBundleManager;
+import util.RequestParameterName;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,7 @@ public class LogoutAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("invalidating session");
-        req.getSession().invalidate();
+        req.getSession().removeAttribute(RequestParameterName.USER);
         return PagesBundleManager.getProperty(PageNameConstant.LOGIN);
     }
 }
