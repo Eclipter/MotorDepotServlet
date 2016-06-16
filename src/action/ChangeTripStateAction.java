@@ -1,6 +1,8 @@
 package action;
 
 import dao.TripDAO;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
@@ -24,7 +26,6 @@ public class ChangeTripStateAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-
         try {
             String tripIdString = req.getParameter(RequestParameterName.TRIP_ID);
             String chosenState = req.getParameter(RequestParameterName.CHOSEN_STATE);
@@ -34,9 +35,9 @@ public class ChangeTripStateAction implements Action {
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             Integer tripId = Integer.valueOf(tripIdString);
-            TripDAO daoTrip = new TripDAO();
+            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
             logger.info("changing trip " + tripId + " state to " + chosenState);
-            daoTrip.changeTripState(tripId, chosenState.equals("true"));
+            tripDAO.changeTripState(tripId, chosenState.equals("true"));
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
             throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,

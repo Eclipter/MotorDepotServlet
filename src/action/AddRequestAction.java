@@ -1,6 +1,8 @@
 package action;
 
 import dao.RequestDAO;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
@@ -45,7 +47,7 @@ public class AddRequestAction implements Action {
                         ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT,
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
-            RequestDAO requestDAO = new RequestDAO();
+            RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
             logger.info("adding new request with cargo weight: " + cargoWeight);
             requestDAO.addNewRequest(cargoWeight);
             return URLConstant.GET_REQUESTS;

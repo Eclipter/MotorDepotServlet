@@ -11,20 +11,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "driver", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "DriverEntity.getAll", query = "SELECT d FROM DriverEntity d"),
-        @NamedQuery(name = "DriverEntity.getDriversWithHealthyTrucks", query = "SELECT d FROM DriverEntity d where" +
-                " d.truckByTruckId IN (SELECT a FROM TruckEntity a WHERE a.stateByStateId = " +
-                "(SELECT s FROM TruckStateEntity s WHERE s.id = 1))"),
-        @NamedQuery(name = "DriverEntity.getDriverByLogin", query = "SELECT d FROM DriverEntity d WHERE d.userByUserId =" +
-                " (SELECT u FROM UserEntity u WHERE u.login = :login)")
+        @NamedQuery(name = "Driver.getAll", query = "SELECT d FROM Driver d"),
+        @NamedQuery(name = "Driver.getDriversWithHealthyTrucks", query = "SELECT d FROM Driver d where" +
+                " d.truckByTruckId IN (SELECT s.trucksById FROM TruckStateDTO s WHERE s.id = 1)"),
+        @NamedQuery(name = "Driver.getDriverByLogin", query = "SELECT d FROM Driver d WHERE d.userByUserId =" +
+                " (SELECT u FROM User u WHERE u.login = :login)"),
+        @NamedQuery(name = "Driver.searchByRequest",
+                query = "SELECT t.driverByDriverUserId FROM Trip t WHERE t.requestByRequestId = :request")
 })
-public class DriverEntity implements Serializable {
+public class Driver implements Serializable {
 
     private static final long serialVersionUID = 2825686838429055943L;
 
     @OneToOne
     @JoinColumn(name = "TRUCK_ID", referencedColumnName = "ID")
-    private TruckEntity truckByTruckId;
+    private Truck truckByTruckId;
 
     @Id
     @Column(name = "USER_ID")
@@ -32,16 +33,16 @@ public class DriverEntity implements Serializable {
 
     @OneToOne
     @PrimaryKeyJoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    private UserEntity userByUserId;
+    private User userByUserId;
 
     @OneToMany(mappedBy = "driverByDriverUserId")
-    private List<TripEntity> tripsByUserId;
+    private List<Trip> tripsByUserId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DriverEntity that = (DriverEntity) o;
+        Driver that = (Driver) o;
         return Objects.equals(truckByTruckId, that.truckByTruckId) &&
                 Objects.equals(userId, that.userId);
     }
@@ -59,34 +60,34 @@ public class DriverEntity implements Serializable {
         this.userId = userId;
     }
 
-    public TruckEntity getTruckByTruckId() {
+    public Truck getTruckByTruckId() {
         return truckByTruckId;
     }
 
-    public void setTruckByTruckId(TruckEntity truckByTruckId) {
+    public void setTruckByTruckId(Truck truckByTruckId) {
         this.truckByTruckId = truckByTruckId;
     }
 
-    public UserEntity getUserByUserId() {
+    public User getUserByUserId() {
         return userByUserId;
     }
 
-    public void setUserByUserId(UserEntity userByUserId) {
+    public void setUserByUserId(User userByUserId) {
         this.userByUserId = userByUserId;
     }
 
-    public List<TripEntity> getTripsByUserId() {
+    public List<Trip> getTripsByUserId() {
         return tripsByUserId;
     }
 
-    public void setTripsByUserId(List<TripEntity> tripsByUserId) {
+    public void setTripsByUserId(List<Trip> tripsByUserId) {
         this.tripsByUserId = tripsByUserId;
     }
 
     @Override
     public String toString() {
-        return "DriverEntity{" +
-                "truckByBruckId=" + truckByTruckId +
+        return "Driver{" +
+                "truckByTruckId=" + truckByTruckId +
                 ", userByUserId=" + userByUserId +
                 '}';
     }

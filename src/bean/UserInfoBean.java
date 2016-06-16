@@ -1,8 +1,8 @@
 package bean;
 
-import dao.DriverDAO;
-import entity.DriverEntity;
-import entity.UserEntity;
+import dao.impl.jpa.DriverDAOJPAImpl;
+import entity.Driver;
+import entity.User;
 
 import java.io.Serializable;
 
@@ -15,21 +15,21 @@ public class UserInfoBean implements Serializable {
 
     private static final long serialVersionUID = -3901364261477685125L;
 
-    private UserEntity userEntity;
+    private User user;
     private boolean admin;
 
     private void checkForAdmin() {
-        DriverDAO driverDAO = new DriverDAO();
-        DriverEntity driverEntity = driverDAO.searchByUser(userEntity);
-        this.admin = driverEntity == null;
+        DriverDAOJPAImpl driverDAO = new DriverDAOJPAImpl();
+        Driver driver = driverDAO.searchByUser(user);
+        this.admin = driver == null;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(User user) {
+        this.user = user;
         checkForAdmin();
     }
 

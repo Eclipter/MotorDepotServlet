@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "truck_state", schema = "motor_depot")
-public class TruckStateEntity {
+public class TruckStateDTO {
 
     @Id
     @Column(name = "ID")
@@ -22,7 +22,7 @@ public class TruckStateEntity {
     private TruckState truckStateName;
 
     @OneToMany(mappedBy = "stateByStateId")
-    private List<TruckEntity> trucksById;
+    private List<Truck> trucksById;
 
     public Integer getId() {
         return id;
@@ -44,7 +44,7 @@ public class TruckStateEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TruckStateEntity that = (TruckStateEntity) o;
+        TruckStateDTO that = (TruckStateDTO) o;
         return Objects.equals(id, that.id) &&
                 truckStateName == that.truckStateName;
     }
@@ -54,17 +54,17 @@ public class TruckStateEntity {
         return Objects.hash(getId(), getTruckStateName());
     }
 
-    public List<TruckEntity> getTrucksById() {
+    public List<Truck> getTrucksById() {
         return trucksById;
     }
 
-    public void setTrucksById(List<TruckEntity> trucksById) {
+    public void setTrucksById(List<Truck> trucksById) {
         this.trucksById = trucksById;
     }
 
     @Override
     public String toString() {
-        return "TruckStateEntity{" +
+        return "TruckStateDTO{" +
                 "id=" + id +
                 ", truckStateName=" + truckStateName.toString() +
                 '}';

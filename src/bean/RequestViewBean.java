@@ -1,7 +1,7 @@
 package bean;
 
-import entity.RequestEntity;
-import entity.DriverEntity;
+import entity.Driver;
+import entity.Request;
 
 import java.io.Serializable;
 
@@ -11,39 +11,39 @@ import java.io.Serializable;
  */
 public class RequestViewBean implements Serializable {
 
-    private RequestEntity requestEntity;
-    private DriverEntity driverEntity;
+    private Request request;
+    private Driver driver;
 
-    public RequestViewBean(RequestEntity requestEntity, DriverEntity driverEntity) {
-        this.requestEntity = requestEntity;
-        this.driverEntity = driverEntity;
+    public RequestViewBean(Request request, Driver driver) {
+        this.request = request;
+        this.driver = driver;
     }
 
-    public RequestViewBean(RequestEntity requestEntity) {
-        this.requestEntity = requestEntity;
+    public RequestViewBean(Request request) {
+        this.request = request;
     }
 
-    public RequestEntity getRequestEntity() {
-        return requestEntity;
+    public Request getRequest() {
+        return request;
     }
 
-    public void setRequestEntity(RequestEntity requestEntity) {
-        this.requestEntity = requestEntity;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
-    public DriverEntity getDriverEntity() {
-        return driverEntity;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverEntity(DriverEntity driverEntity) {
-        this.driverEntity = driverEntity;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @Override
     public String toString() {
         return "RequestViewBean{" +
-                "requestEntity=" + requestEntity +
-                ", driverEntity=" + driverEntity +
+                "request=" + request +
+                ", driver=" + driver +
                 '}';
     }
 }

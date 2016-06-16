@@ -9,10 +9,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "truck", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "TruckEntity.getAll", query = "SELECT a FROM TruckEntity a"),
-        @NamedQuery(name = "TruckEntity.getByDriver", query = "SELECT a FROM TruckEntity a WHERE a.driverById = :driver")
+        @NamedQuery(name = "Truck.getAll", query = "SELECT a FROM Truck a")
 })
-public class TruckEntity {
+public class Truck {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,10 +23,7 @@ public class TruckEntity {
 
     @ManyToOne
     @JoinColumn(name = "STATE_ID", referencedColumnName = "ID", nullable = false)
-    private TruckStateEntity stateByStateId;
-
-    @OneToOne(mappedBy = "truckByTruckId")
-    private DriverEntity driverById;
+    private TruckStateDTO stateByStateId;
 
     public Integer getId() {
         return id;
@@ -49,7 +45,7 @@ public class TruckEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TruckEntity that = (TruckEntity) o;
+        Truck that = (Truck) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(capacity, that.capacity);
     }
@@ -59,25 +55,17 @@ public class TruckEntity {
         return Objects.hash(getId(), getCapacity());
     }
 
-    public TruckStateEntity getStateByStateId() {
+    public TruckStateDTO getStateByStateId() {
         return stateByStateId;
     }
 
-    public void setStateByStateId(TruckStateEntity stateByStateId) {
+    public void setStateByStateId(TruckStateDTO stateByStateId) {
         this.stateByStateId = stateByStateId;
-    }
-
-    public DriverEntity getDriverById() {
-        return driverById;
-    }
-
-    public void setDriverById(DriverEntity driverById) {
-        this.driverById = driverById;
     }
 
     @Override
     public String toString() {
-        return "TruckEntity{" +
+        return "Truck{" +
                 "id=" + id +
                 ", capacity=" + capacity +
                 ", stateByStateId=" + stateByStateId +

@@ -1,12 +1,14 @@
 package action;
 
 import dao.TripDAO;
-import entity.TripEntity;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
+import entity.Trip;
+import exception.ActionExecutionException;
+import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.PageNameConstant;
-import util.PagesBundleManager;
-import util.RequestParameterName;
+import util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +23,18 @@ public class GetTripsAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         logger.info("requesting all trips");
-        TripDAO daoTrip = new TripDAO();
-        List<TripEntity> allTrips = daoTrip.getAllTrips();
-        req.setAttribute(RequestParameterName.TRIPS, allTrips);
-        return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
+        try {
+            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
+            List<Trip> allTrips = tripDAO.getAllTrips();
+            req.setAttribute(RequestParameterName.TRIPS, allTrips);
+            return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
+        } catch (DAOException ex) {
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    ex.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+        }
+
     }
 }

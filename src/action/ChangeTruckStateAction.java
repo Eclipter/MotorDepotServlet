@@ -1,6 +1,8 @@
 package action;
 
 import dao.TruckDAO;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
 import entity.util.TruckState;
 import exception.ActionExecutionException;
 import exception.DAOException;
@@ -35,7 +37,7 @@ public class ChangeTruckStateAction implements Action {
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
             Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
-            TruckDAO truckDAO = new TruckDAO();
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
             logger.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;

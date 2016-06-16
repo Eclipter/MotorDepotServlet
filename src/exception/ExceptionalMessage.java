@@ -18,7 +18,10 @@ public class ExceptionalMessage {
     public static final String NO_COMMAND = "no_command";
     public static final String MISSING_REQUEST_PARAMETERS = "missing_params";
     public static final String WRONG_COMMAND = "wrong_command_name";
-    public static final String TRIP_EXISTS = "trip_exists";
     public static final String WRONG_INPUT_FOR_WEIGHT = "wrong_input_weight";
     public static final String UNEXPECTED = "unexpected";
+    public static final String NO_DAO_CLASS = "no_dao_class";
+    public static final String SQL_ERROR = "sql_error";
+    public static final String CONNECTION_ERROR = "connection_error";
+    public static final String WRONG_INPUT_PARAMETERS = "wrong_parameters";
 }

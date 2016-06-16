@@ -1,103 +1,17 @@
 package dao;
 
-import entity.*;
-import entity.util.TruckState;
+import entity.Trip;
 import exception.DAOException;
-import exception.ExceptionalMessage;
 
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
- * DAO class used to operate on TRIP table
- * Created by USER on 07.03.2016.
+ * Created by USER on 15.06.2016.
  */
-public class TripDAO extends GenericDAO {
+public interface TripDAO extends GenericDAO {
 
-    private static final String DRIVER_ID_PARAMETER = "driverId";
-    private static final String REQUEST_ID_PARAMETER = "requestId";
-    private static final String GET_ALL_QUERY = "TripEntity.getAll";
-    private static final String GET_BY_DRIVER_AND_REQUEST_QUERY = "TripEntity.getByDriverAndRequest";
-
-    /**
-     * Gets all the trips.
-     * @return list of trips
-     */
-    public List<TripEntity> getAllTrips() {
-        TypedQuery<TripEntity> query = getManager().createNamedQuery(GET_ALL_QUERY, TripEntity.class);
-        return query.getResultList();
-    }
-
-    /**
-     * Get trips by driver id
-     * @param driverId driver id
-     * @return list of trips
-     */
-    public List<TripEntity> getTripsByDriver(int driverId) {
-        DriverEntity driverEntity = getManager().find(DriverEntity.class, driverId);
-        return driverEntity.getTripsByUserId();
-    }
-
-    public List<TripEntity> getTripByDriverAndRequest(int driverId, int requestId) {
-        TypedQuery<TripEntity> namedQuery = getManager().createNamedQuery(GET_BY_DRIVER_AND_REQUEST_QUERY,
-                TripEntity.class);
-        namedQuery.setParameter(DRIVER_ID_PARAMETER, driverId);
-        namedQuery.setParameter(REQUEST_ID_PARAMETER, requestId);
-        return namedQuery.getResultList();
-    }
-
-    /**
-     * Assigns driver to a trip
-     * @param requestId id of request
-     * @param driverId id of driver
-     * @throws DAOException in case of DML error
-     */
-    public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
-
-        EntityTransaction transaction = getManager().getTransaction();
-        try {
-            transaction.begin();
-            RequestEntity requestEntity = getManager().find(RequestEntity.class, requestId);
-            int cargoWeight = requestEntity.getCargoWeight();
-
-            DriverEntity driverEntity = getManager().find(DriverEntity.class, driverId);
-            TruckEntity truckEntity = driverEntity.getTruckByTruckId();
-            int capacity = truckEntity.getCapacity();
-            if (cargoWeight > capacity) {
-                throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
-            }
-            TruckStateEntity truckStateEntity = truckEntity.getStateByStateId();
-            if (!TruckState.OK.equals(truckStateEntity.getTruckStateName())) {
-                throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
-            }
-
-            TripEntity tripEntity = new TripEntity();
-            tripEntity.setIsComplete(false);
-            tripEntity.setDriverByDriverUserId(driverEntity);
-            tripEntity.setRequestByRequestId(requestEntity);
-            getManager().persist(tripEntity);
-            transaction.commit();
-        } finally {
-            getManager().clear();
-        }
-    }
-
-    /**
-     * Changes the state of a trip
-     * @param tripId id of trip
-     * @param state state to set
-     * @throws DAOException in case of DML error
-     */
-    public void changeTripState(Integer tripId, boolean state) throws DAOException {
-        EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        TripEntity tripEntity = getManager().find(TripEntity.class, tripId);
-        if(state == tripEntity.getIsComplete()) {
-            throw new DAOException(ExceptionalMessage.TRIP_HAS_THIS_STATE);
-        }
-
-        tripEntity.setIsComplete(state);
-        transaction.commit();
-    }
+    List<Trip> getAllTrips() throws DAOException;
+    List<Trip> getTripsByDriver(int driverId) throws DAOException;
+    void assignDriverToATrip(int requestId, int driverId) throws DAOException;
+    void changeTripState(Integer tripId, boolean state) throws DAOException;
 }

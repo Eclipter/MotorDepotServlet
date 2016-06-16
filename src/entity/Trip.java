@@ -9,11 +9,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "trip", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "TripEntity.getAll", query = "SELECT t FROM TripEntity t"),
-        @NamedQuery(name = "TripEntity.getByDriverAndRequest", query = "SELECT t FROM  TripEntity t " +
+        @NamedQuery(name = "Trip.getAll", query = "SELECT t FROM Trip t"),
+        @NamedQuery(name = "Trip.getByDriverAndRequest", query = "SELECT t FROM  Trip t " +
                 "WHERE t.requestByRequestId.id = :requestId AND t.driverByDriverUserId.id = :driverId")
 })
-public class TripEntity {
+public class Trip {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,11 +25,11 @@ public class TripEntity {
 
     @OneToOne
     @JoinColumn(name = "REQUEST_ID", referencedColumnName = "ID")
-    private RequestEntity requestByRequestId;
+    private Request requestByRequestId;
 
     @ManyToOne
     @JoinColumn(name = "DRIVER_USER_ID", referencedColumnName = "USER_ID")
-    private DriverEntity driverByDriverUserId;
+    private Driver driverByDriverUserId;
 
     public Integer getId() {
         return id;
@@ -51,7 +51,7 @@ public class TripEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TripEntity that = (TripEntity) o;
+        Trip that = (Trip) o;
         return isComplete == that.isComplete &&
                 Objects.equals(id, that.id);
     }
@@ -61,26 +61,26 @@ public class TripEntity {
         return Objects.hash(getId(), isComplete);
     }
 
-    public RequestEntity getRequestByRequestId() {
+    public Request getRequestByRequestId() {
         return requestByRequestId;
     }
 
-    public void setRequestByRequestId(RequestEntity applicationByApplicationId) {
+    public void setRequestByRequestId(Request applicationByApplicationId) {
         this.requestByRequestId = applicationByApplicationId;
     }
 
 
-    public DriverEntity getDriverByDriverUserId() {
+    public Driver getDriverByDriverUserId() {
         return driverByDriverUserId;
     }
 
-    public void setDriverByDriverUserId(DriverEntity driverByDriverUserId) {
+    public void setDriverByDriverUserId(Driver driverByDriverUserId) {
         this.driverByDriverUserId = driverByDriverUserId;
     }
 
     @Override
     public String toString() {
-        return "TripEntity{" +
+        return "Trip{" +
                 "id=" + id +
                 ", isComplete=" + isComplete +
                 ", applicationByApplicationId=" + requestByRequestId +

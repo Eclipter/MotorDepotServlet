@@ -1,12 +1,14 @@
 package action;
 
 import dao.DriverDAO;
-import entity.DriverEntity;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
+import entity.Driver;
+import exception.ActionExecutionException;
+import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.PageNameConstant;
-import util.PagesBundleManager;
-import util.RequestParameterName;
+import util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +23,17 @@ public class GetDriversAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         logger.info("requesting all drivers");
-        DriverDAO driverDAO = new DriverDAO();
-        List<DriverEntity> allDrivers = driverDAO.getAllDrivers();
-        req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
-        return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);
+        try {
+            DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+            List<Driver> allDrivers = driverDAO.getAllDrivers();
+            req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
+            return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);
+        } catch (DAOException ex) {
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    ex.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+        }
     }
 }

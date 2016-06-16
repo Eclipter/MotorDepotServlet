@@ -21,7 +21,7 @@
                     <c:when test="${sessionScope.user.admin}">
                         <header>
                             <h1><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.admin"/>
-                                    ${sessionScope.user.userEntity.login}!</h1>
+                                    ${sessionScope.user.user.login}!</h1>
                         </header>
                         <article>
                             <p>
@@ -32,7 +32,7 @@
                     <c:otherwise>
                         <header>
                             <h1><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.driver"/>
-                                    ${sessionScope.user.userEntity.login}!</h1>
+                                    ${sessionScope.user.user.login}!</h1>
                         </header>
                         <article>
                             <p>

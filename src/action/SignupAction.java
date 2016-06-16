@@ -3,8 +3,10 @@ package action;
 import dao.DriverDAO;
 import dao.TruckDAO;
 import dao.UserDAO;
-import entity.TruckEntity;
-import entity.UserEntity;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
+import entity.Truck;
+import entity.User;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
@@ -38,20 +40,20 @@ public class SignupAction implements Action {
                         ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
             }
-            TruckDAO daoTruck = new TruckDAO();
-            DriverDAO driverDAO = new DriverDAO();
-            UserDAO daoUser = new UserDAO();
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
+            DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+            UserDAO userDAO = (UserDAO) DAOFactory.getDAOFromFactory(DAOType.USER);
             logger.info("checking new user");
-            if(daoUser.isLoginOccupied(username)) {
+            if(userDAO.isLoginOccupied(username)) {
                 logger.info("login " + username + " is already occupied");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
                 return URLConstant.GET_SIGNUP_FORM;
             }
 
             logger.info("registering new user");
-            UserEntity userEntity = daoUser.addNewUser(username, password);
-            TruckEntity truckEntity = daoTruck.addNewTruck(truckCapacity);
-            driverDAO.registerNewDriver(userEntity, truckEntity);
+            User user = userDAO.addNewUser(username, password);
+            Truck truck = truckDAO.addNewTruck(truckCapacity);
+            driverDAO.registerNewDriver(user, truck);
             return URLConstant.GET_LOGIN_FORM;
         } catch (DAOException e) {
             throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,

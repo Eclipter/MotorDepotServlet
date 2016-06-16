@@ -67,7 +67,7 @@ public class ChatEndPoint {
                     case JSONMessageParameter.ALL_USERS_ENGLISH:
                     case JSONMessageParameter.ALL_USERS_RUSSIAN:
                         for (Map.Entry<Session, HttpSession> entry : loginMap.entrySet()) {
-                            entry.getKey().getBasicRemote().sendText(buildMessage(sender.getUserEntity().getLogin(),
+                            entry.getKey().getBasicRemote().sendText(buildMessage(sender.getUser().getLogin(),
                                     message.getMessage()));
                         }
                         break;
@@ -82,9 +82,9 @@ public class ChatEndPoint {
                             }
                         }
                         if (adminSession != null) {
-                            adminSession.getBasicRemote().sendText(buildMessage(sender.getUserEntity().getLogin(),
+                            adminSession.getBasicRemote().sendText(buildMessage(sender.getUser().getLogin(),
                                     message.getMessage()));
-                            session.getBasicRemote().sendText(buildMessage(sender.getUserEntity().getLogin(),
+                            session.getBasicRemote().sendText(buildMessage(sender.getUser().getLogin(),
                                     message.getMessage()));
                         } else {
                             session.getBasicRemote().sendText(
@@ -97,9 +97,9 @@ public class ChatEndPoint {
                         for (Map.Entry<Session, HttpSession> entry : loginMap.entrySet()) {
                             UserInfoBean user = (UserInfoBean)
                                     entry.getValue().getAttribute(RequestParameterName.USER);
-                            if (user.getUserEntity().getLogin().equals(message.getUsername())) {
+                            if (user.getUser().getLogin().equals(message.getUsername())) {
                                 entry.getKey().getBasicRemote().sendText(
-                                        buildMessage(sender.getUserEntity().getLogin(), message.getMessage()));
+                                        buildMessage(sender.getUser().getLogin(), message.getMessage()));
                                 userFound = true;
                                 break;
                             }
@@ -107,11 +107,11 @@ public class ChatEndPoint {
                         if (userFound) {
                             if (sender.isAdmin()) {
                                 session.getBasicRemote().sendText(
-                                        buildMessageFromAdmin(sender.getUserEntity().getLogin(),
+                                        buildMessageFromAdmin(sender.getUser().getLogin(),
                                                 message.getUsername(), message.getMessage()));
                             } else {
                                 session.getBasicRemote().sendText(
-                                        buildMessage(sender.getUserEntity().getLogin(), message.getMessage()));
+                                        buildMessage(sender.getUser().getLogin(), message.getMessage()));
                             }
                         } else {
                             session.getBasicRemote().sendText(
@@ -147,7 +147,7 @@ public class ChatEndPoint {
             JSONObject userJsonObject = new JSONObject();
             UserInfoBean user = (UserInfoBean)
                     loginEntry.getValue().getAttribute(RequestParameterName.USER);
-            userJsonObject.put(JSONMessageParameter.NAME, user.getUserEntity().getLogin());
+            userJsonObject.put(JSONMessageParameter.NAME, user.getUser().getLogin());
             return userJsonObject;
         }).collect(Collectors.toList()));
         return jsonArray.toJSONString();

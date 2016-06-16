@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
  */
 public final class InternationalizedBundleManager {
 
-    public static final String LANGUAGE_ENGLISH = "en";
-    public static final String LANGUAGE_RUSSIAN = "ru";
+    private static final String LANGUAGE_ENGLISH = "en";
+    private static final String LANGUAGE_RUSSIAN = "ru";
 
     /**
      * Gets the value from specified bundle

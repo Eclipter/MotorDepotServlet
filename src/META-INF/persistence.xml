@@ -6,12 +6,12 @@
 
     <persistence-unit name="MotorDepotHibernateManager">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>entity.RequestEntity</class>
-        <class>entity.TruckEntity</class>
-        <class>entity.DriverEntity</class>
-        <class>entity.TruckStateEntity</class>
-        <class>entity.TripEntity</class>
-        <class>entity.UserEntity</class>
+        <class>entity.Request</class>
+        <class>entity.Truck</class>
+        <class>entity.Driver</class>
+        <class>entity.TruckStateDTO</class>
+        <class>entity.Trip</class>
+        <class>entity.User</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/motor_depot?useSSL=false"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

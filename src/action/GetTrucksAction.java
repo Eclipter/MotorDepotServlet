@@ -1,12 +1,14 @@
 package action;
 
 import dao.TruckDAO;
-import entity.TruckEntity;
+import dao.util.DAOFactory;
+import dao.util.DAOType;
+import entity.Truck;
+import exception.ActionExecutionException;
+import exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.PageNameConstant;
-import util.PagesBundleManager;
-import util.RequestParameterName;
+import util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,11 +23,17 @@ public class GetTrucksAction implements Action {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         logger.info("requesting all trucks");
-        TruckDAO daoTruck = new TruckDAO();
-        List<TruckEntity> allTrucks = daoTruck.getAllTrucks();
-        req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
-        return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
+        try {
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
+            List<Truck> allTrucks = truckDAO.getAllTrucks();
+            req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
+            return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
+        } catch (DAOException ex) {
+            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    ex.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+        }
     }
 }

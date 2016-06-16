@@ -10,10 +10,10 @@ import java.util.Objects;
 @Entity
 @Table(name = "user", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "UserEntity.search", query = "SELECT u FROM UserEntity u WHERE u.login = :login AND u.password = :pass"),
-        @NamedQuery(name = "UserEntity.searchByLogin", query = "SELECT u FROM UserEntity u WHERE u.login = :login")
+        @NamedQuery(name = "User.search", query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :pass"),
+        @NamedQuery(name = "User.searchByLogin", query = "SELECT u FROM User u WHERE u.login = :login")
 })
-public class UserEntity implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 2003176459216446136L;
 
     @Id
@@ -55,7 +55,7 @@ public class UserEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
+        User that = (User) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(login, that.login) &&
                 Objects.equals(password, that.password);
@@ -68,7 +68,7 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserEntity{" +
+        return "User{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +

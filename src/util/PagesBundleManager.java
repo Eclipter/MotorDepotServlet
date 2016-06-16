@@ -8,10 +8,11 @@ import java.util.ResourceBundle;
  */
 public final class PagesBundleManager {
 
-    private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(BundleName.PAGES);
+    private static final ResourceBundle PAGES_BUNDLE = ResourceBundle.getBundle(BundleName.PAGES);
+
 
     public static String getProperty(String key) {
-        return resourceBundle.getString(key);
+        return PAGES_BUNDLE.getString(key);
     }
 
     private PagesBundleManager() {

@@ -9,11 +9,11 @@ import java.util.Objects;
 @Entity
 @Table(name = "request", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "RequestEntity.getAll", query = "SELECT a FROM RequestEntity a"),
-        @NamedQuery(name = "RequestEntity.searchForDriver",
-                query = "SELECT t.driverByDriverUserId FROM TripEntity t WHERE t.requestByRequestId = :request")
+        @NamedQuery(name = "Request.getAll", query = "SELECT r FROM Request r"),
+        @NamedQuery(name = "Request.getUnassigned",
+                query = "SELECT r FROM Request r WHERE r.id NOT IN (SELECT t.requestByRequestId.id FROM Trip t)")
 })
-public class RequestEntity {
+public class Request {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,7 +43,7 @@ public class RequestEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RequestEntity that = (RequestEntity) o;
+        Request that = (Request) o;
         return id == that.id &&
                 cargoWeight == that.cargoWeight;
     }
@@ -55,7 +55,7 @@ public class RequestEntity {
 
     @Override
     public String toString() {
-        return "RequestEntity{" +
+        return "Request{" +
                 "id=" + id +
                 ", cargoWeight=" + cargoWeight +
                 '}';

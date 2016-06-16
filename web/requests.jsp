@@ -38,13 +38,13 @@
                     <tbody>
                     <c:forEach items="${requestScope.requests}" var="request">
                         <tr>
-                            <td>${request.requestEntity.id}</td>
-                            <td>${request.requestEntity.cargoWeight}</td>
+                            <td>${request.request.id}</td>
+                            <td>${request.request.cargoWeight}</td>
                             <c:choose>
-                                <c:when test="${request.driverEntity != null}">
+                                <c:when test="${request.driver != null}">
                                     <td>
                                         <a href="#" data-toggle="popover" title="<fmt:message key="requests.table.assigned"/>:"
-                                           data-trigger="hover" data-content="<fmt:message key="requests.table.hover.driver"/> ${request.driverEntity.userByUserId.login}">
+                                           data-trigger="hover" data-content="<fmt:message key="requests.table.hover.driver"/> ${request.driver.userByUserId.login}">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </a>
                                     </td>

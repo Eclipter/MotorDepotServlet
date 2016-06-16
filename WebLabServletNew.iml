@@ -16,7 +16,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="MotorDepotHibernateManager" value="620d84d9-aad4-4ecb-a449-74eb5fb324af" />
+          <factory-entry name="MotorDepotHibernateManager" value="b3608666-8479-4c71-8418-ab8b3f96b35f" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
       </configuration>
@@ -37,5 +37,6 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="org.apache.tomcat:tomcat-websocket-api:8.5.2" level="project" />
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="org.apache.tomcat:tomcat-websocket-api:8.5.2" level="project" />
   </component>
 </module>
