@@ -30,9 +30,7 @@ public class GetTripsByDriverAction implements Action {
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
             UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
             if(userInfoBean == null) {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer driverId = userInfoBean.getUser().getId();
             logger.info("requesting trips of driver " + driverId);
@@ -40,9 +38,7 @@ public class GetTripsByDriverAction implements Action {
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
         } catch (DAOException ex) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    ex.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(ex.getMessage());
         }
 
     }

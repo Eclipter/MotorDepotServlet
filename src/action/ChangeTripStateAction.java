@@ -8,8 +8,6 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.BundleName;
-import util.InternationalizedBundleManager;
 import util.RequestParameterName;
 import util.URLConstant;
 
@@ -30,9 +28,7 @@ public class ChangeTripStateAction implements Action {
             String tripIdString = req.getParameter(RequestParameterName.TRIP_ID);
             String chosenState = req.getParameter(RequestParameterName.CHOSEN_STATE);
             if(tripIdString == null || chosenState == null) {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer tripId = Integer.valueOf(tripIdString);
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
@@ -40,9 +36,7 @@ public class ChangeTripStateAction implements Action {
             tripDAO.changeTripState(tripId, chosenState.equals("true"));
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    e.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(e.getMessage());
         }
     }
 }

@@ -1,5 +1,8 @@
 package dao.util;
 
+import util.DatabaseConfigurationBundleManager;
+import util.DatabaseConfigurationParameterName;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -24,7 +27,13 @@ public class EntityManagerFactoryProvider {
     }
 
     private EntityManagerFactoryProvider() {
-        this.factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        if(Boolean.parseBoolean(
+                DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
+            this.factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+        }
+        else {
+            this.factory = null;
+        }
     }
 
 }

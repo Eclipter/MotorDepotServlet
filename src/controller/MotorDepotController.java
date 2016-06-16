@@ -50,7 +50,9 @@ public class MotorDepotController extends HttpServlet {
             resp.sendRedirect(result);
         } catch (ActionExecutionException e) {
             logger.error(e);
-            String message = e.getMessage();
+            String message = InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                    e.getMessage(),
+                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE));
             req.setAttribute(RequestParameterName.ERROR_MESSAGE, message);
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         } catch (Exception e) {

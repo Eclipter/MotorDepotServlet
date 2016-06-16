@@ -8,8 +8,6 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.BundleName;
-import util.InternationalizedBundleManager;
 import util.RequestParameterName;
 import util.URLConstant;
 
@@ -32,17 +30,13 @@ public class AssignDriverToATripAction implements Action {
             Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
             Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
             if(chosenDriverId == null || chosenRequestId == null) {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             logger.info("assigning driver " + chosenDriverId + " to request " + chosenRequestId);
             tripDAO.assignDriverToATrip(chosenRequestId, chosenDriverId);
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    e.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(e.getMessage());
         }
     }
 }

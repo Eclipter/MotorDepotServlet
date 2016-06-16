@@ -35,9 +35,7 @@ public class GetRequestsAction implements Action {
             req.setAttribute(RequestParameterName.REQUESTS, requestViewBeanList);
             return PagesBundleManager.getProperty(PageNameConstant.REQUESTS);
         } catch (DAOException e) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    e.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(e.getMessage());
         }
     }
 }

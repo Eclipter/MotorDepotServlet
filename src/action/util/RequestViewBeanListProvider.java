@@ -6,7 +6,6 @@ import dao.util.DAOFactory;
 import dao.util.DAOType;
 import entity.Driver;
 import entity.Request;
-import exception.ActionExecutionException;
 import exception.DAOException;
 
 import java.util.ArrayList;
@@ -23,8 +22,7 @@ public final class RequestViewBeanListProvider {
      * @param requestList list to convert
      * @return list of view beans
      */
-    public static List<RequestViewBean> createRequestViewBeanList(List<Request> requestList)
-            throws DAOException, ActionExecutionException {
+    public static List<RequestViewBean> createRequestViewBeanList(List<Request> requestList) throws DAOException {
         DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
         List<RequestViewBean> requestViewBeanList = new ArrayList<>();
         for(Request request : requestList) {

@@ -31,9 +31,7 @@ public class GetTrucksAction implements Action {
             req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
             return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
         } catch (DAOException ex) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    ex.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(ex.getMessage());
         }
     }
 }

@@ -1,17 +1,17 @@
 package action;
 
 import bean.UserInfoBean;
+import dao.DriverDAO;
 import dao.UserDAO;
 import dao.util.DAOFactory;
 import dao.util.DAOType;
+import entity.Driver;
 import entity.User;
 import exception.ActionExecutionException;
 import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.BundleName;
-import util.InternationalizedBundleManager;
 import util.RequestParameterName;
 import util.URLConstant;
 
@@ -34,9 +34,7 @@ public class LoginAction implements Action {
             String userName = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             if (userName == null || password == null) {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             logger.info("authenticating user: " + userName + " " + password);
             User user = userDAO.authenticateUser(userName, password);
@@ -45,17 +43,16 @@ public class LoginAction implements Action {
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUser(user);
+                DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+                Driver driver = driverDAO.searchByUser(user);
+                userInfoBean.setAdmin(driver == null);
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
                 return URLConstant.GET_INDEX_PAGE;
             } else {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.WRONG_LOGIN_PASS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.WRONG_LOGIN_PASS);
             }
         } catch (DAOException ex) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    ex.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(ex.getMessage());
         }
     }
 }

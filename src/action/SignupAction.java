@@ -12,8 +12,6 @@ import exception.DAOException;
 import exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.BundleName;
-import util.InternationalizedBundleManager;
 import util.RequestParameterName;
 import util.URLConstant;
 
@@ -36,9 +34,7 @@ public class SignupAction implements Action {
             String password = req.getParameter(RequestParameterName.PASSWORD);
             Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
             if(username == null || password == null || truckCapacity == null) {
-                throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                        ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
             DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
@@ -56,9 +52,7 @@ public class SignupAction implements Action {
             driverDAO.registerNewDriver(user, truck);
             return URLConstant.GET_LOGIN_FORM;
         } catch (DAOException e) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    e.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(e.getMessage());
         }
     }
 }

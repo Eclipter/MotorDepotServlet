@@ -73,6 +73,7 @@ public class ConnectionPool {
             logger.warn("rejecting poll initialization: already initialized");
             return;
         }
+        logger.info("initializing connection pool");
         try {
             int poolSize = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.POOL_SIZE));
@@ -89,6 +90,7 @@ public class ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 freeConnections.put(proxyConnection);
             }
+            logger.info("pool initialized");
         } catch (InterruptedException | SQLException | ClassNotFoundException | NumberFormatException e) {
             logger.error("error while initializing pool", e);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
@@ -97,6 +99,7 @@ public class ConnectionPool {
 
     public void destroyPool() {
         destroying.set(true);
+        logger.info("destroying pool");
         try {
             for (ProxyConnection connection : busyConnections) {
                 connection.realClose();
@@ -104,6 +107,7 @@ public class ConnectionPool {
             for (ProxyConnection connection : freeConnections) {
                 connection.realClose();
             }
+            logger.info("pool destroyed successfully");
         } catch (SQLException e) {
             logger.error("error while closing connections: ", e);
         }

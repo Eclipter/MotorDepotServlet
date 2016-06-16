@@ -31,9 +31,7 @@ public class GetDriversAction implements Action {
             req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
             return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);
         } catch (DAOException ex) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    ex.getMessage(),
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+            throw new ActionExecutionException(ex.getMessage());
         }
     }
 }

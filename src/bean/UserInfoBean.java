@@ -1,7 +1,5 @@
 package bean;
 
-import dao.impl.jpa.DriverDAOJPAImpl;
-import entity.Driver;
 import entity.User;
 
 import java.io.Serializable;
@@ -18,22 +16,19 @@ public class UserInfoBean implements Serializable {
     private User user;
     private boolean admin;
 
-    private void checkForAdmin() {
-        DriverDAOJPAImpl driverDAO = new DriverDAOJPAImpl();
-        Driver driver = driverDAO.searchByUser(user);
-        this.admin = driver == null;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-        checkForAdmin();
     }
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }
