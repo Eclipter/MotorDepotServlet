@@ -3,6 +3,7 @@ package util;
 import java.util.ResourceBundle;
 
 /**
+ * Class used to return property from ResourceBundle where database configuration is stored
  * Created by USER on 14.06.2016.
  */
 public final class DatabaseConfigurationBundleManager {

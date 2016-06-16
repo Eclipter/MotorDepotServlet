@@ -1,6 +1,7 @@
 package util;
 
 /**
+ * Class with all parameter names from database configuration file
  * Created by USER on 14.06.2016.
  */
 public final class DatabaseConfigurationParameterName {

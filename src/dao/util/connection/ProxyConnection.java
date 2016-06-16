@@ -18,11 +18,15 @@ public class ProxyConnection implements Connection {
 
     private Connection realConnection;
 
-    public ProxyConnection(Connection connection) {
+    ProxyConnection(Connection connection) {
         this.realConnection = connection;
     }
 
-    public void realClose() throws SQLException {
+    /**
+     * Closes inner connection
+     * @throws SQLException
+     */
+    void realClose() throws SQLException {
         realConnection.close();
     }
 

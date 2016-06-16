@@ -1,6 +1,7 @@
 package dao.util;
 
 /**
+ * Class with column names used in database queries
  * Created by USER on 15.06.2016.
  */
 public final class ColumnName {

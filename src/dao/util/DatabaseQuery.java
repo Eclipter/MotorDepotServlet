@@ -1,6 +1,7 @@
 package dao.util;
 
 /**
+ * Class with all database queries used in DAO classes when JDBC mode is enabled
  * Created by USER on 15.06.2016.
  */
 public final class DatabaseQuery {

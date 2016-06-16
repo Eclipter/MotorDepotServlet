@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * Custom connection pool that provides connections to DAO classes if JDBC id used
+ * @see ProxyConnection
  * Created by USER on 15.06.2016.
  */
 public class ConnectionPool {
@@ -35,6 +37,11 @@ public class ConnectionPool {
     private ConnectionPool() {
     }
 
+    /**
+     * Gives connection to a calling DAO object.
+     * @return Connection from pool
+     * @throws DatabaseConnectionException
+     */
     public Connection takeConnection() throws DatabaseConnectionException {
         try {
             if(destroying.get()) {
@@ -54,6 +61,11 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Returns connection back to pool
+     * @param connection connection to return
+     * @throws DatabaseConnectionException
+     */
     void returnConnection(ProxyConnection connection) throws DatabaseConnectionException {
         try {
             boolean removed = busyConnections.remove(connection);
@@ -68,6 +80,10 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Initializes pool
+     * @throws DatabaseConnectionException
+     */
     public void initPool() throws DatabaseConnectionException {
         if(freeConnections != null ) {
             logger.warn("rejecting poll initialization: already initialized");
@@ -97,6 +113,9 @@ public class ConnectionPool {
         }
     }
 
+    /**
+     * Destroys pool
+     */
     public void destroyPool() {
         destroying.set(true);
         logger.info("destroying pool");
