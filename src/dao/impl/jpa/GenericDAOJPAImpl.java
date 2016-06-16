@@ -1,14 +1,11 @@
 package dao.impl.jpa;
 
+import dao.GenericDAO;
 import dao.util.EntityManagerFactoryProvider;
 
 import javax.persistence.EntityManager;
 
-/**
- * Generic DAO class
- * Created by USER on 07.03.2016.
- */
-public abstract class GenericDAOJPAImpl {
+public abstract class GenericDAOJPAImpl implements GenericDAO {
 
     private final EntityManager manager;
 

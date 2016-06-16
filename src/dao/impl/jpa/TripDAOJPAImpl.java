@@ -10,29 +10,16 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-/**
- * DAO class used to operate on TRIP table
- * Created by USER on 07.03.2016.
- */
 public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
 
     private static final String GET_ALL_QUERY = "Trip.getAll";
 
-    /**
-     * Gets all the trips.
-     * @return list of trips
-     */
     @Override
     public List<Trip> getAllTrips() {
         TypedQuery<Trip> query = getManager().createNamedQuery(GET_ALL_QUERY, Trip.class);
         return query.getResultList();
     }
 
-    /**
-     * Get trips by driver id
-     * @param driverId driver id
-     * @return list of trips
-     */
     @Override
     public List<Trip> getTripsByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
@@ -42,12 +29,6 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
         return driver.getTripsByUserId();
     }
 
-    /**
-     * Assigns driver to a trip
-     * @param requestId id of request
-     * @param driverId id of driver
-     * @throws DAOException in case of DML error
-     */
     @Override
     public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
 
@@ -85,12 +66,6 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
         }
     }
 
-    /**
-     * Changes the state of a trip
-     * @param tripId id of trip
-     * @param state state to set
-     * @throws DAOException in case of DML error
-     */
     @Override
     public void changeTripState(Integer tripId, boolean state) throws DAOException {
         EntityTransaction transaction = getManager().getTransaction();
