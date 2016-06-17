@@ -26,7 +26,7 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
         if(driver == null) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
-        return driver.getTripsByUserId();
+        return driver.getTripList();
     }
 
     @Override
@@ -45,20 +45,20 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
             if(driver == null) {
                 throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
             }
-            Truck truck = driver.getTruckByTruckId();
+            Truck truck = driver.getTruck();
             int capacity = truck.getCapacity();
             if (cargoWeight > capacity) {
                 throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
             }
-            TruckStateDTO truckStateDTO = truck.getStateByStateId();
+            TruckStateDTO truckStateDTO = truck.getState();
             if (!TruckState.OK.equals(truckStateDTO.getTruckStateName())) {
                 throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
             }
 
             Trip trip = new Trip();
             trip.setIsComplete(false);
-            trip.setDriverByDriverUserId(driver);
-            trip.setRequestByRequestId(request);
+            trip.setDriver(driver);
+            trip.setRequest(request);
             getManager().persist(trip);
             transaction.commit();
         } finally {

@@ -18,8 +18,8 @@
     <c:forEach items="${trips}" var="trip">
         <tr>
             <td>${trip.id}</td>
-            <td><fmt:message key="requests.table.id"/>: ${trip.requestByRequestId.id}, <fmt:message key="requests.table.weight"/>: ${trip.requestByRequestId.cargoWeight}</td>
-            <td>${trip.driverByDriverUserId.userByUserId.login}</td>
+            <td><fmt:message key="requests.table.id"/>: ${trip.request.id}, <fmt:message key="requests.table.weight"/>: ${trip.request.cargoWeight}</td>
+            <td>${trip.driver.user.login}</td>
             <c:choose>
                 <c:when test="${trip.isComplete}">
                     <td><span class="glyphicon glyphicon-ok"></span></td>
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <p>
-                                        <fmt:message key="trips.modal.text.trip"/> ${trip.id}, <fmt:message key="trips.modal.text.truck"/> ${trip.driverByDriverUserId.truckByTruckId.id}, <fmt:message key="trips.modal.text.driver"/>: ${trip.driverByDriverUserId.userByUserId.login}
+                                        <fmt:message key="trips.modal.text.trip"/> ${trip.id}, <fmt:message key="trips.modal.text.truck"/> ${trip.driver.truck.id}, <fmt:message key="trips.modal.text.driver"/>: ${trip.driver.user.login}
                                     </p>
                                     <p>
                                         <div class="form-group">

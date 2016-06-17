@@ -11,7 +11,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Trip.getAll", query = "SELECT t FROM Trip t"),
         @NamedQuery(name = "Trip.getByDriverAndRequest", query = "SELECT t FROM  Trip t " +
-                "WHERE t.requestByRequestId.id = :requestId AND t.driverByDriverUserId.id = :driverId")
+                "WHERE t.request.id = :requestId AND t.driver.id = :driverId")
 })
 public class Trip {
 
@@ -25,11 +25,11 @@ public class Trip {
 
     @OneToOne
     @JoinColumn(name = "REQUEST_ID", referencedColumnName = "ID")
-    private Request requestByRequestId;
+    private Request request;
 
     @ManyToOne
     @JoinColumn(name = "DRIVER_USER_ID", referencedColumnName = "USER_ID")
-    private Driver driverByDriverUserId;
+    private Driver driver;
 
     public Integer getId() {
         return id;
@@ -61,21 +61,21 @@ public class Trip {
         return Objects.hash(getId(), isComplete);
     }
 
-    public Request getRequestByRequestId() {
-        return requestByRequestId;
+    public Request getRequest() {
+        return request;
     }
 
-    public void setRequestByRequestId(Request applicationByApplicationId) {
-        this.requestByRequestId = applicationByApplicationId;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
 
-    public Driver getDriverByDriverUserId() {
-        return driverByDriverUserId;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setDriverByDriverUserId(Driver driverByDriverUserId) {
-        this.driverByDriverUserId = driverByDriverUserId;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -83,8 +83,8 @@ public class Trip {
         return "Trip{" +
                 "id=" + id +
                 ", isComplete=" + isComplete +
-                ", applicationByApplicationId=" + requestByRequestId +
-                ", driverByDriverUserId=" + driverByDriverUserId +
+                ", request=" + request +
+                ", driver=" + driver +
                 '}';
     }
 }

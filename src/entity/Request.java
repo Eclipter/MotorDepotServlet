@@ -11,7 +11,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Request.getAll", query = "SELECT r FROM Request r"),
         @NamedQuery(name = "Request.getUnassigned",
-                query = "SELECT r FROM Request r WHERE r.id NOT IN (SELECT t.requestByRequestId.id FROM Trip t)")
+                query = "SELECT r FROM Request r WHERE r.id NOT IN (SELECT t.request.id FROM Trip t)")
 })
 public class Request {
 

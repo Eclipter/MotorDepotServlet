@@ -30,23 +30,23 @@
                     <tbody>
                     <c:forEach items="${requestScope.drivers}" var="driver">
                         <tr>
-                            <td>${driver.userByUserId.login}</td>
+                            <td>${driver.user.login}</td>
                             <td>
                                 <a href="#" data-toggle="popover"
-                                   title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truckByTruckId.id}"
+                                   title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truck.id}"
                                    data-trigger="hover" data-content="<fmt:message key="trucks.table.state"/>:
                                    <c:choose>
-                                       <c:when test="${driver.truckByTruckId.stateByStateId.truckStateName eq 'OK'}">
+                                       <c:when test="${driver.truck.state.truckStateName eq 'OK'}">
                                         <fmt:message key="trucks.table.state.ok"/>
                                        </c:when>
-                                       <c:when test="${driver.truckByTruckId.stateByStateId.truckStateName eq 'BROKEN'}">
+                                       <c:when test="${driver.truck.state.truckStateName eq 'BROKEN'}">
                                         <fmt:message key="trucks.table.state.broken"/>
                                        </c:when>
                                        <c:otherwise>
                                         <fmt:message key="trucks.table.state.under_repair"/>
                                        </c:otherwise>
                                    </c:choose>">
-                                        ${driver.truckByTruckId.id}
+                                        ${driver.truck.id}
                                 </a>
                             </td>
                         </tr>

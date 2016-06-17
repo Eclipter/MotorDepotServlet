@@ -21,8 +21,8 @@ public class TruckStateDTO {
     @Enumerated(EnumType.STRING)
     private TruckState truckStateName;
 
-    @OneToMany(mappedBy = "stateByStateId")
-    private List<Truck> trucksById;
+    @OneToMany(mappedBy = "state")
+    private List<Truck> truckList;
 
     public Integer getId() {
         return id;
@@ -54,12 +54,12 @@ public class TruckStateDTO {
         return Objects.hash(getId(), getTruckStateName());
     }
 
-    public List<Truck> getTrucksById() {
-        return trucksById;
+    public List<Truck> getTruckList() {
+        return truckList;
     }
 
-    public void setTrucksById(List<Truck> trucksById) {
-        this.trucksById = trucksById;
+    public void setTruckList(List<Truck> truckList) {
+        this.truckList = truckList;
     }
 
     @Override

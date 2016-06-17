@@ -132,13 +132,13 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             user.setLogin(login);
             user.setPassword(password);
             driver.setUserId(userId);
-            driver.setUserByUserId(user);
+            driver.setUser(user);
             truck.setId(truckId);
             truck.setCapacity(capacity);
             truckState.setId(stateId);
             truckState.setTruckStateName(TruckState.valueOf(stateName));
-            truck.setStateByStateId(truckState);
-            driver.setTruckByTruckId(truck);
+            truck.setState(truckState);
+            driver.setTruck(truck);
             drivers.add(driver);
         }
         return drivers;

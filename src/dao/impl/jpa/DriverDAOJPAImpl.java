@@ -56,8 +56,8 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
             transaction.begin();
             Driver driver = new Driver();
             driver.setUserId(user.getId());
-            driver.setUserByUserId(user);
-            driver.setTruckByTruckId(truck);
+            driver.setUser(user);
+            driver.setTruck(truck);
             getManager().persist(driver);
             transaction.commit();
         } catch (Exception ex) {

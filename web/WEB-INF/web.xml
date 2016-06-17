@@ -10,7 +10,7 @@
     </filter>
     <filter-mapping>
         <filter-name>ServletErrorFilter</filter-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/motor_depot</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>CommandFilter</filter-name>

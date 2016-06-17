@@ -12,12 +12,12 @@ import java.util.Objects;
 @Table(name = "driver", schema = "motor_depot")
 @NamedQueries({
         @NamedQuery(name = "Driver.getAll", query = "SELECT d FROM Driver d"),
-        @NamedQuery(name = "Driver.getDriversWithHealthyTrucks", query = "SELECT d FROM Driver d where" +
-                " d.truckByTruckId IN (SELECT s.trucksById FROM TruckStateDTO s WHERE s.id = 1)"),
-        @NamedQuery(name = "Driver.getDriverByLogin", query = "SELECT d FROM Driver d WHERE d.userByUserId =" +
+        @NamedQuery(name = "Driver.getDriversWithHealthyTrucks", query = "SELECT d FROM Driver d WHERE d.truck IN " +
+                "(SELECT t FROM Truck t WHERE t.state = (SELECT s FROM TruckStateDTO s WHERE s.id = 1))"),
+        @NamedQuery(name = "Driver.getDriverByLogin", query = "SELECT d FROM Driver d WHERE d.user =" +
                 " (SELECT u FROM User u WHERE u.login = :login)"),
         @NamedQuery(name = "Driver.searchByRequest",
-                query = "SELECT t.driverByDriverUserId FROM Trip t WHERE t.requestByRequestId = :request")
+                query = "SELECT t.driver FROM Trip t WHERE t.request = :request")
 })
 public class Driver implements Serializable {
 
@@ -25,7 +25,7 @@ public class Driver implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "TRUCK_ID", referencedColumnName = "ID")
-    private Truck truckByTruckId;
+    private Truck truck;
 
     @Id
     @Column(name = "USER_ID")
@@ -33,23 +33,23 @@ public class Driver implements Serializable {
 
     @OneToOne
     @PrimaryKeyJoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    private User userByUserId;
+    private User user;
 
-    @OneToMany(mappedBy = "driverByDriverUserId")
-    private List<Trip> tripsByUserId;
+    @OneToMany(mappedBy = "driver")
+    private List<Trip> tripList;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Driver that = (Driver) o;
-        return Objects.equals(truckByTruckId, that.truckByTruckId) &&
+        return Objects.equals(truck, that.truck) &&
                 Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTruckByTruckId(), getUserByUserId());
+        return Objects.hash(getTruck(), getUser());
     }
 
     public Integer getUserId() {
@@ -60,35 +60,35 @@ public class Driver implements Serializable {
         this.userId = userId;
     }
 
-    public Truck getTruckByTruckId() {
-        return truckByTruckId;
+    public Truck getTruck() {
+        return truck;
     }
 
-    public void setTruckByTruckId(Truck truckByTruckId) {
-        this.truckByTruckId = truckByTruckId;
+    public void setTruck(Truck truck) {
+        this.truck = truck;
     }
 
-    public User getUserByUserId() {
-        return userByUserId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByUserId(User userByUserId) {
-        this.userByUserId = userByUserId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public List<Trip> getTripsByUserId() {
-        return tripsByUserId;
+    public List<Trip> getTripList() {
+        return tripList;
     }
 
-    public void setTripsByUserId(List<Trip> tripsByUserId) {
-        this.tripsByUserId = tripsByUserId;
+    public void setTripList(List<Trip> tripList) {
+        this.tripList = tripList;
     }
 
     @Override
     public String toString() {
         return "Driver{" +
-                "truckByTruckId=" + truckByTruckId +
-                ", userByUserId=" + userByUserId +
+                "truck=" + truck +
+                ", user=" + user +
                 '}';
     }
 }

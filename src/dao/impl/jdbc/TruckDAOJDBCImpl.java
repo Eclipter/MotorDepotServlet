@@ -117,7 +117,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
             TruckStateDTO truckStateDTO = new TruckStateDTO();
             truckStateDTO.setId(stateId);
             truckStateDTO.setTruckStateName(TruckState.valueOf(stateName));
-            truck.setStateByStateId(truckStateDTO);
+            truck.setState(truckStateDTO);
             truckList.add(truck);
         }
         return truckList;

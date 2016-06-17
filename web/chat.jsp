@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="bundle.jspf"%>
+<%@ include file="bundle.jspf" %>
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -39,7 +39,7 @@
                 $('#users').append(radio);
                 $(radio).click(function () {
                     var name = $(this).children("label")[0].innerText;
-                   $('#receiver').attr("value", name);
+                    $('#receiver').attr("value", name);
                 });
             });
         };
@@ -56,7 +56,7 @@
 
     function sendMessage() {
         var message = document.getElementById('message').value;
-        if(message === "") {
+        if (message === "") {
             return;
         }
         var jsonMsg = {
@@ -70,7 +70,7 @@
     window.addEventListener('load', connect);
 
     document.getElementById("message")
-            .addEventListener("keyup", function(event) {
+            .addEventListener("keyup", function (event) {
                 event.preventDefault();
                 if (event.keyCode == 13) {
                     document.getElementById("sendButton").click();
@@ -78,7 +78,7 @@
             });
 </script>
 <body>
-<%@include file="navbar.jspf"%>
+<%@include file="navbar.jspf" %>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">
@@ -99,7 +99,7 @@
                 <c:if test="${sessionScope.user.admin}">
                     <div class="form-group">
                         <button class="btn btn-info"
-                                  onclick="getOnlineUsers()"><fmt:message key="chat.button.online_users"/></button>
+                                onclick="getOnlineUsers()"><fmt:message key="chat.button.online_users"/></button>
                     </div>
                     <div class="form-group">
                         <form id="users" role="form">
@@ -116,7 +116,8 @@
                     <div class="input-group">
                         <input type="text" id="message" class="form-control" placeholder="Сообщение" required/>
                     <span class="input-group-btn">
-                        <button id="sendButton" class="btn btn-primary" type="button" onclick="sendMessage()"><fmt:message key="chat.button.send"/></button>
+                        <button id="sendButton" class="btn btn-primary" type="button"
+                                onclick="sendMessage()"><fmt:message key="chat.button.send"/></button>
                     </span>
                     </div>
                 </div>

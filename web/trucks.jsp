@@ -35,10 +35,10 @@
                             <td>${car.capacity}</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${car.stateByStateId.truckStateName eq 'OK'}">
+                                    <c:when test="${car.state.truckStateName eq 'OK'}">
                                         <fmt:message key="trucks.table.state.ok"/>
                                     </c:when>
-                                    <c:when test="${car.stateByStateId.truckStateName eq 'BROKEN'}">
+                                    <c:when test="${car.state.truckStateName eq 'BROKEN'}">
                                         <fmt:message key="trucks.table.state.broken"/>
                                     </c:when>
                                     <c:otherwise>

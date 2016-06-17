@@ -23,7 +23,7 @@ public class Truck {
 
     @ManyToOne
     @JoinColumn(name = "STATE_ID", referencedColumnName = "ID", nullable = false)
-    private TruckStateDTO stateByStateId;
+    private TruckStateDTO state;
 
     public Integer getId() {
         return id;
@@ -55,12 +55,12 @@ public class Truck {
         return Objects.hash(getId(), getCapacity());
     }
 
-    public TruckStateDTO getStateByStateId() {
-        return stateByStateId;
+    public TruckStateDTO getState() {
+        return state;
     }
 
-    public void setStateByStateId(TruckStateDTO stateByStateId) {
-        this.stateByStateId = stateByStateId;
+    public void setState(TruckStateDTO state) {
+        this.state = state;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Truck {
         return "Truck{" +
                 "id=" + id +
                 ", capacity=" + capacity +
-                ", stateByStateId=" + stateByStateId +
+                ", state=" + state +
                 '}';
     }
 }

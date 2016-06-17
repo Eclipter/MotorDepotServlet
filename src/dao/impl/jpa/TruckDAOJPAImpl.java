@@ -33,7 +33,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
             if(truck == null) {
                 throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
             }
-            TruckStateDTO truckStateDTO = truck.getStateByStateId();
+            TruckStateDTO truckStateDTO = truck.getState();
             if(truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
                 throw new DAOException(ExceptionalMessage.TRUCK_HAS_THE_SAME_STATE);
             }
@@ -42,7 +42,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
             if(newEntity == null) {
                 throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
             }
-            truck.setStateByStateId(newEntity);
+            truck.setState(newEntity);
             transaction.commit();
         } finally {
             getManager().clear();
@@ -61,7 +61,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
 
             truck.setCapacity(capacity);
             TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
-            truck.setStateByStateId(truckStateDTO);
+            truck.setState(truckStateDTO);
             getManager().persist(truck);
             transaction.commit();
         } catch (Exception ex) {

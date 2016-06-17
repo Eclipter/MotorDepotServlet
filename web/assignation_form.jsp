@@ -33,7 +33,7 @@
                         <label for="driverSelect" class="control-label"><fmt:message key="assignation_form.label.choose_driver"/></label>
                         <select class="form-control" id="driverSelect" name="chosenDriver">
                             <c:forEach items="${requestScope.drivers}" var="driver">
-                                <option value="${driver.userId}"><fmt:message key="drivers.table.login"/>: ${driver.userByUserId.login}, <fmt:message key="assignation_form.select.truck_capacity"/>: ${driver.truckByTruckId.capacity}</option>
+                                <option value="${driver.userId}"><fmt:message key="drivers.table.login"/>: ${driver.user.login}, <fmt:message key="assignation_form.select.truck_capacity"/>: ${driver.truck.capacity}</option>
                             </c:forEach>
                         </select>
                     </div>
