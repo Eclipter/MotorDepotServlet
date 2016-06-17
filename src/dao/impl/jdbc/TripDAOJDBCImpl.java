@@ -3,7 +3,7 @@ package dao.impl.jdbc;
 import dao.TripDAO;
 import dao.util.ColumnName;
 import dao.util.DatabaseQuery;
-import dao.util.connection.ConnectionPool;
+import dao.util.pool.ConnectionPool;
 import entity.*;
 import entity.util.TruckState;
 import exception.DAOException;

@@ -1,4 +1,4 @@
-package dao.util.connection;
+package dao.util.pool;
 
 import exception.DatabaseConnectionException;
 import exception.ExceptionalMessage;
@@ -16,7 +16,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Custom connection pool that provides connections to DAO classes if JDBC id used
+ * Custom pool pool that provides connections to DAO classes if JDBC id used
+ *
  * @see ProxyConnection
  * Created by USER on 15.06.2016.
  */
@@ -38,66 +39,69 @@ public class ConnectionPool {
     }
 
     /**
-     * Gives connection to a calling DAO object.
+     * Gives pool to a calling DAO object.
+     *
      * @return Connection from pool
      * @throws DatabaseConnectionException
      */
     public Connection takeConnection() throws DatabaseConnectionException {
         try {
-            if(destroying.get()) {
-                logger.error("requesting database connection while destroying pool");
+            if (destroying.get()) {
+                logger.error("requesting database pool while destroying pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             ProxyConnection connection = freeConnections.poll(maxWaitingTime, TimeUnit.SECONDS);
-            if(connection == null) {
-                logger.error("timed out waiting for connection");
+            if (connection == null) {
+                logger.error("timed out waiting for pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             busyConnections.put(connection);
             return connection;
         } catch (InterruptedException ex) {
-            logger.error("interrupted while retrieving connection from the pool");
+            logger.error("interrupted while retrieving pool from the pool");
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
 
     /**
-     * Returns connection back to pool
-     * @param connection connection to return
+     * Returns pool back to pool
+     *
+     * @param connection pool to return
      * @throws DatabaseConnectionException
      */
     void returnConnection(ProxyConnection connection) throws DatabaseConnectionException {
         try {
             boolean removed = busyConnections.remove(connection);
-            if(!removed) {
-                logger.error("returning wrong connection");
+            if (!removed) {
+                logger.error("returning wrong pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             freeConnections.put(connection);
         } catch (InterruptedException e) {
-            logger.error("interrupted while returning connection back", e);
+            logger.error("interrupted while returning pool back", e);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
         }
     }
 
     /**
      * Initializes pool
+     *
      * @throws DatabaseConnectionException
      */
-    public void initPool() throws DatabaseConnectionException {
-        if(freeConnections != null ) {
+    public void init() throws DatabaseConnectionException {
+        if (freeConnections != null) {
             logger.warn("rejecting poll initialization: already initialized");
             return;
         }
-        logger.info("initializing connection pool");
+        logger.info("initializing pool pool");
         try {
-            int poolSize = Integer.parseInt(
+            final int poolSize = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.POOL_SIZE));
             this.freeConnections = new ArrayBlockingQueue<>(poolSize);
             this.busyConnections = new ArrayBlockingQueue<>(poolSize);
-            String url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
-            String username = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
-            String password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
+            final String url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
+            final String username = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
+            final String password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
             this.maxWaitingTime = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.MAX_WAITING_TIME));
             Class.forName(DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.DRIVER));
@@ -107,28 +111,39 @@ public class ConnectionPool {
                 freeConnections.put(proxyConnection);
             }
             logger.info("pool initialized");
-        } catch (InterruptedException | SQLException | ClassNotFoundException | NumberFormatException e) {
-            logger.error("error while initializing pool", e);
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
+        } catch (InterruptedException ex) {
+            logger.error("interrupted while initializing pool", ex);
+            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+        } catch (ClassNotFoundException ex) {
+            logger.error("driver class not found", ex);
+            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+        } catch (SQLException ex) {
+            logger.error("sql error while initializing pool", ex);
+            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
 
     /**
      * Destroys pool
      */
-    public void destroyPool() {
-        destroying.set(true);
-        logger.info("destroying pool");
-        try {
+    public void destroy() {
+        if (destroying.compareAndSet(false, true)) {
+            logger.info("destroying pool");
             for (ProxyConnection connection : busyConnections) {
-                connection.realClose();
+                try {
+                    connection.realClose();
+                } catch (SQLException e) {
+                    logger.error("error while closing connections: ", e);
+                }
             }
             for (ProxyConnection connection : freeConnections) {
-                connection.realClose();
+                try {
+                    connection.realClose();
+                } catch (SQLException e) {
+                    logger.error("error while closing connections: ", e);
+                }
             }
             logger.info("pool destroyed successfully");
-        } catch (SQLException e) {
-            logger.error("error while closing connections: ", e);
         }
     }
 }

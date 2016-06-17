@@ -1,6 +1,6 @@
 package listener;
 
-import dao.util.connection.ConnectionPool;
+import dao.util.pool.ConnectionPool;
 import exception.DatabaseConnectionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +24,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
         if(!Boolean.parseBoolean(
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
             try {
-                ConnectionPool.getInstance().initPool();
+                ConnectionPool.getInstance().init();
             } catch (DatabaseConnectionException e) {
                 logger.error(e);
                 servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
@@ -37,7 +37,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         if(!Boolean.parseBoolean(
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
-            ConnectionPool.getInstance().destroyPool();
+            ConnectionPool.getInstance().destroy();
         }
     }
 }

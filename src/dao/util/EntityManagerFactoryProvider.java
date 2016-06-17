@@ -15,10 +15,10 @@ import java.util.Map;
 public class EntityManagerFactoryProvider {
 
     private static final String PERSISTENCE_UNIT_NAME = "MotorDepotHibernateManager";
-    private static final String URL_PROPERTY = "hibernate.connection.url";
-    private static final String DRIVER_PROPERTY = "hibernate.connection.driver_class";
-    private static final String USERNAME_PROPERTY = "hibernate.connection.username";
-    private static final String PASSWORD_PROPERTY = "hibernate.connection.password";
+    private static final String URL_PROPERTY = "hibernate.pool.url";
+    private static final String DRIVER_PROPERTY = "hibernate.pool.driver_class";
+    private static final String USERNAME_PROPERTY = "hibernate.pool.username";
+    private static final String PASSWORD_PROPERTY = "hibernate.pool.password";
 
     private static final EntityManagerFactoryProvider INSTANCE = new EntityManagerFactoryProvider();
 
@@ -35,10 +35,10 @@ public class EntityManagerFactoryProvider {
     private EntityManagerFactoryProvider() {
         if(Boolean.parseBoolean(
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
-            String url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
-            String driver = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.DRIVER);
-            String userName = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
-            String password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
+            final String url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
+            final String driver = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.DRIVER);
+            final String userName = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
+            final String password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
             Map<String, String> properties = new HashMap<>();
             properties.put(URL_PROPERTY, url);
             properties.put(DRIVER_PROPERTY, driver);

@@ -3,7 +3,7 @@ package dao.impl.jdbc;
 import dao.UserDAO;
 import dao.util.ColumnName;
 import dao.util.DatabaseQuery;
-import dao.util.connection.ConnectionPool;
+import dao.util.pool.ConnectionPool;
 import entity.User;
 import exception.DAOException;
 import exception.DatabaseConnectionException;
