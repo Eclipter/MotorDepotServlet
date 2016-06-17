@@ -129,21 +129,25 @@ public class ConnectionPool {
     public void destroy() {
         if (destroying.compareAndSet(false, true)) {
             logger.info("destroying pool");
-            for (ProxyConnection connection : busyConnections) {
-                try {
-                    connection.realClose();
-                } catch (SQLException e) {
-                    logger.error("error while closing connections: ", e);
-                }
-            }
-            for (ProxyConnection connection : freeConnections) {
-                try {
-                    connection.realClose();
-                } catch (SQLException e) {
-                    logger.error("error while closing connections: ", e);
-                }
-            }
+            closeConnections(busyConnections);
+            closeConnections(freeConnections);
             logger.info("pool destroyed successfully");
+        }
+    }
+
+    /**
+     * Closes connections in a specified queue
+     * @param connections queue of connections
+     */
+    private void closeConnections(BlockingQueue<ProxyConnection> connections) {
+        while (!connections.isEmpty()) {
+            try {
+                connections.take().realClose();
+            } catch (SQLException e) {
+                logger.error("error while closing connections: ", e);
+            } catch (InterruptedException e) {
+                logger.error("interrupted while closing busy connections", e);
+            }
         }
     }
 }
