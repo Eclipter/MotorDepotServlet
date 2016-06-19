@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class GetTrucksAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("requesting all trucks");
+        LOG.info("requesting all trucks");
         try {
             TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
             List<Truck> allTrucks = truckDAO.getAllTrucks();

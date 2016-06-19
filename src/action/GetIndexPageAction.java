@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GetIndexPageAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("redirecting to index page");
+        LOG.info("redirecting to index page");
         return PagesBundleManager.getProperty(PageNameConstant.INDEX);
     }
 }

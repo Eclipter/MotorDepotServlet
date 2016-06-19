@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class GetDriversAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("requesting all drivers");
+        LOG.info("requesting all drivers");
         try {
             DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
             List<Driver> allDrivers = driverDAO.getAllDrivers();

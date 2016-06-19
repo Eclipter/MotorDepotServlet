@@ -22,12 +22,12 @@ import java.util.List;
  */
 public class GetRequestsAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            logger.info("requesting all requests");
+            LOG.info("requesting all requests");
             RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
             List<Request> allRequests = requestDAO.getAllRequests();
             List<RequestViewBean> requestViewBeanList =

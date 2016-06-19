@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class ConnectionPool {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
     private static final ConnectionPool INSTANCE = new ConnectionPool();
 
     public static ConnectionPool getInstance() {
@@ -47,18 +47,18 @@ public class ConnectionPool {
     public Connection takeConnection() throws DatabaseConnectionException {
         try {
             if (destroying.get()) {
-                logger.error("requesting database pool while destroying pool");
+                LOG.error("requesting database pool while destroying pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             ProxyConnection connection = freeConnections.poll(maxWaitingTime, TimeUnit.SECONDS);
             if (connection == null) {
-                logger.error("timed out waiting for pool");
+                LOG.error("timed out waiting for pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             busyConnections.put(connection);
             return connection;
         } catch (InterruptedException ex) {
-            logger.error("interrupted while retrieving pool from the pool");
+            LOG.error("interrupted while retrieving pool from the pool");
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
@@ -73,12 +73,12 @@ public class ConnectionPool {
         try {
             boolean removed = busyConnections.remove(connection);
             if (!removed) {
-                logger.error("returning wrong pool");
+                LOG.error("returning wrong pool");
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             freeConnections.put(connection);
         } catch (InterruptedException e) {
-            logger.error("interrupted while returning pool back", e);
+            LOG.error("interrupted while returning pool back", e);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
         }
     }
@@ -90,10 +90,10 @@ public class ConnectionPool {
      */
     public void init() throws DatabaseConnectionException {
         if (freeConnections != null) {
-            logger.warn("rejecting poll initialization: already initialized");
+            LOG.warn("rejecting poll initialization: already initialized");
             return;
         }
-        logger.info("initializing pool pool");
+        LOG.info("initializing pool pool");
         try {
             final int poolSize = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.POOL_SIZE));
@@ -110,15 +110,15 @@ public class ConnectionPool {
                 ProxyConnection proxyConnection = new ProxyConnection(connection);
                 freeConnections.put(proxyConnection);
             }
-            logger.info("pool initialized");
+            LOG.info("pool initialized");
         } catch (InterruptedException ex) {
-            logger.error("interrupted while initializing pool", ex);
+            LOG.error("interrupted while initializing pool", ex);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         } catch (ClassNotFoundException ex) {
-            logger.error("driver class not found", ex);
+            LOG.error("driver class not found", ex);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         } catch (SQLException ex) {
-            logger.error("sql error while initializing pool", ex);
+            LOG.error("sql error while initializing pool", ex);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
@@ -128,15 +128,16 @@ public class ConnectionPool {
      */
     public void destroy() {
         if (destroying.compareAndSet(false, true)) {
-            logger.info("destroying pool");
+            LOG.info("destroying pool");
             closeConnections(busyConnections);
             closeConnections(freeConnections);
-            logger.info("pool destroyed successfully");
+            LOG.info("pool destroyed successfully");
         }
     }
 
     /**
      * Closes connections in a specified queue
+     *
      * @param connections queue of connections
      */
     private void closeConnections(BlockingQueue<ProxyConnection> connections) {
@@ -144,9 +145,9 @@ public class ConnectionPool {
             try {
                 connections.take().realClose();
             } catch (SQLException e) {
-                logger.error("error while closing connections: ", e);
+                LOG.error("error while closing connections: ", e);
             } catch (InterruptedException e) {
-                logger.error("interrupted while closing busy connections", e);
+                LOG.error("interrupted while closing connections", e);
             }
         }
     }

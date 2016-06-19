@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class DriverDAOJDBCImpl implements DriverDAO {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public List<Driver> getAllDrivers() throws DAOException {
@@ -63,7 +63,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 statement.setInt(1, user.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     List<Driver> driverList = getDriversFromResultSet(resultSet);
-                    if(driverList.isEmpty()) {
+                    if (driverList.isEmpty()) {
                         return null;
                     } else {
                         return driverList.get(0);
@@ -84,10 +84,9 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 statement.setInt(1, request.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     List<Driver> driverList = getDriversFromResultSet(resultSet);
-                    if(driverList.isEmpty()) {
+                    if (driverList.isEmpty()) {
                         return null;
-                    }
-                    else {
+                    } else {
                         return driverList.get(0);
                     }
                 }

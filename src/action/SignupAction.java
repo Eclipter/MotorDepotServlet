@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SignupAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
@@ -33,20 +33,20 @@ public class SignupAction implements Action {
             String username = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
-            if(username == null || password == null || truckCapacity == null) {
+            if (username == null || password == null || truckCapacity == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
             DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
             UserDAO userDAO = (UserDAO) DAOFactory.getDAOFromFactory(DAOType.USER);
-            logger.info("checking new user");
-            if(userDAO.isLoginOccupied(username)) {
-                logger.info("login " + username + " is already occupied");
+            LOG.info("checking new user");
+            if (userDAO.isLoginOccupied(username)) {
+                LOG.info("login " + username + " is already occupied");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE, ExceptionalMessage.LOGIN_OCCUPIED);
                 return URLConstant.GET_SIGNUP_FORM;
             }
 
-            logger.info("registering new user");
+            LOG.info("registering new user");
             User user = userDAO.addNewUser(username, password);
             Truck truck = truckDAO.addNewTruck(truckCapacity);
             driverDAO.registerNewDriver(user, truck);

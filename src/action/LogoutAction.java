@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LogoutAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("invalidating session");
+        LOG.info("invalidating session");
         req.getSession().removeAttribute(RequestParameterName.USER);
         return PagesBundleManager.getProperty(PageNameConstant.LOGIN);
     }

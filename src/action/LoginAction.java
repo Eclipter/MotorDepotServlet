@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
@@ -36,10 +36,10 @@ public class LoginAction implements Action {
             if (userName == null || password == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
-            logger.info("authenticating user: " + userName + " " + password);
+            LOG.info("authenticating user: " + userName + " " + password);
             User user = userDAO.authenticateUser(userName, password);
             if (!(user == null)) {
-                logger.info("user found");
+                LOG.info("user found");
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUser(user);

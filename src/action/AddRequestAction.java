@@ -20,13 +20,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AddRequestAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             String cargoWeightParameter = req.getParameter(RequestParameterName.CARGO_WEIGHT);
-            if(cargoWeightParameter == null) {
+            if (cargoWeightParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer cargoWeight;
@@ -35,11 +35,11 @@ public class AddRequestAction implements Action {
             } catch (NumberFormatException e) {
                 throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
             }
-            if(cargoWeight <= 0) {
+            if (cargoWeight <= 0) {
                 throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
             }
             RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
-            logger.info("adding new request with cargo weight: " + cargoWeight);
+            LOG.info("adding new request with cargo weight: " + cargoWeight);
             requestDAO.addNewRequest(cargoWeight);
             return URLConstant.GET_REQUESTS;
         } catch (DAOException e) {

@@ -20,19 +20,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ChangeTripStateAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             String tripIdString = req.getParameter(RequestParameterName.TRIP_ID);
             String chosenState = req.getParameter(RequestParameterName.CHOSEN_STATE);
-            if(tripIdString == null || chosenState == null) {
+            if (tripIdString == null || chosenState == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer tripId = Integer.valueOf(tripIdString);
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
-            logger.info("changing trip " + tripId + " state to " + chosenState);
+            LOG.info("changing trip " + tripId + " state to " + chosenState);
             tripDAO.changeTripState(tripId, chosenState.equals("true"));
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {

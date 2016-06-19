@@ -15,7 +15,7 @@ import java.util.concurrent.Executor;
  */
 public class ProxyConnection implements Connection {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     private Connection realConnection;
 
@@ -25,6 +25,7 @@ public class ProxyConnection implements Connection {
 
     /**
      * Closes inner pool
+     *
      * @throws SQLException
      */
     void realClose() throws SQLException {
@@ -76,7 +77,7 @@ public class ProxyConnection implements Connection {
         try {
             ConnectionPool.getInstance().returnConnection(this);
         } catch (DatabaseConnectionException e) {
-            logger.error("error when attempted to return wrong pool", e);
+            LOG.error("error when attempted to return wrong pool", e);
         }
     }
 

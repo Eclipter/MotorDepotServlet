@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class SignupFilter implements Filter {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,35 +33,32 @@ public class SignupFilter implements Filter {
 
         String command = req.getParameter(RequestParameterName.COMMAND);
         ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
-        if(!ActionEnum.SIGNUP.equals(actionEnum)) {
+        if (!ActionEnum.SIGNUP.equals(actionEnum)) {
             filterChain.doFilter(servletRequest, servletResponse);
-        }
-        else {
+        } else {
             String password = req.getParameter(RequestParameterName.PASSWORD);
             String passwordRepeat = req.getParameter(RequestParameterName.PASSWORD_REPEAT);
             String truckCapacity = req.getParameter(RequestParameterName.TRUCK_CAPACITY);
 
-            if(password == null || passwordRepeat == null || truckCapacity == null) {
-                logger.warn("missing signup parameters");
+            if (password == null || passwordRepeat == null || truckCapacity == null) {
+                LOG.warn("missing signup parameters");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                                 ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
                                 (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
-            }
-            else if(!password.equals(passwordRepeat)) {
-                logger.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
+            } else if (!password.equals(passwordRepeat)) {
+                LOG.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                                 ExceptionalMessage.PASSWORDS_NOT_EQUAL,
-                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                                (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
-            }
-            else {
+            } else {
                 try {
                     int capacity = Integer.parseInt(truckCapacity);
-                    if(capacity <= 0) {
-                        logger.warn("truck capacity below zero");
+                    if (capacity <= 0) {
+                        LOG.warn("truck capacity below zero");
                         req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                                 InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                                         ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO,
@@ -69,9 +66,8 @@ public class SignupFilter implements Filter {
                         res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
                         return;
                     }
-                }
-                catch (NumberFormatException e) {
-                    logger.warn("wrong input for truck capacity");
+                } catch (NumberFormatException e) {
+                    LOG.warn("wrong input for truck capacity");
                     req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                             InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                                     ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY,

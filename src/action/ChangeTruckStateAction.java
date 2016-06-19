@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ChangeTruckStateAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
@@ -29,12 +29,12 @@ public class ChangeTruckStateAction implements Action {
         try {
             String chosenTruckParameter = req.getParameter(RequestParameterName.CHOSEN_TRUCK);
             String chosenStateParameter = req.getParameter(RequestParameterName.CHOSEN_STATE);
-            if(chosenTruckParameter == null || chosenStateParameter == null) {
+            if (chosenTruckParameter == null || chosenStateParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
             TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
-            logger.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
+            LOG.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;
         } catch (DAOException e) {

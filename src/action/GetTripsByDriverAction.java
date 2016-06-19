@@ -22,18 +22,18 @@ import java.util.List;
  */
 public class GetTripsByDriverAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
             UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
-            if(userInfoBean == null) {
+            if (userInfoBean == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer driverId = userInfoBean.getUser().getId();
-            logger.info("requesting trips of driver " + driverId);
+            LOG.info("requesting trips of driver " + driverId);
             List<Trip> allTrips = tripDAO.getTripsByDriver(driverId);
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);

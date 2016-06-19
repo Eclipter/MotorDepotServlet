@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SignupFormAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("requesting signup form");
+        LOG.info("requesting signup form");
         return PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM);
     }
 }

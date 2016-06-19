@@ -16,17 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/** Action, responsible for providing information about unassigned requests
+/**
+ * Action, responsible for providing information about unassigned requests
  * Created by USER on 09.06.2016.
  */
 public class GetUnassignedRequestsAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            logger.info("requesting all unset requests");
+            LOG.info("requesting all unset requests");
             RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
             List<Request> unsetRequests = requestDAO.getUnassignedRequests();
             List<RequestViewBean> requestViewBeanList =

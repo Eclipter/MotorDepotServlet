@@ -21,20 +21,21 @@ import java.io.IOException;
 public class MotorDepotController extends HttpServlet {
 
     private static final long serialVersionUID = -811960845105124825L;
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     /**
      * Executes action depending on command that is kept in request parameters
-     * @param req servlet request
+     *
+     * @param req  servlet request
      * @param resp servlet response
      * @return URL, to which client must be forwarded or redirected
      * @throws ActionExecutionException
      */
     private String executeAction(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         String command = req.getParameter(RequestParameterName.COMMAND);
-        logger.info("processing " + command + " command");
+        LOG.info("processing " + command + " command");
         Action action = CommandHelper.getCommand(command);
-        if(action == null) {
+        if (action == null) {
             throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                     ExceptionalMessage.NO_COMMAND,
                     (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
@@ -44,19 +45,19 @@ public class MotorDepotController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("POST request processing");
+        LOG.info("POST request processing");
         try {
             String result = executeAction(req, resp);
             resp.sendRedirect(result);
         } catch (ActionExecutionException e) {
-            logger.error(e);
+            LOG.error(e);
             String message = InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                     e.getMessage(),
                     (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE));
             req.setAttribute(RequestParameterName.ERROR_MESSAGE, message);
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         } catch (Exception e) {
-            logger.error("unexpected error", e);
+            LOG.error("unexpected error", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.UNEXPECTED,
@@ -67,19 +68,19 @@ public class MotorDepotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("GET request processing");
+        LOG.info("GET request processing");
         try {
             String result = executeAction(req, resp);
             req.getRequestDispatcher(result).forward(req, resp);
         } catch (ActionExecutionException e) {
-            logger.error(e);
+            LOG.error(e);
             String message = InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                     e.getMessage(),
                     (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE));
             req.setAttribute(RequestParameterName.ERROR_MESSAGE, message);
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         } catch (Exception e) {
-            logger.error("unexpected error", e);
+            LOG.error("unexpected error", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.UNEXPECTED,

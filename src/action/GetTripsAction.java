@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class GetTripsAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("requesting all trips");
+        LOG.info("requesting all trips");
         try {
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
             List<Trip> allTrips = tripDAO.getAllTrips();

@@ -20,13 +20,13 @@ import java.util.List;
  * Action, responsible for preparing and providing an assignation form
  * Created by USER on 26.04.2016.
  */
-public class GetAssignationFormAction implements Action  {
+public class GetAssignationFormAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        logger.info("requesting setting form: available applications and drivers");
+        LOG.info("requesting setting form: available applications and drivers");
         try {
             RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
             DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);

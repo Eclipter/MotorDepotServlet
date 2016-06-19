@@ -16,17 +16,17 @@ import javax.servlet.ServletContextListener;
  */
 public class MotorDepotServletContextListener implements ServletContextListener {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
     private static final String INITIALIZING_POOL_ERROR = "Initializing pool error";
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        if(!Boolean.parseBoolean(
+        if (!Boolean.parseBoolean(
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
             try {
                 ConnectionPool.getInstance().init();
             } catch (DatabaseConnectionException e) {
-                logger.error(e);
+                LOG.error(e);
                 servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         INITIALIZING_POOL_ERROR);
             }
@@ -35,7 +35,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        if(!Boolean.parseBoolean(
+        if (!Boolean.parseBoolean(
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
             ConnectionPool.getInstance().destroy();
         }

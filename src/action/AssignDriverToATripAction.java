@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AssignDriverToATripAction implements Action {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
@@ -29,10 +29,10 @@ public class AssignDriverToATripAction implements Action {
             TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
             Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
             Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
-            if(chosenDriverId == null || chosenRequestId == null) {
+            if (chosenDriverId == null || chosenRequestId == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
-            logger.info("assigning driver " + chosenDriverId + " to request " + chosenRequestId);
+            LOG.info("assigning driver " + chosenDriverId + " to request " + chosenRequestId);
             tripDAO.assignDriverToATrip(chosenRequestId, chosenDriverId);
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
