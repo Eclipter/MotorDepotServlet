@@ -52,7 +52,7 @@
                 <form action="motor_depot" method="post">
                     <div class="form-group">
                         <label for="inputUsername" class="control-label"><fmt:message key="signup.label.username"/></label>
-                        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="<fmt:message key="signup.placeholder.login"/>" required>
+                        <input type="text" value="${fn:escapeXml(param.username)}" name="username" id="inputUsername" class="form-control" placeholder="<fmt:message key="signup.placeholder.login"/>" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword" class="control-label"><fmt:message key="signup.label.password"/></label>

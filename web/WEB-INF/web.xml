@@ -6,7 +6,7 @@
 
     <filter>
         <filter-name>ServletErrorFilter</filter-name>
-        <filter-class>filter.ServletErrorFilter</filter-class>
+        <filter-class>by.bsu.dektiarev.filter.ServletErrorFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>ServletErrorFilter</filter-name>
@@ -14,7 +14,7 @@
     </filter-mapping>
     <filter>
         <filter-name>CommandFilter</filter-name>
-        <filter-class>filter.CommandFilter</filter-class>
+        <filter-class>by.bsu.dektiarev.filter.CommandFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>CommandFilter</filter-name>
@@ -22,7 +22,7 @@
     </filter-mapping>
     <filter>
         <filter-name>SignupFilter</filter-name>
-        <filter-class>filter.SignupFilter</filter-class>
+        <filter-class>by.bsu.dektiarev.filter.SignupFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>SignupFilter</filter-name>
@@ -30,7 +30,7 @@
     </filter-mapping>
     <filter>
         <filter-name>AuthenticationFilter</filter-name>
-        <filter-class>filter.AuthenticationFilter</filter-class>
+        <filter-class>by.bsu.dektiarev.filter.AuthenticationFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthenticationFilter</filter-name>
@@ -38,7 +38,7 @@
     </filter-mapping>
     <filter>
         <filter-name>LocaleFilter</filter-name>
-        <filter-class>filter.LocaleFilter</filter-class>
+        <filter-class>by.bsu.dektiarev.filter.LocaleFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LocaleFilter</filter-name>
@@ -46,14 +46,14 @@
     </filter-mapping>
     <servlet>
         <servlet-name>MotorDepotServlet</servlet-name>
-        <servlet-class>controller.MotorDepotController</servlet-class>
+        <servlet-class>by.bsu.dektiarev.controller.MotorDepotController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MotorDepotServlet</servlet-name>
         <url-pattern>/motor_depot</url-pattern>
     </servlet-mapping>
     <listener>
-        <listener-class>listener.MotorDepotServletContextListener</listener-class>
+        <listener-class>by.bsu.dektiarev.listener.MotorDepotServletContextListener</listener-class>
     </listener>
     <session-config>
         <session-timeout>1800</session-timeout>

@@ -2,4 +2,4 @@
 <c:set var="language" value="${not empty sessionScope.language ? sessionScope.language : pageContext.request.locale.language}"
        scope="session"/>
 <fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : pageContext.request.locale}"/>
-<fmt:setBundle basename="resources.jsp_text" />
+<fmt:setBundle basename="by.bsu.dektiarev.resources.jsp_text" />
