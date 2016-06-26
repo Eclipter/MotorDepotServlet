@@ -36,6 +36,8 @@ import static org.mockito.Mockito.when;
  */
 public class LoginActionTest {
 
+    private static final String STUB_STRING = "STUB_STRING";
+
     @Mock
     private HttpServletRequest req;
 
@@ -75,8 +77,8 @@ public class LoginActionTest {
 
     @Test
     public void executeTestAdminWithCorrectLoginPass() throws Exception {
-        String username = "newuser";
-        String password = "newuser";
+        String username = STUB_STRING;
+        String password = STUB_STRING;
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
         User confirmedUser = new User();
@@ -95,8 +97,8 @@ public class LoginActionTest {
 
     @Test
     public void executeTestDriverWithCorrectLoginPass() throws Exception {
-        String username = "newuser";
-        String password = "newuser";
+        String username = STUB_STRING;
+        String password = STUB_STRING;
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
         User confirmedUser = new User();
@@ -116,8 +118,8 @@ public class LoginActionTest {
 
     @Test
     public void executeTestWithIncorrectLoginPass() throws Exception {
-        String username = "wrongusername";
-        String password = "wrongpassword";
+        String username = STUB_STRING;
+        String password = STUB_STRING;
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
         when(userDAO.authenticateUser(username, password)).thenReturn(null);
@@ -129,7 +131,7 @@ public class LoginActionTest {
 
     @Test
     public void executeTestWithAbsentLogin() throws Exception {
-        String password = "wrongpassword";
+        String password = STUB_STRING;
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
 
         expectedException.expect(ActionExecutionException.class);
@@ -139,7 +141,7 @@ public class LoginActionTest {
 
     @Test
     public void executeTestWithAbsentPassword() throws Exception {
-        String username = "wrongusername";
+        String username = STUB_STRING;
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
 
         expectedException.expect(ActionExecutionException.class);
@@ -157,9 +159,9 @@ public class LoginActionTest {
 
     @Test
     public void executeTestWithDAOException() throws Exception {
-        String exceptionalMessage = "daoException";
-        String username = "newuser";
-        String password = "newuser";
+        String exceptionalMessage = STUB_STRING;
+        String username = STUB_STRING;
+        String password = STUB_STRING;
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
         when(userDAO.authenticateUser(username, password)).thenThrow(new DAOException(exceptionalMessage));
