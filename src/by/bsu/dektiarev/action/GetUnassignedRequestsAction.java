@@ -24,11 +24,13 @@ public class GetUnassignedRequestsAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             LOG.info("requesting all unset requests");
-            RequestDAO requestDAO = (RequestDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.REQUEST);
+            RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             List<Request> unsetRequests = requestDAO.getUnassignedRequests();
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(unsetRequests);

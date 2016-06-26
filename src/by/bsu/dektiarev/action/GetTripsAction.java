@@ -22,11 +22,13 @@ public class GetTripsAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all trips");
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             List<Trip> allTrips = tripDAO.getAllTrips();
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);

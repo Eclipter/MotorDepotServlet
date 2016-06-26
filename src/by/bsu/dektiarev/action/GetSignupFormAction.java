@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  * Action, responsible for providing signup form
  * Created by USER on 15.05.2016.
  */
-public class SignupFormAction implements Action {
+public class GetSignupFormAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 

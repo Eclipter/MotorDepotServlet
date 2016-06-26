@@ -41,7 +41,7 @@ public class AuthenticationFilter implements Filter {
         ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
         UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParameterName.USER);
         if(userInfoBean == null) {
-            if(!ActionEnum.SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
+            if(!ActionEnum.GET_SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
                     && !ActionEnum.LOGIN.equals(actionEnum) && !ActionEnum.GET_LOGIN_FORM.equals(actionEnum)) {
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
                 return;

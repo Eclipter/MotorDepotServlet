@@ -24,12 +24,14 @@ public class GetAssignationFormAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting setting form: available applications and drivers");
         try {
-            RequestDAO requestDAO = (RequestDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.REQUEST);
-            DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
+            RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
+            DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
             List<Request> unsetApplications = requestDAO.getUnassignedRequests();
             List<Driver> driverList = driverDAO.getDriversWithHealthyTrucks();
             req.setAttribute(RequestParameterName.REQUESTS, unsetApplications);

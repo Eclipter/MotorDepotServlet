@@ -23,6 +23,8 @@ public class ChangeTruckStateAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
@@ -33,12 +35,18 @@ public class ChangeTruckStateAction implements Action {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
+            TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             LOG.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());
+        } catch (NumberFormatException e) {
+            LOG.warn("wrong input for truck id");
+            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+        } catch (IllegalArgumentException e) {
+            LOG.warn("wrong input for truck state");
+            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
     }
 }

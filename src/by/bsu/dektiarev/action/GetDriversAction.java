@@ -22,11 +22,13 @@ public class GetDriversAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all drivers");
         try {
-            DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
+            DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
             List<Driver> allDrivers = driverDAO.getAllDrivers();
             req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
             return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);

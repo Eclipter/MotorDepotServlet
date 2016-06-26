@@ -24,11 +24,13 @@ public class GetTripsByDriverAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
-            UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
+            TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
+            UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
             if (userInfoBean == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }

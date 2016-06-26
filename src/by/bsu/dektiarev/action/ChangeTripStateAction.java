@@ -22,21 +22,34 @@ public class ChangeTripStateAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             String tripIdString = req.getParameter(RequestParameterName.TRIP_ID);
             String chosenState = req.getParameter(RequestParameterName.CHOSEN_STATE);
-            if (tripIdString == null || chosenState == null) {
+            if (tripIdString == null || chosenState == null || chosenState.equals("")) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer tripId = Integer.valueOf(tripIdString);
-            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             LOG.info("changing trip " + tripId + " state to " + chosenState);
-            tripDAO.changeTripState(tripId, chosenState.equals("true"));
+            switch (chosenState) {
+                case "true":
+                    tripDAO.changeTripState(tripId, true);
+                    break;
+                case "false":
+                    tripDAO.changeTripState(tripId, false);
+                    break;
+                default:
+                    throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            }
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
     }
 }

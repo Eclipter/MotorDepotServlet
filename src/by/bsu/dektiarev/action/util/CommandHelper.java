@@ -24,7 +24,7 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.GET_TRIPS_BY_DRIVER, new GetTripsByDriverAction());
         actionMap.put(ActionEnum.GET_ASSIGNATION_FORM, new GetAssignationFormAction());
         actionMap.put(ActionEnum.ASSIGN_DRIVER_TO_A_TRIP, new AssignDriverToATripAction());
-        actionMap.put(ActionEnum.SIGNUP_FORM, new SignupFormAction());
+        actionMap.put(ActionEnum.GET_SIGNUP_FORM, new GetSignupFormAction());
         actionMap.put(ActionEnum.SIGNUP, new SignupAction());
         actionMap.put(ActionEnum.CHANGE_TRIP_STATE, new ChangeTripStateAction());
         actionMap.put(ActionEnum.CHAT, new GetChatAction());

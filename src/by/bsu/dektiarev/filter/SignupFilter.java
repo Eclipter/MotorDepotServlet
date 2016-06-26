@@ -36,11 +36,14 @@ public class SignupFilter implements Filter {
         if (!ActionEnum.SIGNUP.equals(actionEnum)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
+            String username = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             String passwordRepeat = req.getParameter(RequestParameterName.PASSWORD_REPEAT);
             String truckCapacity = req.getParameter(RequestParameterName.TRUCK_CAPACITY);
 
-            if (password == null || passwordRepeat == null || truckCapacity == null) {
+            if (username == null || password == null || passwordRepeat == null || truckCapacity == null ||
+                    username.equals("") || password.equals("") || passwordRepeat.equals("") ||
+                    truckCapacity.equals("")) {
                 LOG.warn("missing signup parameters");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,

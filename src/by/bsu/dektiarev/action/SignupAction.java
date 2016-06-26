@@ -26,6 +26,8 @@ public class SignupAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
@@ -33,12 +35,9 @@ public class SignupAction implements Action {
             String username = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             Integer truckCapacity = Integer.valueOf(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
-            if (username == null || password == null || truckCapacity == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
-            }
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
-            DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
-            UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.USER);
+            TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
+            DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
+            UserDAO userDAO = (UserDAO) daoFactory.getDAOFromFactory(DAOType.USER);
             LOG.info("checking new user");
             if (userDAO.isLoginOccupied(username)) {
                 LOG.info("login " + username + " is already occupied");

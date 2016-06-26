@@ -12,7 +12,7 @@ import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
  * Factory that creates and returns DAO object of a specified type
  * Created by USER on 15.06.2016.
  */
-public final class DAOFactory {
+public class DAOFactory {
 
     private static final DAOFactory INSTANCE = new DAOFactory();
 

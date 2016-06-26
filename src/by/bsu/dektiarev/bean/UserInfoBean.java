@@ -3,6 +3,7 @@ package by.bsu.dektiarev.bean;
 import by.bsu.dektiarev.entity.User;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Bean that is kept in session attributes.
@@ -15,6 +16,20 @@ public class UserInfoBean implements Serializable {
 
     private User user;
     private boolean admin;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInfoBean that = (UserInfoBean) o;
+        return admin == that.admin &&
+                Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user, admin);
+    }
 
     public User getUser() {
         return user;

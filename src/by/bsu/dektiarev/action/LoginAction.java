@@ -22,14 +22,17 @@ import javax.servlet.http.HttpSession;
 /**
  * Action, responsible for authentication process
  * Created by USER on 25.04.2016.
- */public class LoginAction implements Action {
+ */
+public class LoginAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
+
+    private DAOFactory daoFactory = DAOFactory.getInstance();
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.USER);
+            UserDAO userDAO = (UserDAO) daoFactory.getDAOFromFactory(DAOType.USER);
             String userName = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             if (userName == null || password == null) {
@@ -42,7 +45,7 @@ import javax.servlet.http.HttpSession;
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUser(user);
-                DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
+                DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
                 Driver driver = driverDAO.searchByUser(user);
                 userInfoBean.setAdmin(driver == null);
                 session.setAttribute(RequestParameterName.USER, userInfoBean);

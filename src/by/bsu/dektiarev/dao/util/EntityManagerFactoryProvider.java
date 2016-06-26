@@ -12,7 +12,7 @@ import java.util.Map;
  * Singleton used to provide EntityManagerFactory to DAO classes
  * Created by USER on 07.03.2016.
  */
-public final class EntityManagerFactoryProvider {
+public class EntityManagerFactoryProvider {
 
     private static final String PERSISTENCE_UNIT_NAME = "MotorDepotHibernateManager";
     private static final String URL_PROPERTY = "hibernate.connection.url";

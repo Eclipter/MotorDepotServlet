@@ -22,11 +22,13 @@ public class AssignDriverToATripAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
             Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
             if (chosenDriverId == null || chosenRequestId == null) {
@@ -37,6 +39,8 @@ public class AssignDriverToATripAction implements Action {
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());
+        } catch (NumberFormatException e) {
+            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
     }
 }

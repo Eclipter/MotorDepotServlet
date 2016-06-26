@@ -14,7 +14,7 @@ public final class URLConstant {
     public static final String GET_TRIPS = baseURL + ActionEnum.GET_TRIPS.toString().toLowerCase();
     public static final String GET_TRUCKS = baseURL + ActionEnum.GET_TRUCKS.toString().toLowerCase();
     public static final String GET_INDEX_PAGE = baseURL + ActionEnum.GET_INDEX_PAGE.toString().toLowerCase();
-    public static final String GET_SIGNUP_FORM = baseURL + ActionEnum.SIGNUP_FORM.toString().toLowerCase();
+    public static final String GET_SIGNUP_FORM = baseURL + ActionEnum.GET_SIGNUP_FORM.toString().toLowerCase();
     public static final String GET_LOGIN_FORM = baseURL + ActionEnum.GET_LOGIN_FORM.toString().toLowerCase();
 
     private URLConstant() {

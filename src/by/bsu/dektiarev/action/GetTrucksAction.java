@@ -22,11 +22,13 @@ public class GetTrucksAction implements Action {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    private DAOFactory daoFactory = DAOFactory.getInstance();
+
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all trucks");
         try {
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
+            TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             List<Truck> allTrucks = truckDAO.getAllTrucks();
             req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
             return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
