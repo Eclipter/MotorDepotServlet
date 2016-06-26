@@ -26,7 +26,7 @@ public class GetTrucksAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all trucks");
         try {
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
             List<Truck> allTrucks = truckDAO.getAllTrucks();
             req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
             return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);

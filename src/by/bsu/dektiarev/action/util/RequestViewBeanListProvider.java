@@ -23,7 +23,7 @@ public final class RequestViewBeanListProvider {
      * @return list of view beans
      */
     public static List<RequestViewBean> createRequestViewBeanList(List<Request> requestList) throws DAOException {
-        DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+        DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
         List<RequestViewBean> requestViewBeanList = new ArrayList<>();
         for(Request request : requestList) {
             Driver driver = driverDAO.searchByRequest(request);

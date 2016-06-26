@@ -28,7 +28,7 @@ public class GetRequestsAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             LOG.info("requesting all requests");
-            RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
+            RequestDAO requestDAO = (RequestDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.REQUEST);
             List<Request> allRequests = requestDAO.getAllRequests();
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(allRequests);

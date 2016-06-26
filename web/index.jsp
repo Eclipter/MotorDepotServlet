@@ -13,6 +13,9 @@
 </head>
 <body>
 <%@include file="navbar.jspf" %>
+<c:if test="${empty sessionScope.user}">
+    <jsp:forward page="login.jsp"/>
+</c:if>
 <div class="container">
     <div class="row">
         <div class="panel panel-default">

@@ -26,7 +26,7 @@ public class AssignDriverToATripAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
 
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
             Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
             Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
             if (chosenDriverId == null || chosenRequestId == null) {

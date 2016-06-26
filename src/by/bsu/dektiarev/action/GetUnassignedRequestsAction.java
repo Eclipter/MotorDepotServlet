@@ -28,7 +28,7 @@ public class GetUnassignedRequestsAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
             LOG.info("requesting all unset requests");
-            RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
+            RequestDAO requestDAO = (RequestDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.REQUEST);
             List<Request> unsetRequests = requestDAO.getUnassignedRequests();
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(unsetRequests);

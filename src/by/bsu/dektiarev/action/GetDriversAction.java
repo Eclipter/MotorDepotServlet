@@ -26,7 +26,7 @@ public class GetDriversAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all drivers");
         try {
-            DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+            DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
             List<Driver> allDrivers = driverDAO.getAllDrivers();
             req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
             return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);

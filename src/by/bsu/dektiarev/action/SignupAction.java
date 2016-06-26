@@ -36,9 +36,9 @@ public class SignupAction implements Action {
             if (username == null || password == null || truckCapacity == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
-            DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
-            UserDAO userDAO = (UserDAO) DAOFactory.getDAOFromFactory(DAOType.USER);
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
+            DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
+            UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.USER);
             LOG.info("checking new user");
             if (userDAO.isLoginOccupied(username)) {
                 LOG.info("login " + username + " is already occupied");

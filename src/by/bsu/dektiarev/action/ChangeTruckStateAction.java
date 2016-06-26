@@ -33,7 +33,7 @@ public class ChangeTruckStateAction implements Action {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer chosenTruck = Integer.valueOf(chosenTruckParameter);
-            TruckDAO truckDAO = (TruckDAO) DAOFactory.getDAOFromFactory(DAOType.TRUCK);
+            TruckDAO truckDAO = (TruckDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRUCK);
             LOG.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;

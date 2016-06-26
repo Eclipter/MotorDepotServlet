@@ -26,7 +26,7 @@ public class GetTripsAction implements Action {
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         LOG.info("requesting all trips");
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
             List<Trip> allTrips = tripDAO.getAllTrips();
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);

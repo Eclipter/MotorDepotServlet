@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            UserDAO userDAO = (UserDAO) DAOFactory.getDAOFromFactory(DAOType.USER);
+            UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.USER);
             String userName = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             if (userName == null || password == null) {
@@ -42,11 +42,9 @@ import javax.servlet.http.HttpSession;
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 userInfoBean.setUser(user);
-                DriverDAO driverDAO = (DriverDAO) DAOFactory.getDAOFromFactory(DAOType.DRIVER);
+                DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
                 Driver driver = driverDAO.searchByUser(user);
-                if(driver == null) {
-                    userInfoBean.setAdmin(true);
-                }
+                userInfoBean.setAdmin(driver == null);
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
                 return URLConstant.GET_INDEX_PAGE;
             } else {

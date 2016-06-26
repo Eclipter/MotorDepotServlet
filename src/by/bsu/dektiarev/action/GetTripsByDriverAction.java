@@ -27,7 +27,7 @@ public class GetTripsByDriverAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
             UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute("user");
             if (userInfoBean == null) {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);

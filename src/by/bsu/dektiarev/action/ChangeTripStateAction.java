@@ -31,7 +31,7 @@ public class ChangeTripStateAction implements Action {
                 throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
             }
             Integer tripId = Integer.valueOf(tripIdString);
-            TripDAO tripDAO = (TripDAO) DAOFactory.getDAOFromFactory(DAOType.TRIP);
+            TripDAO tripDAO = (TripDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.TRIP);
             LOG.info("changing trip " + tripId + " state to " + chosenState);
             tripDAO.changeTripState(tripId, chosenState.equals("true"));
             return URLConstant.GET_TRIPS;

@@ -38,7 +38,7 @@ public class AddRequestAction implements Action {
             if (cargoWeight <= 0) {
                 throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
             }
-            RequestDAO requestDAO = (RequestDAO) DAOFactory.getDAOFromFactory(DAOType.REQUEST);
+            RequestDAO requestDAO = (RequestDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.REQUEST);
             LOG.info("adding new request with cargo weight: " + cargoWeight);
             requestDAO.addNewRequest(cargoWeight);
             return URLConstant.GET_REQUESTS;
