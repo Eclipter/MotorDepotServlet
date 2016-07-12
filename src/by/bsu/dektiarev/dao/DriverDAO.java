@@ -46,9 +46,8 @@ public interface DriverDAO extends GenericDAO {
 
     /**
      * Adds new driver in the database
-     * @param user registered user by.bsu.dektiarev.entity
      * @param truck corresponding truck by.bsu.dektiarev.entity
      * @throws DAOException in case of DML error
      */
-    void registerNewDriver(User user, Truck truck) throws DAOException;
+    void addNewDriver(String login, String password, Truck truck) throws DAOException;
 }

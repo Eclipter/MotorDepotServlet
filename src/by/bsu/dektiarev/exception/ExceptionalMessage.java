@@ -24,4 +24,5 @@ public class ExceptionalMessage {
     public static final String SQL_ERROR = "sql_error";
     public static final String CONNECTION_ERROR = "connection_error";
     public static final String WRONG_INPUT_PARAMETERS = "wrong_parameters";
+    public static final String ENCRYPTING_ERROR = "encrypting_error";
 }

@@ -64,7 +64,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Returns pool back to pool
+     * Returns connection back to the pool
      *
      * @param connection pool to return
      * @throws DatabaseConnectionException
@@ -78,13 +78,13 @@ public class ConnectionPool {
             }
             freeConnections.put(connection);
         } catch (InterruptedException e) {
-            LOG.error("interrupted while returning pool back", e);
+            LOG.error("interrupted while returning connection back to pool", e);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
         }
     }
 
     /**
-     * Initializes pool
+     * Initializes connection pool
      *
      * @throws DatabaseConnectionException
      */

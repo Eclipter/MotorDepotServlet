@@ -35,9 +35,8 @@
     <orderEntry type="library" scope="PROVIDED" name="jsp-api-2.0" level="project" />
     <orderEntry type="library" name="jstl-1.2" level="project" />
     <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="org.apache.tomcat:tomcat-websocket-api:8.5.2" level="project" />
     <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
-    <orderEntry type="library" name="org.apache.tomcat:tomcat-websocket-api:8.5.2" level="project" />
     <orderEntry type="library" name="org.mockito:mockito-all:1.10.19" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="tomcat-websocket-api-8.5.2" level="project" />
   </component>
 </module>

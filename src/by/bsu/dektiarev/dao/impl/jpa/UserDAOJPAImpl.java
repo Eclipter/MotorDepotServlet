@@ -5,7 +5,6 @@ import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
 
-import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -42,26 +41,5 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
         else {
             return userList.get(0);
         }
-    }
-
-    @Override
-    public User addNewUser(String login, String password) throws DAOException {
-        if(login == null || password == null || "".equals(login) || "".equals(password)) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
-        }
-        EntityTransaction transaction = getManager().getTransaction();
-        User user = new User();
-        try {
-            transaction.begin();
-            user.setLogin(login);
-            user.setPassword(password);
-            getManager().persist(user);
-            transaction.commit();
-        } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
-        } finally {
-            getManager().clear();
-        }
-        return user;
     }
 }

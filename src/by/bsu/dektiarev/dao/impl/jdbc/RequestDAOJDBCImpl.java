@@ -24,7 +24,8 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public List<Request> getAllRequests() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUSTS)) {
+            connection.setAutoCommit(true);
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
@@ -39,6 +40,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public List<Request> getUnassignedRequests() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_UNASSIGNED_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
@@ -57,6 +59,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_REQUEST)) {
                 statement.setInt(1, cargoWeight);
                 statement.executeUpdate();

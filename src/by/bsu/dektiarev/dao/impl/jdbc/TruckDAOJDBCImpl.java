@@ -23,6 +23,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     @Override
     public List<Truck> getAllTrucks() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRUCKS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTrucksFromResultSet(resultSet);
@@ -41,6 +42,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             TruckState truckState;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRUCK_BY_ID)) {
                 statement.setInt(1, truckId);
@@ -73,6 +75,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             Integer truckId;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_TRUCK,
                     Statement.RETURN_GENERATED_KEYS)) {

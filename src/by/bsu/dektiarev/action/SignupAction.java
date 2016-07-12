@@ -6,14 +6,13 @@ import by.bsu.dektiarev.dao.UserDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.entity.Truck;
-import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.RequestParameterName;
 import by.bsu.dektiarev.util.URLConstant;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,9 +45,8 @@ public class SignupAction implements Action {
             }
 
             LOG.info("registering new user");
-            User user = userDAO.addNewUser(username, password);
             Truck truck = truckDAO.addNewTruck(truckCapacity);
-            driverDAO.registerNewDriver(user, truck);
+            driverDAO.addNewDriver(username, password, truck);
             return URLConstant.GET_LOGIN_FORM;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());

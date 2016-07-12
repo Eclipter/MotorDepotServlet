@@ -25,6 +25,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public List<Trip> getAllTrips() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRIPS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
@@ -40,6 +41,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public List<Trip> getTripsByDriver(int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIPS_BY_DRIVER)) {
                 statement.setInt(1, driverId);
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -56,6 +58,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             Integer capacity;
             Integer cargoWeight;
             TruckState truckState;
@@ -103,6 +106,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public void changeTripState(Integer tripId, boolean state) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            connection.setAutoCommit(true);
             Boolean tripState;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIP_BY_ID)) {
                 statement.setInt(1, tripId);

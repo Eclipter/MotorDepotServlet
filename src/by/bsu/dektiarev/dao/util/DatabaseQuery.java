@@ -49,7 +49,7 @@ public final class DatabaseQuery {
 
     public static final String INSERT_DRIVER = "INSERT INTO driver VALUES (?, ?)";
 
-    public static final String GET_ALL_REQUSTS = "SELECT\n" +
+    public static final String GET_ALL_REQUESTS = "SELECT\n" +
             "  request.ID,\n" +
             "  request.CARGO_WEIGHT\n" +
             "FROM request";
@@ -196,16 +196,9 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD\n" +
             "FROM user\n" +
-            "WHERE user.LOGIN = ? AND user.PASSWORD = ?";
+            "WHERE user.LOGIN = ? AND user.PASSWORD = MD5(?)";
 
-    public static final String INSERT_USER = "INSERT INTO user (LOGIN, PASSWORD) VALUES (?, ?)";
-
-    public static final String GET_USER_BY_ID = "SELECT\n" +
-            "  user.ID,\n" +
-            "  user.LOGIN,\n" +
-            "  user.PASSWORD\n" +
-            "FROM user\n" +
-            "WHERE user.ID = ?";
+    public static final String INSERT_USER = "INSERT INTO user (LOGIN, PASSWORD) VALUES (?, MD5(?))";
 
     private DatabaseQuery() {
     }

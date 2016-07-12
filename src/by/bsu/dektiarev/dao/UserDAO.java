@@ -24,11 +24,4 @@ public interface UserDAO extends GenericDAO {
      * @throws DAOException
      */
     User authenticateUser(String login, String pass) throws DAOException;
-
-    /**
-     * Adds new user to the database
-     * @return user by.bsu.dektiarev.entity that is saved to the database
-     * @throws DAOException in case of DML error
-     */
-    User addNewUser(String login, String password) throws DAOException;
 }
