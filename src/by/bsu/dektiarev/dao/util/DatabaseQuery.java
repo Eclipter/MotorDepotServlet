@@ -73,7 +73,7 @@ public final class DatabaseQuery {
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +
-            "WHERE driver.USER_ID = (SELECT trip.DRIVER_USER_ID\n" +
+            "WHERE driver.USER_ID = (SELECT trip.DRIVER_ID\n" +
             "                        FROM trip\n" +
             "                        WHERE trip.REQUEST_ID = ?)";
 
@@ -83,7 +83,7 @@ public final class DatabaseQuery {
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
-            "  trip.DRIVER_USER_ID AS USER_ID,\n" +
+            "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
@@ -93,7 +93,7 @@ public final class DatabaseQuery {
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
-            "  JOIN driver ON trip.DRIVER_USER_ID = driver.USER_ID\n" +
+            "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID";
@@ -102,7 +102,7 @@ public final class DatabaseQuery {
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
-            "  trip.DRIVER_USER_ID AS USER_ID,\n" +
+            "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
@@ -112,11 +112,11 @@ public final class DatabaseQuery {
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
-            "  JOIN driver ON trip.DRIVER_USER_ID = driver.USER_ID\n" +
+            "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +
-            "WHERE trip.DRIVER_USER_ID = ?";
+            "WHERE trip.DRIVER_ID = ?";
 
     public static final String GET_REQUEST_BY_ID = "SELECT\n" +
             "  request.ID,\n" +
@@ -135,13 +135,13 @@ public final class DatabaseQuery {
             "WHERE driver.USER_ID = ?";
 
     public static final String INSERT_TRIP = "INSERT INTO trip " +
-            "(REQUEST_ID, DRIVER_USER_ID, IS_COMPLETE) VALUES (?, ?, FALSE)";
+            "(REQUEST_ID, DRIVER_ID, IS_COMPLETE) VALUES (?, ?, FALSE)";
 
     public static final String GET_TRIP_BY_ID = "SELECT\n" +
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
-            "  trip.DRIVER_USER_ID AS USER_ID,\n" +
+            "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
@@ -151,7 +151,7 @@ public final class DatabaseQuery {
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
-            "  JOIN driver ON trip.DRIVER_USER_ID = driver.USER_ID\n" +
+            "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +

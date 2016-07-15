@@ -28,7 +28,7 @@ public class Trip {
     private Request request;
 
     @ManyToOne
-    @JoinColumn(name = "DRIVER_USER_ID", referencedColumnName = "USER_ID")
+    @JoinColumn(name = "DRIVER_ID", referencedColumnName = "USER_ID")
     private Driver driver;
 
     public Integer getId() {

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Custom pool pool that provides connections to DAO classes if JDBC id used
+ * Custom connection pool that provides connections to DAO classes if JDBC is used
  *
  * @see ProxyConnection
  * Created by USER on 15.06.2016.
@@ -39,7 +39,7 @@ public class ConnectionPool {
     }
 
     /**
-     * Gives pool to a calling DAO object.
+     * Gives connection to a calling DAO object.
      *
      * @return Connection from pool
      * @throws DatabaseConnectionException
