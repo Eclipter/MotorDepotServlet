@@ -23,7 +23,6 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public List<Driver> getAllDrivers() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_DRIVERS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
@@ -39,7 +38,6 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public List<Driver> getDriversWithHealthyTrucks() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVERS_WITH_HEALTHY_TRUCKS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
@@ -55,7 +53,6 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public Driver searchByUser(User user) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVER_BY_USER)) {
                 statement.setInt(1, user.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -77,7 +74,6 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public Driver searchByRequest(Request request) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVER_BY_REQUEST)) {
                 statement.setInt(1, request.getId());
                 try (ResultSet resultSet = statement.executeQuery()) {

@@ -56,9 +56,15 @@ public class ConnectionPool {
                 throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
             }
             busyConnections.put(connection);
+            if(!connection.getAutoCommit()) {
+                connection.setAutoCommit(true);
+            }
             return connection;
         } catch (InterruptedException ex) {
             LOG.error("interrupted while retrieving pool from the pool");
+            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+        } catch (SQLException ex) {
+            LOG.error("error during connection setup");
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
@@ -143,7 +149,11 @@ public class ConnectionPool {
     private void closeConnections(BlockingQueue<ProxyConnection> connections) {
         while (!connections.isEmpty()) {
             try {
-                connections.take().realClose();
+                ProxyConnection connection = connections.take();
+                if(!connection.getAutoCommit()) {
+                    connection.commit();
+                }
+                connection.realClose();
             } catch (SQLException e) {
                 LOG.error("error while closing connections: ", e);
             } catch (InterruptedException e) {

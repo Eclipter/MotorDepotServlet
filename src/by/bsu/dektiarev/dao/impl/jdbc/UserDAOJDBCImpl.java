@@ -24,7 +24,6 @@ public class UserDAOJDBCImpl implements UserDAO {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_USER_BY_LOGIN)) {
                 statement.setString(1, login);
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -44,7 +43,6 @@ public class UserDAOJDBCImpl implements UserDAO {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            connection.setAutoCommit(true);
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_USER_BY_LOGIN_AND_PASSWORD)) {
                 statement.setString(1, login);
                 statement.setString(2, pass);
