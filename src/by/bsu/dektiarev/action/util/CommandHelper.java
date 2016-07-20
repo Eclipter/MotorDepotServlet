@@ -28,7 +28,7 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.SIGNUP, new SignupAction());
         actionMap.put(ActionEnum.CHANGE_TRIP_STATE, new ChangeTripStateAction());
         actionMap.put(ActionEnum.CHAT, new GetChatAction());
-        actionMap.put(ActionEnum.GET_INDEX_PAGE, new GetIndexPageAction());
+        actionMap.put(ActionEnum.GET_MAIN_PAGE, new GetMainPageAction());
         actionMap.put(ActionEnum.ADD_REQUEST, new AddRequestAction());
         actionMap.put(ActionEnum.GET_UNASSIGNED_REQUESTS, new GetUnassignedRequestsAction());
         actionMap.put(ActionEnum.GET_LOGIN_FORM, new GetLoginFormAction());

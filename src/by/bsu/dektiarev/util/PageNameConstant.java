@@ -11,6 +11,7 @@ public final class PageNameConstant {
     public static final String DRIVERS = "drivers";
     public static final String ERROR = "error";
     public static final String INDEX = "index";
+    public static final String MAIN = "main_page";
     public static final String LOGIN = "login";
     public static final String ASSIGNATION_FORM = "assignation_form";
     public static final String TRIP_LIST = "trip_list";

@@ -126,6 +126,9 @@ public class ConnectionPool {
         } catch (SQLException ex) {
             LOG.error("sql error while initializing pool", ex);
             throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+        } catch (NumberFormatException ex) {
+            LOG.error("error while parsing db configuration");
+            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
         }
     }
 

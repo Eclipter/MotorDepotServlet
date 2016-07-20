@@ -10,13 +10,13 @@
         <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=').concat(req.getParameter('command'))}"/>
     </c:when>
     <c:otherwise>
-        <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_index_page')}"/>
+        <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_main_page')}"/>
     </c:otherwise>
 </c:choose>
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="<c:url value="motor_depot"><c:param name="command" value="get_index_page"/></c:url>"><fmt:message key="navbar.label.main"/></a>
+            <a class="navbar-brand" href="<c:url value="motor_depot"><c:param name="command" value="get_main_page"/></c:url>"><fmt:message key="navbar.label.main"/></a>
         </div>
         <ul class="nav navbar-nav">
             <c:if test="${sessionScope.user.admin}">

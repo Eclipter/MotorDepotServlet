@@ -49,7 +49,7 @@ public class LoginAction implements Action {
                 Driver driver = driverDAO.searchByUser(user);
                 userInfoBean.setAdmin(driver == null);
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
-                return URLConstant.GET_INDEX_PAGE;
+                return URLConstant.GET_MAIN_PAGE;
             } else {
                 throw new ActionExecutionException(ExceptionalMessage.WRONG_LOGIN_PASS);
             }

@@ -92,7 +92,7 @@ public class LoginActionTest {
 
         verify(driverDAO).searchByUser(confirmedUser);
         verify(session).setAttribute(RequestParameterName.USER, userInfoBean);
-        assertEquals(answer, URLConstant.GET_INDEX_PAGE);
+        assertEquals(answer, URLConstant.GET_MAIN_PAGE);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class LoginActionTest {
 
         verify(driverDAO).searchByUser(confirmedUser);
         verify(session).setAttribute(RequestParameterName.USER, userInfoBean);
-        assertEquals(answer, URLConstant.GET_INDEX_PAGE);
+        assertEquals(answer, URLConstant.GET_MAIN_PAGE);
     }
 
     @Test
