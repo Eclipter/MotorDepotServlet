@@ -68,6 +68,23 @@ public class RequestDAOJDBCImpl implements RequestDAO {
         }
     }
 
+    @Override
+    public void deleteRequest(int requestId) throws DAOException {
+        if(requestId <= 0) {
+            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+        }
+        try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.DELETE_REQUEST)) {
+                statement.setInt(1, requestId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+        } catch (DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+    }
+
     private List<Request> getRequestsFromResultSet(ResultSet resultSet) throws SQLException {
         List<Request> requestList = new ArrayList<>();
         while(resultSet.next()) {

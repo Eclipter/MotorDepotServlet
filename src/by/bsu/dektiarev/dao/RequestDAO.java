@@ -31,4 +31,6 @@ public interface RequestDAO extends GenericDAO {
      * @throws DAOException in case of DML error
      */
     void addNewRequest(int cargoWeight) throws DAOException;
+
+    void deleteRequest(int requestId) throws DAOException;
 }

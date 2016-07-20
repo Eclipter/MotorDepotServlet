@@ -45,4 +45,25 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             getManager().clear();
         }
     }
+
+    @Override
+    public void deleteRequest(int requestId) throws DAOException {
+        if(requestId <= 0) {
+            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+        }
+        Request request = getManager().find(Request.class, requestId);
+        if(request == null) {
+            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+        }
+        EntityTransaction transaction = getManager().getTransaction();
+        try {
+            transaction.begin();
+            getManager().remove(request);
+            transaction.commit();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+        } finally {
+            getManager().clear();
+        }
+    }
 }

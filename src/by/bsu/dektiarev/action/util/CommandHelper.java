@@ -32,6 +32,7 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.ADD_REQUEST, new AddRequestAction());
         actionMap.put(ActionEnum.GET_UNASSIGNED_REQUESTS, new GetUnassignedRequestsAction());
         actionMap.put(ActionEnum.GET_LOGIN_FORM, new GetLoginFormAction());
+        actionMap.put(ActionEnum.DELETE_REQUEST, new DeleteRequestAction());
     }
 
     public static Action getCommand(String command) {

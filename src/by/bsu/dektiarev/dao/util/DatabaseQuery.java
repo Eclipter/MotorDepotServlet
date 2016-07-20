@@ -79,6 +79,8 @@ public final class DatabaseQuery {
 
     public static final String INSERT_REQUEST = "INSERT INTO request (CARGO_WEIGHT) VALUES (?)";
 
+    public static final String DELETE_REQUEST = "DELETE FROM request WHERE request.ID = ?";
+
     public static final String GET_ALL_TRIPS = "SELECT\n" +
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
