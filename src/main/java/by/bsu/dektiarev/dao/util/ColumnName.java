@@ -10,6 +10,11 @@ public final class ColumnName {
     public static final String LOGIN = "LOGIN";
     public static final String PASSWORD = "PASSWORD";
     public static final String TRUCK_ID = "TRUCK_ID";
+    public static final String NUMBER = "NUMBER";
+    public static final String DEPARTURE_POINT = "DEPARTURE_POINT";
+    public static final String DESTINATION_POINT = "DESTINATION_POINT";
+    public static final String NAME = "NAME";
+    public static final String ADDRESS = "ADDRESS";
     public static final String CAPACITY = "CAPACITY";
     public static final String STATE_ID = "STATE_ID";
     public static final String STATE_NAME = "STATE_NAME";

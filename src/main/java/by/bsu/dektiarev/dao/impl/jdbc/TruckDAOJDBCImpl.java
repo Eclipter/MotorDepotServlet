@@ -68,15 +68,16 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     }
 
     @Override
-    public Truck addNewTruck(int capacity) throws DAOException {
-        if(capacity < 0) {
+    public Truck addNewTruck(String number, double capacity) throws DAOException {
+        if(capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             Integer truckId;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_TRUCK,
                     Statement.RETURN_GENERATED_KEYS)) {
-                statement.setInt(1, capacity);
+                statement.setString(1, number);
+                statement.setDouble(2, capacity);
                 statement.executeUpdate();
                 try (ResultSet keySet = statement.getGeneratedKeys()) {
                     if(!keySet.next()) {
@@ -108,11 +109,13 @@ public class TruckDAOJDBCImpl implements TruckDAO {
         List<Truck> truckList = new ArrayList<>();
         while(resultSet.next()) {
             Integer truckId = resultSet.getInt(ColumnName.ID);
-            Integer capacity = resultSet.getInt(ColumnName.CAPACITY);
+            Double capacity = resultSet.getDouble(ColumnName.CAPACITY);
+            String number = resultSet.getString(ColumnName.NUMBER);
             Integer stateId = resultSet.getInt(ColumnName.STATE_ID);
             String stateName = resultSet.getString(ColumnName.STATE_NAME);
             Truck truck = new Truck();
             truck.setId(truckId);
+            truck.setNumber(number);
             truck.setCapacity(capacity);
             TruckStateDTO truckStateDTO = new TruckStateDTO();
             truckStateDTO.setId(stateId);

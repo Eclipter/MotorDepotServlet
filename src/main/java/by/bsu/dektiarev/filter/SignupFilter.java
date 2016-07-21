@@ -39,10 +39,12 @@ public class SignupFilter implements Filter {
             String username = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             String passwordRepeat = req.getParameter(RequestParameterName.PASSWORD_REPEAT);
+            String truckNumber = req.getParameter(RequestParameterName.TRUCK_NUMBER);
             String truckCapacity = req.getParameter(RequestParameterName.TRUCK_CAPACITY);
 
-            if (username == null || password == null || passwordRepeat == null || truckCapacity == null ||
-                    username.equals("") || password.equals("") || passwordRepeat.equals("") ||
+            if (username == null || password == null || passwordRepeat == null || truckNumber == null ||
+                    truckCapacity == null || username.equals("") || password.equals("") ||
+                    passwordRepeat.equals("") || truckNumber.equals("") ||
                     truckCapacity.equals("")) {
                 LOG.warn("missing signup parameters");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,

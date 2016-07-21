@@ -63,6 +63,10 @@
                         <input type="password" name="passwordRepeat" id="inputPasswordRepeat" class="form-control" placeholder="<fmt:message key="signup.placeholder.password"/>" required>
                     </div>
                     <div class="form-group">
+                        <label for="inputTruckNumber" class="control-label">Number</label>  <%--internat--%>
+                        <input type="text" name="truckNumber" id="inputTruckNumber" class="form-control" placeholder="Number INTERNATIONAL" required>
+                    </div>
+                    <div class="form-group">
                         <label for="inputTruckCapacity" class="control-label"><fmt:message key="signup.label.capacity"/></label>
                         <input type="text" name="truckCapacity" id="inputTruckCapacity" class="form-control" placeholder="<fmt:message key="signup.placeholder.capacity"/>" required>
                     </div>

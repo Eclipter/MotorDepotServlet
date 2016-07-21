@@ -11,6 +11,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -24,6 +25,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -38,6 +40,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -66,6 +69,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -89,6 +93,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
@@ -108,6 +113,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
@@ -128,6 +134,7 @@ public final class DatabaseQuery {
 
     public static final String GET_TRUCK_BY_DRIVER_ID = "SELECT\n" +
             "  truck.ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -147,6 +154,7 @@ public final class DatabaseQuery {
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
@@ -165,6 +173,7 @@ public final class DatabaseQuery {
 
     public static final String GET_ALL_TRUCKS = "SELECT\n" +
             "  truck.ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -173,6 +182,7 @@ public final class DatabaseQuery {
 
     public static final String GET_TRUCK_BY_ID = "SELECT\n" +
             "  truck.ID,\n" +
+            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
@@ -184,7 +194,7 @@ public final class DatabaseQuery {
             "SET truck.STATE_ID = ?\n" +
             "WHERE truck.ID = ?";
 
-    public static final String INSERT_TRUCK = "INSERT INTO truck (CAPACITY, STATE_ID) VALUES (?, 1)";
+    public static final String INSERT_TRUCK = "INSERT INTO truck (NUMBER, CAPACITY, STATE_ID) VALUES (?, ?, 1)";
 
     public static final String GET_USER_BY_LOGIN = "SELECT\n" +
             "  user.ID,\n" +

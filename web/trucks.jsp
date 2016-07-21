@@ -24,6 +24,7 @@
                     <thead>
                     <tr>
                         <th><fmt:message key="trucks.table.id"/></th>
+                        <th>Number</th> <%--internation--%>
                         <th><fmt:message key="trucks.table.capacity"/></th>
                         <th><fmt:message key="trucks.table.state"/></th>
                     </tr>
@@ -32,6 +33,7 @@
                     <c:forEach items="${requestScope.trucks}" var="car">
                         <tr>
                             <td>${car.id}</td>
+                            <td>${car.number}</td>
                             <td>${car.capacity}</td>
                             <td>
                                 <c:choose>

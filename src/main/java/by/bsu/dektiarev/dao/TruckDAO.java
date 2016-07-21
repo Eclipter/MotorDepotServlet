@@ -29,9 +29,10 @@ public interface TruckDAO extends GenericDAO {
 
     /**
      * Add new truck to the database
+     * @param number truck number
      * @param capacity capacity parameter
      * @return resulting truck by.bsu.dektiarev.entity
      * @throws DAOException in case of DML error
      */
-    Truck addNewTruck(int capacity) throws DAOException;
+    Truck addNewTruck(String number, double capacity) throws DAOException;
 }

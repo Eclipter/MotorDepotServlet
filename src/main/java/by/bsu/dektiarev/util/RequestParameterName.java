@@ -17,6 +17,7 @@ public final class RequestParameterName {
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
     public static final String PASSWORD_REPEAT = "passwordRepeat";
+    public static final String TRUCK_NUMBER = "truckNumber";
     public static final String USER = "user";
     public static final String CHOSEN_REQUEST = "chosenRequest";
     public static final String CHOSEN_DRIVER = "chosenDriver";

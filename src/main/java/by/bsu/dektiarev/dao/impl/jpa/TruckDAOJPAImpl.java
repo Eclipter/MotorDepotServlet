@@ -50,8 +50,8 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     }
 
     @Override
-    public Truck addNewTruck(int capacity) throws DAOException {
-        if(capacity < 0) {
+    public Truck addNewTruck(String number, double capacity) throws DAOException {
+        if(capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
@@ -59,6 +59,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
         try {
             transaction.begin();
 
+            truck.setNumber(number);
             truck.setCapacity(capacity);
             TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
             truck.setState(truckStateDTO);

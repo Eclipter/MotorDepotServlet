@@ -32,6 +32,8 @@
                     <tr>
                         <th><fmt:message key="requests.table.id"/></th>
                         <th><fmt:message key="requests.table.weight"/></th>
+                        <th>Departure point</th> <%--internation--%>
+                        <th>Destination point</th> <%--internation--%>
                         <th><fmt:message key="requests.table.assigned"/></th>
                         <c:if test="${sessionScope.user.admin}">
                             <th><fmt:message key="requests.delete"/></th>
@@ -43,6 +45,8 @@
                         <tr>
                             <td>${request.request.id}</td>
                             <td>${request.request.cargoWeight}</td>
+                            <td>${request.request.departurePoint.name} (${request.request.departurePoint.address})</td>
+                            <td>${request.request.destinationPoint.name} (${request.request.destinationPoint.address})</td>
                             <c:choose>
                                 <c:when test="${request.driver != null}">
                                     <td>
