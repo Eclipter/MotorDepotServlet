@@ -6,192 +6,534 @@
       <identifier-quote-string>`</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
-    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
-      <schema id="1" name="motor_depot"/>
-      <table id="2" parent="1" name="driver"/>
-      <table id="3" parent="1" name="trip"/>
-      <table id="4" parent="1" name="truck"/>
-      <table id="5" parent="1" name="user"/>
-      <table id="6" parent="1" name="request"/>
-      <table id="7" parent="1" name="truck_state"/>
-      <column id="8" parent="2" name="USER_ID">
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+      <schema id="1" name="motor_depot">
+        <visible>1</visible>
+      </schema>
+      <schema id="2" name="information_schema"/>
+      <schema id="3" name="mysql"/>
+      <schema id="4" name="performance_schema"/>
+      <schema id="5" name="sakila"/>
+      <schema id="6" name="sys"/>
+      <schema id="7" name="web1_schema"/>
+      <schema id="8" name="world"/>
+      <table id="9" parent="1" name="driver"/>
+      <table id="10" parent="1" name="trip"/>
+      <table id="11" parent="1" name="truck"/>
+      <table id="12" parent="1" name="user"/>
+      <table id="13" parent="1" name="request"/>
+      <table id="14" parent="1" name="truck_state"/>
+      <table id="15" parent="1" name="station"/>
+      <column id="16" parent="9" name="USER_ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
       </column>
-      <column id="9" parent="2" name="TRUCK_ID">
+      <column id="17" parent="9" name="TRUCK_ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
       </column>
-      <index id="10" parent="2" name="fk_DRIVER_TRUCK_idx">
-        <columns>TRUCK_ID</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="11" parent="2" name="TRUCK_ID_UNIQUE">
+      <index id="18" parent="9" name="AUTO_ID_UNIQUE">
         <columns>TRUCK_ID</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="12" parent="2" name="PRIMARY">
+      <index id="19" parent="9" name="fk_DRIVER_AUTO1_idx">
+        <columns>TRUCK_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="20" parent="9" name="PRIMARY">
         <columns>USER_ID</columns>
         <primary>1</primary>
       </key>
-      <key id="13" parent="2" name="TRUCK_ID_UNIQUE">
+      <key id="21" parent="9" name="AUTO_ID_UNIQUE">
         <columns>TRUCK_ID</columns>
-        <underlying-index>TRUCK_ID_UNIQUE</underlying-index>
+        <underlying-index>AUTO_ID_UNIQUE</underlying-index>
       </key>
-      <foreign-key id="14" parent="2" name="fk_DRIVER_AUTO1">
-        <columns>TRUCK_ID</columns>
-        <ref-key>~.truck.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <foreign-key id="15" parent="2" name="fk_DRIVER_USER">
+      <foreign-key id="22" parent="9" name="fk_DRIVER_USER">
         <columns>USER_ID</columns>
         <ref-key>~.user.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
       </foreign-key>
-      <column id="16" parent="3" name="ID">
+      <foreign-key id="23" parent="9" name="fk_DRIVER_AUTO1">
+        <columns>TRUCK_ID</columns>
+        <ref-key>~.truck.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="24" parent="10" name="ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="17" parent="3" name="REQUEST_ID">
+      <column id="25" parent="10" name="REQUEST_ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
       </column>
-      <column id="18" parent="3" name="DRIVER_ID">
+      <column id="26" parent="10" name="DRIVER_ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
       </column>
-      <column id="19" parent="3" name="IS_COMPLETE">
+      <column id="27" parent="10" name="IS_COMPLETE">
         <mandatory>1</mandatory>
-        <data-type>tinyint(1)</data-type>
+        <data-type>tinyint(1)|0</data-type>
       </column>
-      <index id="20" parent="3" name="fk_TRIP_DRIVER_idx">
+      <index id="28" parent="10" name="fk_TRIP_APPLICATION1_idx">
+        <columns>REQUEST_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="29" parent="10" name="fk_TRIP_DRIVER1_idx">
         <columns>DRIVER_ID</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="21" parent="3" name="fk_TRIP_REQUEST_idx">
-        <columns>REQUEST_ID</columns>
-        <desc-columns></desc-columns>
-      </index>
-      <index id="22" parent="3" name="REQUEST_ID_UNIQUE">
+      <index id="30" parent="10" name="REQUEST_ID_UNIQUE">
         <columns>REQUEST_ID</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="23" parent="3" name="PRIMARY">
+      <key id="31" parent="10" name="PRIMARY">
         <columns>ID</columns>
         <primary>1</primary>
       </key>
-      <key id="24" parent="3" name="REQUEST_ID_UNIQUE">
+      <key id="32" parent="10" name="REQUEST_ID_UNIQUE">
         <columns>REQUEST_ID</columns>
         <underlying-index>REQUEST_ID_UNIQUE</underlying-index>
       </key>
-      <foreign-key id="25" parent="3" name="fk_TRIP_APPLICATION1">
+      <foreign-key id="33" parent="10" name="fk_TRIP_APPLICATION1">
         <columns>REQUEST_ID</columns>
         <ref-key>~.request.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="26" parent="3" name="fk_TRIP_DRIVER1">
+      <foreign-key id="34" parent="10" name="fk_TRIP_DRIVER1">
         <columns>DRIVER_ID</columns>
         <ref-key>~.driver.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
       </foreign-key>
-      <column id="27" parent="4" name="ID">
+      <column id="35" parent="11" name="ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="28" parent="4" name="CAPACITY">
+      <column id="36" parent="11" name="NUMBER">
         <mandatory>1</mandatory>
-        <data-type>int(10) unsigned</data-type>
+        <data-type>varchar(45)|0</data-type>
       </column>
-      <column id="29" parent="4" name="STATE_ID">
+      <column id="37" parent="11" name="CAPACITY">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>double unsigned|0</data-type>
       </column>
-      <index id="30" parent="4" name="fk_TRUCK_STATE_idx">
+      <column id="38" parent="11" name="STATE_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <index id="39" parent="11" name="fk_AUTO_STATE1_idx">
         <columns>STATE_ID</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="31" parent="4" name="PRIMARY">
+      <key id="40" parent="11" name="PRIMARY">
         <columns>ID</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="32" parent="4" name="fk_AUTO_STATE1">
+      <foreign-key id="41" parent="11" name="fk_AUTO_STATE1">
         <columns>STATE_ID</columns>
         <ref-key>~.truck_state.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
       </foreign-key>
-      <column id="33" parent="5" name="ID">
+      <column id="42" parent="12" name="ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="34" parent="5" name="LOGIN">
+      <column id="43" parent="12" name="LOGIN">
         <mandatory>1</mandatory>
-        <data-type>varchar(45)</data-type>
+        <data-type>varchar(45)|0</data-type>
       </column>
-      <column id="35" parent="5" name="PASSWORD">
+      <column id="44" parent="12" name="PASSWORD">
         <mandatory>1</mandatory>
-        <data-type>varchar(45)</data-type>
+        <data-type>varchar(45)|0</data-type>
       </column>
-      <index id="36" parent="5" name="LOGIN_UNIQUE">
+      <index id="45" parent="12" name="LOGIN_UNIQUE">
         <columns>LOGIN</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="37" parent="5" name="LOGIN_UNIQUE">
+      <key id="46" parent="12" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="47" parent="12" name="LOGIN_UNIQUE">
         <columns>LOGIN</columns>
         <underlying-index>LOGIN_UNIQUE</underlying-index>
       </key>
-      <key id="38" parent="5" name="PRIMARY">
+      <column id="48" parent="13" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="49" parent="13" name="CARGO_WEIGHT">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned|0</data-type>
+      </column>
+      <column id="50" parent="13" name="DEPARTURE_POINT">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <column id="51" parent="13" name="DESTINATION_POINT">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <index id="52" parent="13" name="departure_point_fk_idx">
+        <columns>DEPARTURE_POINT</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="53" parent="13" name="destination_point_fk_idx">
+        <columns>DESTINATION_POINT</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="54" parent="13" name="PRIMARY">
         <columns>ID</columns>
         <primary>1</primary>
       </key>
-      <column id="39" parent="6" name="ID">
+      <foreign-key id="55" parent="13" name="departure_point_fk">
+        <columns>DEPARTURE_POINT</columns>
+        <ref-key>~.station.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="56" parent="13" name="destination_point_fk">
+        <columns>DESTINATION_POINT</columns>
+        <ref-key>~.station.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="57" parent="14" name="ID">
         <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
+        <data-type>int(11)|0</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="40" parent="6" name="CARGO_WEIGHT">
+      <column id="58" parent="14" name="STATE_NAME">
         <mandatory>1</mandatory>
-        <data-type>int(10) unsigned</data-type>
+        <data-type>varchar(45)|0</data-type>
       </column>
-      <key id="41" parent="6" name="PRIMARY">
-        <columns>ID</columns>
-        <primary>1</primary>
-      </key>
-      <column id="42" parent="7" name="ID">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-        <sequence-identity>1</sequence-identity>
-      </column>
-      <column id="43" parent="7" name="STATE_NAME">
-        <mandatory>1</mandatory>
-        <data-type>varchar(45)</data-type>
-      </column>
-      <index id="44" parent="7" name="STATE_NAME_UNIQUE">
+      <index id="59" parent="14" name="STATE_NAME_UNIQUE">
         <columns>STATE_NAME</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="45" parent="7" name="PRIMARY">
+      <key id="60" parent="14" name="PRIMARY">
         <columns>ID</columns>
         <primary>1</primary>
       </key>
-      <key id="46" parent="7" name="STATE_NAME_UNIQUE">
+      <key id="61" parent="14" name="STATE_NAME_UNIQUE">
         <columns>STATE_NAME</columns>
         <underlying-index>STATE_NAME_UNIQUE</underlying-index>
+      </key>
+      <column id="62" parent="15" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="63" parent="15" name="NAME">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <column id="64" parent="15" name="ADDRESS">
+        <mandatory>1</mandatory>
+        <data-type>varchar(300)|0</data-type>
+      </column>
+      <index id="65" parent="15" name="ADDRESS_UNIQUE">
+        <columns>ADDRESS</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="66" parent="15" name="NAME_UNIQUE">
+        <columns>NAME</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="67" parent="15" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="68" parent="15" name="NAME_UNIQUE">
+        <columns>NAME</columns>
+        <underlying-index>NAME_UNIQUE</underlying-index>
+      </key>
+      <key id="69" parent="15" name="ADDRESS_UNIQUE">
+        <columns>ADDRESS</columns>
+        <underlying-index>ADDRESS_UNIQUE</underlying-index>
       </key>
     </database-model>
   </data-source>
   <data-source name="MotorDepotHibernateManager/Hibernate" uuid="620d84d9-aad4-4ecb-a449-74eb5fb324af">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+    <database-info product="MySQL" version="5.7.11-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+      <schema id="1" name="motor_depot">
+        <visible>1</visible>
+      </schema>
+      <schema id="2" name="information_schema"/>
+      <schema id="3" name="mysql"/>
+      <schema id="4" name="performance_schema"/>
+      <schema id="5" name="sakila"/>
+      <schema id="6" name="sys"/>
+      <schema id="7" name="web1_schema"/>
+      <schema id="8" name="world"/>
+      <table id="9" parent="1" name="driver"/>
+      <table id="10" parent="1" name="request"/>
+      <table id="11" parent="1" name="station"/>
+      <table id="12" parent="1" name="trip"/>
+      <table id="13" parent="1" name="truck"/>
+      <table id="14" parent="1" name="truck_state"/>
+      <table id="15" parent="1" name="user"/>
+      <column id="16" parent="9" name="USER_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <column id="17" parent="9" name="TRUCK_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <index id="18" parent="9" name="AUTO_ID_UNIQUE">
+        <columns>TRUCK_ID</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="19" parent="9" name="fk_DRIVER_AUTO1_idx">
+        <columns>TRUCK_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="20" parent="9" name="PRIMARY">
+        <columns>USER_ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="21" parent="9" name="AUTO_ID_UNIQUE">
+        <columns>TRUCK_ID</columns>
+        <underlying-index>AUTO_ID_UNIQUE</underlying-index>
+      </key>
+      <foreign-key id="22" parent="9" name="fk_DRIVER_USER">
+        <columns>USER_ID</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="23" parent="9" name="fk_DRIVER_AUTO1">
+        <columns>TRUCK_ID</columns>
+        <ref-key>~.truck.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="24" parent="10" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="25" parent="10" name="CARGO_WEIGHT">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned|0</data-type>
+      </column>
+      <column id="26" parent="10" name="DEPARTURE_POINT">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <column id="27" parent="10" name="DESTINATION_POINT">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <index id="28" parent="10" name="departure_point_fk_idx">
+        <columns>DEPARTURE_POINT</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="29" parent="10" name="destination_point_fk_idx">
+        <columns>DESTINATION_POINT</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="30" parent="10" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="31" parent="10" name="departure_point_fk">
+        <columns>DEPARTURE_POINT</columns>
+        <ref-key>~.station.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="32" parent="10" name="destination_point_fk">
+        <columns>DESTINATION_POINT</columns>
+        <ref-key>~.station.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="33" parent="11" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="34" parent="11" name="NAME">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <column id="35" parent="11" name="ADDRESS">
+        <mandatory>1</mandatory>
+        <data-type>varchar(300)|0</data-type>
+      </column>
+      <index id="36" parent="11" name="ADDRESS_UNIQUE">
+        <columns>ADDRESS</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <index id="37" parent="11" name="NAME_UNIQUE">
+        <columns>NAME</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="38" parent="11" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="39" parent="11" name="NAME_UNIQUE">
+        <columns>NAME</columns>
+        <underlying-index>NAME_UNIQUE</underlying-index>
+      </key>
+      <key id="40" parent="11" name="ADDRESS_UNIQUE">
+        <columns>ADDRESS</columns>
+        <underlying-index>ADDRESS_UNIQUE</underlying-index>
+      </key>
+      <column id="41" parent="12" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="42" parent="12" name="REQUEST_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <column id="43" parent="12" name="DRIVER_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <column id="44" parent="12" name="IS_COMPLETE">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)|0</data-type>
+      </column>
+      <index id="45" parent="12" name="fk_TRIP_APPLICATION1_idx">
+        <columns>REQUEST_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="46" parent="12" name="fk_TRIP_DRIVER1_idx">
+        <columns>DRIVER_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="47" parent="12" name="REQUEST_ID_UNIQUE">
+        <columns>REQUEST_ID</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="48" parent="12" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="49" parent="12" name="REQUEST_ID_UNIQUE">
+        <columns>REQUEST_ID</columns>
+        <underlying-index>REQUEST_ID_UNIQUE</underlying-index>
+      </key>
+      <foreign-key id="50" parent="12" name="fk_TRIP_APPLICATION1">
+        <columns>REQUEST_ID</columns>
+        <ref-key>~.request.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="51" parent="12" name="fk_TRIP_DRIVER1">
+        <columns>DRIVER_ID</columns>
+        <ref-key>~.driver.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="52" parent="13" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="53" parent="13" name="NUMBER">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <column id="54" parent="13" name="CAPACITY">
+        <mandatory>1</mandatory>
+        <data-type>int(10) unsigned|0</data-type>
+      </column>
+      <column id="55" parent="13" name="STATE_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+      </column>
+      <index id="56" parent="13" name="fk_AUTO_STATE1_idx">
+        <columns>STATE_ID</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="57" parent="13" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="58" parent="13" name="fk_AUTO_STATE1">
+        <columns>STATE_ID</columns>
+        <ref-key>~.truck_state.PRIMARY</ref-key>
+        <cascade-update-rule>no_action</cascade-update-rule>
+        <cascade-delete-rule>no_action</cascade-delete-rule>
+      </foreign-key>
+      <column id="59" parent="14" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="60" parent="14" name="STATE_NAME">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <index id="61" parent="14" name="STATE_NAME_UNIQUE">
+        <columns>STATE_NAME</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="62" parent="14" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="63" parent="14" name="STATE_NAME_UNIQUE">
+        <columns>STATE_NAME</columns>
+        <underlying-index>STATE_NAME_UNIQUE</underlying-index>
+      </key>
+      <column id="64" parent="15" name="ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)|0</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="65" parent="15" name="LOGIN">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <column id="66" parent="15" name="PASSWORD">
+        <mandatory>1</mandatory>
+        <data-type>varchar(45)|0</data-type>
+      </column>
+      <index id="67" parent="15" name="LOGIN_UNIQUE">
+        <columns>LOGIN</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="68" parent="15" name="PRIMARY">
+        <columns>ID</columns>
+        <primary>1</primary>
+      </key>
+      <key id="69" parent="15" name="LOGIN_UNIQUE">
+        <columns>LOGIN</columns>
+        <underlying-index>LOGIN_UNIQUE</underlying-index>
+      </key>
+    </database-model>
   </data-source>
 </component>

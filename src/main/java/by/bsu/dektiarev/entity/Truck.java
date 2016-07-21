@@ -18,8 +18,11 @@ public class Truck {
     @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "NUMBER")
+    private String number;
+
     @Column(name = "CAPACITY")
-    private Integer capacity;
+    private Double capacity;
 
     @ManyToOne
     @JoinColumn(name = "STATE_ID", referencedColumnName = "ID", nullable = false)
@@ -33,11 +36,19 @@ public class Truck {
         this.id = id;
     }
 
-    public Integer getCapacity() {
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Double getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(Double capacity) {
         this.capacity = capacity;
     }
 
@@ -45,14 +56,25 @@ public class Truck {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Truck that = (Truck) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(capacity, that.capacity);
+        Truck truck = (Truck) o;
+        return Objects.equals(id, truck.id) &&
+                Objects.equals(number, truck.number) &&
+                Objects.equals(capacity, truck.capacity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCapacity());
+        return Objects.hash(id, number, capacity);
+    }
+
+    @Override
+    public String toString() {
+        return "Truck{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", capacity=" + capacity +
+                ", state=" + state +
+                '}';
     }
 
     public TruckStateDTO getState() {
@@ -63,12 +85,4 @@ public class Truck {
         this.state = state;
     }
 
-    @Override
-    public String toString() {
-        return "Truck{" +
-                "id=" + id +
-                ", capacity=" + capacity +
-                ", state=" + state +
-                '}';
-    }
 }
