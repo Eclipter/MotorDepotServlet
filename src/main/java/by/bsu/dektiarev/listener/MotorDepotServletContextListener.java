@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.listener;
 
+import by.bsu.dektiarev.dao.util.EntityManagerFactoryProvider;
 import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
+ * Listener used to initialize and destroy connection pool if servlet is running in JDBC mode,
+ * or initialize EntityManagerFactory, if servlet is running in JPA mode
  * Created by USER on 16.06.2016.
  */
 public class MotorDepotServletContextListener implements ServletContextListener {
@@ -30,6 +33,8 @@ public class MotorDepotServletContextListener implements ServletContextListener 
                 servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         INITIALIZING_POOL_ERROR);
             }
+        } else {
+            EntityManagerFactoryProvider.getInstance();
         }
     }
 

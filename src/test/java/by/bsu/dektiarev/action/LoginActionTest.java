@@ -1,7 +1,5 @@
-package by.bsu.dektiarev.action.test;
+package by.bsu.dektiarev.action;
 
-import by.bsu.dektiarev.action.Action;
-import by.bsu.dektiarev.action.LoginAction;
 import by.bsu.dektiarev.bean.UserInfoBean;
 import by.bsu.dektiarev.dao.DriverDAO;
 import by.bsu.dektiarev.dao.UserDAO;
