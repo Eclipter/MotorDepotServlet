@@ -20,6 +20,14 @@ public interface TruckDAO extends GenericDAO {
     List<Truck> getAllTrucks() throws DAOException;
 
     /**
+     * Gets truck by driver ID
+     * @param driverId
+     * @return corresponding truck
+     * @throws DAOException
+     */
+    Truck getTruckByDriver(int driverId) throws DAOException;
+
+    /**
      * Changes truck state
      * @param truckId id of truck
      * @param truckStateToSet state to set

@@ -18,8 +18,8 @@ import java.io.IOException;
  */
 public class AuthenticationFilter implements Filter {
 
-    private static final ActionEnum[] ADMIN_COMMANDS = { ActionEnum.CHANGE_TRUCK_STATE,
-            ActionEnum.CHANGE_TRIP_STATE, ActionEnum.ADD_REQUEST, ActionEnum.GET_REQUESTS,
+    private static final ActionEnum[] ADMIN_COMMANDS = { ActionEnum.CHANGE_TRIP_STATE,
+            ActionEnum.ADD_REQUEST, ActionEnum.GET_REQUESTS,
             ActionEnum.GET_TRIPS, ActionEnum.GET_ASSIGNATION_FORM,
             ActionEnum.ASSIGN_DRIVER_TO_A_TRIP, ActionEnum.DELETE_REQUEST
     };

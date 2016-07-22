@@ -36,6 +36,26 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     }
 
     @Override
+    public Truck getTruckByDriver(int driverId) throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRUCK_BY_DRIVER_ID)) {
+                statement.setInt(1, driverId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    List<Truck> truckList = getTrucksFromResultSet(resultSet);
+                    if(truckList.size() == 0) {
+                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                    }
+                    return truckList.get(0);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+        } catch (DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
     public void changeTruckState(int truckId, TruckState truckStateToSet) throws DAOException {
         if(truckStateToSet == null) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);

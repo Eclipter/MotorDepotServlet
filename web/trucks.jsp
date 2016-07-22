@@ -36,7 +36,7 @@
                         <tr>
                             <td>${car.id}</td>
                             <c:if test="${sessionScope.user.admin}">
-                                <td>${car.number}</td>
+                                <td><c:out value="${car.number}"/></td>
                             </c:if>
                             <td>${car.capacity}</td>
                             <td>
@@ -56,7 +56,9 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><fmt:message key="trucks.button.change_state"/></button>
+                <c:if test="${!sessionScope.user.admin}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><fmt:message key="trucks.button.change_state"/></button>
+                </c:if>
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -66,14 +68,6 @@
                                     <h4 class="modal-title"><fmt:message key="trucks.button.change_state"/></h4>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="carList"><fmt:message key="trucks.modal.label.truck"/></label>
-                                        <select class="form-control" id="carList" name="chosenTruck">
-                                            <c:forEach items="${requestScope.trucks}" var="car">
-                                                <option value="${car.id}"><fmt:message key="trucks.table.id"/>: ${car.id}, <fmt:message key="trucks.table.capacity"/>: ${car.capacity}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
                                     <div class="form-group">
                                         <label for="stateList"><fmt:message key="trucks.table.state"/></label>
                                         <select class="form-control" id="stateList" name="chosenState">

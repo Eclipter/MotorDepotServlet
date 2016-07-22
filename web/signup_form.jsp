@@ -43,9 +43,9 @@
                 <strong><fmt:message key="signup.heading"/></strong>
             </div>
             <div class="panel-body">
-                <c:if test="${requestScope.errorMessage != null}">
+                <c:if test="${sessionScope.errorMessage != null}">
                     <div class="alert alert-danger">
-                        <c:out value="${requestScope.errorMessage}"/>
+                        <c:out value="${sessionScope.errorMessage}"/>
                         <c:remove var="errorMessage" scope="session"/>
                     </div>
                 </c:if>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inputTruckNumber" class="control-label"><fmt:message key="signup.label.number"/></label>
-                        <input type="text" name="truckNumber" id="inputTruckNumber" class="form-control" placeholder="<fmt:message key="signup.placeholder.number"/>" required>
+                        <input type="text" value="${fn:escapeXml(param.truckNumber)}" name="truckNumber" id="inputTruckNumber" class="form-control" placeholder="<fmt:message key="signup.placeholder.number"/>" required>
                     </div>
                     <div class="form-group">
                         <label for="inputTruckCapacity" class="control-label"><fmt:message key="signup.label.capacity"/></label>

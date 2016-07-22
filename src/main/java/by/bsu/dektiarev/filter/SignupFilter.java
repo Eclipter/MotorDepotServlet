@@ -61,7 +61,7 @@ public class SignupFilter implements Filter {
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
             } else {
                 try {
-                    int capacity = Integer.parseInt(truckCapacity);
+                    double capacity = Double.parseDouble(truckCapacity);
                     if (capacity <= 0) {
                         LOG.warn("truck capacity below zero");
                         req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,

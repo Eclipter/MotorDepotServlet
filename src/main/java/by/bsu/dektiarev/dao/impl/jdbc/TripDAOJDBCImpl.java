@@ -56,14 +56,14 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            Integer capacity;
-            Integer cargoWeight;
+            Double capacity;
+            Double cargoWeight;
             TruckState truckState;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_REQUEST_BY_ID)) {
                 statement.setInt(1, requestId);
                 try(ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        cargoWeight = resultSet.getInt(ColumnName.CARGO_WEIGHT);
+                        cargoWeight = resultSet.getDouble(ColumnName.CARGO_WEIGHT);
                     }
                     else {
                         throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
@@ -74,7 +74,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 statement.setInt(1, driverId);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        capacity = resultSet.getInt(ColumnName.CAPACITY);
+                        capacity = resultSet.getDouble(ColumnName.CAPACITY);
                         truckState = TruckState.valueOf(resultSet.getString(ColumnName.STATE_NAME));
                     }
                     else {
