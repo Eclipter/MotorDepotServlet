@@ -24,6 +24,9 @@ public final class RequestParameterName {
     public static final String TRUCK_CAPACITY = "truckCapacity";
     public static final String COMMAND = "command";
     public static final String CARGO_WEIGHT = "cargoWeight";
+    public static final String DEPARTURE_STATION_ID = "departure_station_id";
+    public static final String DESTINATION_STATION_ID = "destination_station_id";
+    public static final String STATIONS = "stations";
     public static final String LANGUAGE = "language";
     public static final String REQUEST_ID = "request_id";
 

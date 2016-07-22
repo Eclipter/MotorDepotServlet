@@ -5,6 +5,7 @@ import by.bsu.dektiarev.dao.util.ColumnName;
 import by.bsu.dektiarev.dao.util.DatabaseQuery;
 import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.entity.Request;
+import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
@@ -52,13 +53,15 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     }
 
     @Override
-    public void addNewRequest(int cargoWeight) throws DAOException {
+    public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
         if(cargoWeight < 0) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_REQUEST)) {
-                statement.setInt(1, cargoWeight);
+                statement.setInt(1, departurePointId);
+                statement.setInt(2, destinationPointId);
+                statement.setDouble(3, cargoWeight);
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -89,10 +92,26 @@ public class RequestDAOJDBCImpl implements RequestDAO {
         List<Request> requestList = new ArrayList<>();
         while(resultSet.next()) {
             Integer requestId = resultSet.getInt(ColumnName.ID);
-            Integer cargoWeight = resultSet.getInt(ColumnName.CARGO_WEIGHT);
+            Integer departureStationId = resultSet.getInt(ColumnName.DEPARTURE_STATION_ID);
+            Integer destinationStationId = resultSet.getInt(ColumnName.DESTINATION_STATION_ID);
+            String departureName = resultSet.getString(ColumnName.DEPARTURE_NAME);
+            String destinationName = resultSet.getString(ColumnName.DESTINATION_NAME);
+            String departureAddress = resultSet.getString(ColumnName.DEPARTURE_ADDRESS);
+            String destinationAddress = resultSet.getString(ColumnName.DESTINATION_ADDRESS);
+            Station departureStation = new Station();
+            Station destinationStation = new Station();
+            departureStation.setId(departureStationId);
+            departureStation.setName(departureName);
+            departureStation.setAddress(departureAddress);
+            destinationStation.setId(destinationStationId);
+            destinationStation.setName(destinationName);
+            destinationStation.setAddress(destinationAddress);
+            Double cargoWeight = resultSet.getDouble(ColumnName.CARGO_WEIGHT);
             Request request = new Request();
             request.setId(requestId);
             request.setCargoWeight(cargoWeight);
+            request.setDepartureStation(departureStation);
+            request.setDestinationStation(destinationStation);
             requestList.add(request);
         }
         return requestList;

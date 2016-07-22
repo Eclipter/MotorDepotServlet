@@ -11,8 +11,12 @@ public final class ColumnName {
     public static final String PASSWORD = "PASSWORD";
     public static final String TRUCK_ID = "TRUCK_ID";
     public static final String NUMBER = "NUMBER";
-    public static final String DEPARTURE_POINT = "DEPARTURE_POINT";
-    public static final String DESTINATION_POINT = "DESTINATION_POINT";
+    public static final String DEPARTURE_STATION_ID = "DEPARTURE_STATION_ID";
+    public static final String DESTINATION_STATION_ID = "DESTINATION_STATION_ID";
+    public static final String DEPARTURE_NAME = "DEPARTURE_NAME";
+    public static final String DEPARTURE_ADDRESS = "DEPARTURE_ADDRESS";
+    public static final String DESTINATION_NAME = "DESTINATION_NAME";
+    public static final String DESTINATION_ADDRESS = "DESTINATION_ADDRESS";
     public static final String NAME = "NAME";
     public static final String ADDRESS = "ADDRESS";
     public static final String CAPACITY = "CAPACITY";

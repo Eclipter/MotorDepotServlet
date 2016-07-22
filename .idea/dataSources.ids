@@ -175,22 +175,22 @@
       </column>
       <column id="49" parent="13" name="CARGO_WEIGHT">
         <mandatory>1</mandatory>
-        <data-type>int(10) unsigned|0</data-type>
+        <data-type>double unsigned|0</data-type>
       </column>
-      <column id="50" parent="13" name="DEPARTURE_POINT">
+      <column id="50" parent="13" name="DEPARTURE_STATION_ID">
         <mandatory>1</mandatory>
         <data-type>int(11)|0</data-type>
       </column>
-      <column id="51" parent="13" name="DESTINATION_POINT">
+      <column id="51" parent="13" name="DESTINATION_STATION_ID">
         <mandatory>1</mandatory>
         <data-type>int(11)|0</data-type>
       </column>
       <index id="52" parent="13" name="departure_point_fk_idx">
-        <columns>DEPARTURE_POINT</columns>
+        <columns>DEPARTURE_STATION_ID</columns>
         <desc-columns></desc-columns>
       </index>
       <index id="53" parent="13" name="destination_point_fk_idx">
-        <columns>DESTINATION_POINT</columns>
+        <columns>DESTINATION_STATION_ID</columns>
         <desc-columns></desc-columns>
       </index>
       <key id="54" parent="13" name="PRIMARY">
@@ -198,13 +198,13 @@
         <primary>1</primary>
       </key>
       <foreign-key id="55" parent="13" name="departure_point_fk">
-        <columns>DEPARTURE_POINT</columns>
+        <columns>DEPARTURE_STATION_ID</columns>
         <ref-key>~.station.PRIMARY</ref-key>
         <cascade-update-rule>no_action</cascade-update-rule>
         <cascade-delete-rule>no_action</cascade-delete-rule>
       </foreign-key>
       <foreign-key id="56" parent="13" name="destination_point_fk">
-        <columns>DESTINATION_POINT</columns>
+        <columns>DESTINATION_STATION_ID</columns>
         <ref-key>~.station.PRIMARY</ref-key>
         <cascade-update-rule>no_action</cascade-update-rule>
         <cascade-delete-rule>no_action</cascade-delete-rule>

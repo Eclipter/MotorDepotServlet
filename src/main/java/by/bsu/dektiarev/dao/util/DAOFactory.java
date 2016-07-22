@@ -39,6 +39,8 @@ public class DAOFactory {
                 return useJPA ? new TruckDAOJPAImpl() : new TruckDAOJDBCImpl();
             case USER:
                 return useJPA ? new UserDAOJPAImpl() : new UserDAOJDBCImpl();
+            case STATION:
+                return useJPA ? new StationDAOJPAImpl() : new StationDAOJDBCImpl();
             default:
                 throw new DAOException(ExceptionalMessage.NO_DAO_CLASS);
         }

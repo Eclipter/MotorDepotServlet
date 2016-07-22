@@ -2,6 +2,7 @@ package by.bsu.dektiarev.dao.impl.jpa;
 
 import by.bsu.dektiarev.dao.RequestDAO;
 import by.bsu.dektiarev.entity.Request;
+import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
 
@@ -28,8 +29,13 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     }
 
     @Override
-    public void addNewRequest(int cargoWeight) throws DAOException {
-        if(cargoWeight < 0) {
+    public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
+        if(cargoWeight < 0 || departurePointId <= 0 || destinationPointId <= 0) {
+            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+        }
+        Station departureStation = getManager().find(Station.class, departurePointId);
+        Station destinationStation = getManager().find(Station.class, destinationPointId);
+        if(departureStation == null || destinationStation == null) {
             throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
@@ -37,9 +43,11 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             transaction.begin();
             Request request = new Request();
             request.setCargoWeight(cargoWeight);
+            request.setDepartureStation(departureStation);
+            request.setDestinationStation(destinationStation);
             getManager().persist(request);
             transaction.commit();
-        } catch (Exception ex) {
+        } catch (java.lang.Exception ex) {
             throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
         } finally {
             getManager().clear();

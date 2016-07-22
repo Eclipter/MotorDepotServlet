@@ -39,14 +39,14 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
             if(request == null) {
                 throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
             }
-            int cargoWeight = request.getCargoWeight();
+            double cargoWeight = request.getCargoWeight();
 
             Driver driver = getManager().find(Driver.class, driverId);
             if(driver == null) {
                 throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
             }
             Truck truck = driver.getTruck();
-            int capacity = truck.getCapacity();
+            double capacity = truck.getCapacity();
             if (cargoWeight > capacity) {
                 throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
             }

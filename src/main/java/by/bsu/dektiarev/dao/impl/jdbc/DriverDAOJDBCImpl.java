@@ -132,7 +132,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             String login = resultSet.getString(ColumnName.LOGIN);
             String password = resultSet.getString(ColumnName.PASSWORD);
             Integer truckId = resultSet.getInt(ColumnName.TRUCK_ID);
-            Integer capacity = resultSet.getInt(ColumnName.CAPACITY);
+            Double capacity = resultSet.getDouble(ColumnName.CAPACITY);
             Integer stateId = resultSet.getInt(ColumnName.STATE_ID);
             String stateName = resultSet.getString(ColumnName.STATE_NAME);
             Driver driver = new Driver();

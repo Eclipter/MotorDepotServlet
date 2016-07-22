@@ -45,8 +45,8 @@
                         <tr>
                             <td>${request.request.id}</td>
                             <td>${request.request.cargoWeight}</td>
-                            <td>${request.request.departurePoint.name} (${request.request.departurePoint.address})</td>
-                            <td>${request.request.destinationPoint.name} (${request.request.destinationPoint.address})</td>
+                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})</td>
+                            <td>${request.request.destinationStation.name} (${request.request.destinationStation.address})</td>
                             <c:choose>
                                 <c:when test="${request.driver != null}">
                                     <td>
@@ -121,6 +121,24 @@
                                         <input id="inputWeight" type="text" class="form-control"
                                                placeholder="<fmt:message key="requests.modal.placeholder.weight"/>"
                                                name="cargoWeight" required>
+                                        <label for="departureStationList" class="control-label">DEPARTURE STATION INTERNATION
+                                        </label>
+                                        <select class="form-control" id="departureStationList" name="departure_station_id">
+                                            <c:forEach items="${requestScope.stations}" var="station">
+                                                <option value="${station.id}">
+                                                    Name: ${station.name}, address: ${station.address}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                        <label for="destinationStationList" class="control-label">DESTINATION STATION INTERNATION
+                                        </label>
+                                        <select class="form-control" id="destinationStationList" name="destination_station_id">
+                                            <c:forEach items="${requestScope.stations}" var="station">
+                                                <option value="${station.id}">
+                                                    Name: ${station.name}, address: ${station.address}
+                                                </option>
+                                            </c:forEach>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

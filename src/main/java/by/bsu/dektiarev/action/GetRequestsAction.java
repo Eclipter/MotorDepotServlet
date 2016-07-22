@@ -3,9 +3,11 @@ package by.bsu.dektiarev.action;
 import by.bsu.dektiarev.action.util.RequestViewBeanListProvider;
 import by.bsu.dektiarev.bean.RequestViewBean;
 import by.bsu.dektiarev.dao.RequestDAO;
+import by.bsu.dektiarev.dao.StationDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.entity.Request;
+import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -31,9 +33,12 @@ public class GetRequestsAction implements Action {
         try {
             LOG.info("requesting all requests");
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
+            StationDAO stationDAO = (StationDAO) daoFactory.getDAOFromFactory(DAOType.STATION);
+            List<Station> stationList = stationDAO.getAllStations();
             List<Request> allRequests = requestDAO.getAllRequests();
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(allRequests);
+            req.setAttribute(RequestParameterName.STATIONS, stationList);
             req.setAttribute(RequestParameterName.REQUESTS, requestViewBeanList);
             return PagesBundleManager.getProperty(PageNameConstant.REQUESTS);
         } catch (DAOException e) {

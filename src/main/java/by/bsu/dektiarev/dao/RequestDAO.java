@@ -27,10 +27,12 @@ public interface RequestDAO extends GenericDAO {
 
     /**
      * Adds new request to the database
+     * @param departurePointId
+     * @param destinationPointId
      * @param cargoWeight cargo weight parameter
      * @throws DAOException in case of DML error
      */
-    void addNewRequest(int cargoWeight) throws DAOException;
+    void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException;
 
     void deleteRequest(int requestId) throws DAOException;
 }

@@ -54,13 +54,29 @@ public final class DatabaseQuery {
 
     public static final String GET_ALL_REQUESTS = "SELECT\n" +
             "  request.ID,\n" +
-            "  request.CARGO_WEIGHT\n" +
-            "FROM request";
+            "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS\n" +
+            "FROM request\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID";
 
     public static final String GET_UNASSIGNED_REQUESTS = "SELECT\n" +
             "  request.ID,\n" +
-            "  request.CARGO_WEIGHT\n" +
+            "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS\n" +
             "FROM request\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
             "WHERE request.ID NOT IN (SELECT trip.REQUEST_ID\n" +
             "                         FROM trip)";
 
@@ -81,7 +97,8 @@ public final class DatabaseQuery {
             "                        FROM trip\n" +
             "                        WHERE trip.REQUEST_ID = ?)";
 
-    public static final String INSERT_REQUEST = "INSERT INTO request (CARGO_WEIGHT) VALUES (?)";
+    public static final String INSERT_REQUEST = "INSERT INTO request " +
+            "(DEPARTURE_STATION_ID, DESTINATION_STATION_ID, CARGO_WEIGHT) VALUES (?, ?, ?)";
 
     public static final String DELETE_REQUEST = "DELETE FROM request WHERE request.ID = ?";
 
@@ -89,17 +106,24 @@ public final class DatabaseQuery {
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS,\n" +
             "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
-            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
             "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
@@ -109,17 +133,24 @@ public final class DatabaseQuery {
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS,\n" +
             "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
-            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
             "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
@@ -128,8 +159,16 @@ public final class DatabaseQuery {
 
     public static final String GET_REQUEST_BY_ID = "SELECT\n" +
             "  request.ID,\n" +
-            "  request.CARGO_WEIGHT\n" +
+            "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS\n" +
             "FROM request\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
             "WHERE request.ID = ?";
 
     public static final String GET_TRUCK_BY_DRIVER_ID = "SELECT\n" +
@@ -150,17 +189,24 @@ public final class DatabaseQuery {
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS,\n" +
             "  trip.DRIVER_ID AS USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
             "  driver.TRUCK_ID,\n" +
-            "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME,\n" +
             "  trip.IS_COMPLETE\n" +
             "FROM trip\n" +
             "  JOIN request ON trip.REQUEST_ID = request.ID\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
             "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
@@ -211,6 +257,12 @@ public final class DatabaseQuery {
             "WHERE user.LOGIN = ? AND user.PASSWORD = MD5(?)";
 
     public static final String INSERT_USER = "INSERT INTO user (LOGIN, PASSWORD) VALUES (?, MD5(?))";
+
+    public static final String GET_ALL_STATIONS = "SELECT\n" +
+            "  station.ID,\n" +
+            "  station.NAME,\n" +
+            "  station.ADDRESS\n" +
+            "FROM station";
 
     private DatabaseQuery() {
     }

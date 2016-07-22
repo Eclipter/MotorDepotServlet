@@ -135,12 +135,12 @@ public class TripDAOJDBCImpl implements TripDAO {
         while(resultSet.next()) {
             Integer tripId = resultSet.getInt(ColumnName.ID);
             Integer requestId = resultSet.getInt(ColumnName.REQUEST_ID);
-            Integer cargoWeight = resultSet.getInt(ColumnName.CARGO_WEIGHT);
+            Double cargoWeight = resultSet.getDouble(ColumnName.CARGO_WEIGHT);
             Integer userId = resultSet.getInt(ColumnName.USER_ID);
             String login = resultSet.getString(ColumnName.LOGIN);
             String password = resultSet.getString(ColumnName.PASSWORD);
             Integer truckId = resultSet.getInt(ColumnName.TRUCK_ID);
-            Integer capacity = resultSet.getInt(ColumnName.CAPACITY);
+            Double capacity = resultSet.getDouble(ColumnName.CAPACITY);
             Integer stateId = resultSet.getInt(ColumnName.STATE_ID);
             String stateName = resultSet.getString(ColumnName.STATE_NAME);
             Boolean isComplete = resultSet.getBoolean(ColumnName.IS_COMPLETE);
@@ -166,6 +166,24 @@ public class TripDAOJDBCImpl implements TripDAO {
             Request request = new Request();
             request.setId(requestId);
             request.setCargoWeight(cargoWeight);
+
+            Integer departureStationId = resultSet.getInt(ColumnName.DEPARTURE_STATION_ID);
+            Integer destinationStationId = resultSet.getInt(ColumnName.DESTINATION_STATION_ID);
+            String departureName = resultSet.getString(ColumnName.DEPARTURE_NAME);
+            String destinationName = resultSet.getString(ColumnName.DESTINATION_NAME);
+            String departureAddress = resultSet.getString(ColumnName.DEPARTURE_ADDRESS);
+            String destinationAddress = resultSet.getString(ColumnName.DESTINATION_ADDRESS);
+            Station departureStation = new Station();
+            Station destinationStation = new Station();
+            departureStation.setId(departureStationId);
+            departureStation.setName(departureName);
+            departureStation.setAddress(departureAddress);
+            destinationStation.setId(destinationStationId);
+            destinationStation.setName(destinationName);
+            destinationStation.setAddress(destinationAddress);
+            request.setDepartureStation(departureStation);
+            request.setDestinationStation(destinationStation);
+
             trip.setRequest(request);
             tripList.add(trip);
         }

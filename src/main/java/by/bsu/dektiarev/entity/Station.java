@@ -1,16 +1,17 @@
 package by.bsu.dektiarev.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * Created by USER on 21.07.2016.
  */
+
 @Entity
 @Table(name = "station", schema = "motor_depot")
+@NamedQueries({
+        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM Station s")
+})
 public class Station {
 
     @Id

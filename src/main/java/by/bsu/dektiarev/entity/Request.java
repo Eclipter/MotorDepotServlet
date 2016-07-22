@@ -21,15 +21,15 @@ public class Request {
     private int id;
 
     @Column(name = "CARGO_WEIGHT")
-    private int cargoWeight;
+    private Double cargoWeight;
 
     @ManyToOne
-    @JoinColumn(name = "DEPARTURE_POINT", referencedColumnName = "ID")
-    private Station departurePoint;
+    @JoinColumn(name = "DEPARTURE_STATION_ID", referencedColumnName = "ID")
+    private Station departureStation;
 
     @ManyToOne
-    @JoinColumn(name = "DESTINATION_POINT", referencedColumnName = "ID")
-    private Station destinationPoint;
+    @JoinColumn(name = "DESTINATION_STATION_ID", referencedColumnName = "ID")
+    private Station destinationStation;
 
     @Override
     public boolean equals(Object o) {
@@ -37,14 +37,14 @@ public class Request {
         if (o == null || getClass() != o.getClass()) return false;
         Request request = (Request) o;
         return id == request.id &&
-                cargoWeight == request.cargoWeight &&
-                Objects.equals(departurePoint, request.departurePoint) &&
-                Objects.equals(destinationPoint, request.destinationPoint);
+                Objects.equals(cargoWeight, request.cargoWeight) &&
+                Objects.equals(departureStation, request.departureStation) &&
+                Objects.equals(destinationStation, request.destinationStation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cargoWeight, departurePoint, destinationPoint);
+        return Objects.hash(id, cargoWeight, departureStation, destinationStation);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class Request {
         return "Request{" +
                 "id=" + id +
                 ", cargoWeight=" + cargoWeight +
-                ", departurePoint=" + departurePoint +
-                ", destinationPoint=" + destinationPoint +
+                ", departureStation=" + departureStation +
+                ", destinationStation=" + destinationStation +
                 '}';
     }
 
@@ -65,27 +65,27 @@ public class Request {
         this.id = id;
     }
 
-    public Station getDeparturePoint() {
-        return departurePoint;
+    public Station getDepartureStation() {
+        return departureStation;
     }
 
-    public void setDeparturePoint(Station departurePoint) {
-        this.departurePoint = departurePoint;
+    public void setDepartureStation(Station departurePoint) {
+        this.departureStation = departurePoint;
     }
 
-    public Station getDestinationPoint() {
-        return destinationPoint;
+    public Station getDestinationStation() {
+        return destinationStation;
     }
 
-    public void setDestinationPoint(Station destinationPoint) {
-        this.destinationPoint = destinationPoint;
+    public void setDestinationStation(Station destinationPoint) {
+        this.destinationStation = destinationPoint;
     }
 
-    public int getCargoWeight() {
+    public Double getCargoWeight() {
         return cargoWeight;
     }
 
-    public void setCargoWeight(int cargoWeight) {
+    public void setCargoWeight(Double cargoWeight) {
         this.cargoWeight = cargoWeight;
     }
 }
