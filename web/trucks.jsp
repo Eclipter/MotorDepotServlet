@@ -24,7 +24,9 @@
                     <thead>
                     <tr>
                         <th><fmt:message key="trucks.table.id"/></th>
-                        <th>Number</th> <%--internation--%>
+                        <c:if test="${sessionScope.user.admin}">
+                            <th><fmt:message key="trucks.table.number"/></th>
+                        </c:if>
                         <th><fmt:message key="trucks.table.capacity"/></th>
                         <th><fmt:message key="trucks.table.state"/></th>
                     </tr>
@@ -33,7 +35,9 @@
                     <c:forEach items="${requestScope.trucks}" var="car">
                         <tr>
                             <td>${car.id}</td>
-                            <td>${car.number}</td>
+                            <c:if test="${sessionScope.user.admin}">
+                                <td>${car.number}</td>
+                            </c:if>
                             <td>${car.capacity}</td>
                             <td>
                                 <c:choose>
@@ -69,6 +73,8 @@
                                                 <option value="${car.id}"><fmt:message key="trucks.table.id"/>: ${car.id}, <fmt:message key="trucks.table.capacity"/>: ${car.capacity}</option>
                                             </c:forEach>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="stateList"><fmt:message key="trucks.table.state"/></label>
                                         <select class="form-control" id="stateList" name="chosenState">
                                             <option value="OK"><fmt:message key="trucks.table.state.ok"/></option>

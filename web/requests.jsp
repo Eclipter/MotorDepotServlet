@@ -32,8 +32,8 @@
                     <tr>
                         <th><fmt:message key="requests.table.id"/></th>
                         <th><fmt:message key="requests.table.weight"/></th>
-                        <th>Departure point</th> <%--internation--%>
-                        <th>Destination point</th> <%--internation--%>
+                        <th><fmt:message key="requests.table.departure"/></th>
+                        <th><fmt:message key="requests.table.destination"/></th>
                         <th><fmt:message key="requests.table.assigned"/></th>
                         <c:if test="${sessionScope.user.admin}">
                             <th><fmt:message key="requests.delete"/></th>
@@ -45,8 +45,11 @@
                         <tr>
                             <td>${request.request.id}</td>
                             <td>${request.request.cargoWeight}</td>
-                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})</td>
-                            <td>${request.request.destinationStation.name} (${request.request.destinationStation.address})</td>
+                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})
+                            </td>
+                            <td>${request.request.destinationStation.name}
+                                (${request.request.destinationStation.address})
+                            </td>
                             <c:choose>
                                 <c:when test="${request.driver != null}">
                                     <td>
@@ -81,8 +84,9 @@
                                                                 <fmt:message key="requests.are_you_sure"/>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary"><fmt:message
-                                                                        key="requests.yes"/></button>
+                                                                <button type="submit" class="btn btn-primary">
+                                                                    <fmt:message
+                                                                            key="requests.yes"/></button>
                                                                 <button type="button" data-dismiss="modal" class="btn">
                                                                     <fmt:message key="requests.no"/></button>
                                                             </div>
@@ -121,21 +125,33 @@
                                         <input id="inputWeight" type="text" class="form-control"
                                                placeholder="<fmt:message key="requests.modal.placeholder.weight"/>"
                                                name="cargoWeight" required>
-                                        <label for="departureStationList" class="control-label">DEPARTURE STATION INTERNATION
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="departureStationList" class="control-label"><fmt:message
+                                                key="requests.table.departure"/>
                                         </label>
-                                        <select class="form-control" id="departureStationList" name="departure_station_id">
+                                        <select class="form-control" id="departureStationList"
+                                                name="departure_station_id">
                                             <c:forEach items="${requestScope.stations}" var="station">
                                                 <option value="${station.id}">
-                                                    Name: ${station.name}, address: ${station.address}
+                                                    <fmt:message key="requests.modal.station.name"/>: ${station.name},
+                                                    <fmt:message
+                                                            key="requests.modal.station.address"/>: ${station.address}
                                                 </option>
                                             </c:forEach>
                                         </select>
-                                        <label for="destinationStationList" class="control-label">DESTINATION STATION INTERNATION
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="destinationStationList" class="control-label"><fmt:message
+                                                key="requests.table.destination"/>
                                         </label>
-                                        <select class="form-control" id="destinationStationList" name="destination_station_id">
+                                        <select class="form-control" id="destinationStationList"
+                                                name="destination_station_id">
                                             <c:forEach items="${requestScope.stations}" var="station">
                                                 <option value="${station.id}">
-                                                    Name: ${station.name}, address: ${station.address}
+                                                    <fmt:message key="requests.modal.station.name"/>: ${station.name},
+                                                    <fmt:message
+                                                            key="requests.modal.station.address"/>: ${station.address}
                                                 </option>
                                             </c:forEach>
                                         </select>
