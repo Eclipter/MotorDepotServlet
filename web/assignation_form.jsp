@@ -25,7 +25,10 @@
                         <label for="applicationSelect" class="control-label"><fmt:message key="assignation_form.label.chose_request"/></label>
                         <select class="form-control" id="applicationSelect" name="chosenRequest">
                             <c:forEach items="${requestScope.requests}" var="request">
-                                <option value="${request.id}"><fmt:message key="requests.table.id"/>: ${request.id}, <fmt:message key="requests.table.weight"/>: ${request.cargoWeight}</option>
+                                <option value="${request.id}"><fmt:message key="requests.table.id"/>: ${request.id}, <fmt:message key="requests.table.weight"/>: ${request.cargoWeight},
+                                    <fmt:message key="requests.table.departure"/>: ${request.departureStation.name} (${request.departureStation.address}),
+                                    <fmt:message key="requests.table.destination"/>: ${request.destinationStation.name} (${request.destinationStation.address})
+                                </option>
                             </c:forEach>
                         </select>
                     </div>

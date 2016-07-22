@@ -7,6 +7,8 @@
     <tr>
         <th><fmt:message key="trips.table.id"/></th>
         <th><fmt:message key="trips.table.request"/></th>
+        <th><fmt:message key="requests.table.departure"/></th>
+        <th><fmt:message key="requests.table.destination"/></th>
         <th><fmt:message key="trips.table.driver"/></th>
         <th><fmt:message key="trips.table.accomplished"/></th>
         <c:if test="${sessionScope.user.admin}">
@@ -19,6 +21,11 @@
         <tr>
             <td>${trip.id}</td>
             <td><fmt:message key="requests.table.id"/>: ${trip.request.id}, <fmt:message key="requests.table.weight"/>: ${trip.request.cargoWeight}</td>
+            <td>${trip.request.departureStation.name} (${trip.request.departureStation.address})
+            </td>
+            <td>${trip.request.destinationStation.name}
+                (${trip.request.destinationStation.address})
+            </td>
             <td><c:out value="${trip.driver.user.login}"/></td>
             <c:choose>
                 <c:when test="${trip.isComplete}">
