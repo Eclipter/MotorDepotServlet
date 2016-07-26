@@ -41,7 +41,7 @@
                         </article>
                     </c:otherwise>
                 </c:choose>
-                <img style="padding-top: 20px" src="images/drivers.jpg"/>
+                <img style="padding-top: 20px" src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
             </div>
         </div>
     </div>

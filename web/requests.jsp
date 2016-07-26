@@ -45,11 +45,8 @@
                         <tr>
                             <td>${request.request.id}</td>
                             <td>${request.request.cargoWeight}</td>
-                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})
-                            </td>
-                            <td>${request.request.destinationStation.name}
-                                (${request.request.destinationStation.address})
-                            </td>
+                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})</td>
+                            <td>${request.request.destinationStation.name} (${request.request.destinationStation.address})</td>
                             <c:choose>
                                 <c:when test="${request.driver != null}">
                                     <td>
@@ -77,7 +74,7 @@
                                                     <span class="glyphicon glyphicon-remove"></span> <fmt:message
                                                         key="requests.delete"/>
                                                 </button>
-                                                <div id="confirmModal" class="modal fade" role="dialog">
+                                                <div id="confirmModal${request.request.id}" class="modal fade" role="dialog">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-body">
@@ -107,10 +104,10 @@
                 </table>
                 <c:if test="${sessionScope.user.admin}">
                     <button type="button" class="btn btn-primary"
-                            data-toggle="modal" data-target="#myModal"><fmt:message
+                            data-toggle="modal" data-target="#addRequestModal"><fmt:message
                             key="requests.button.add_request"/></button>
                 </c:if>
-                <div id="myModal" class="modal fade" role="dialog">
+                <div id="addRequestModal" class="modal fade" role="dialog">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <form action="motor_depot" method="post">

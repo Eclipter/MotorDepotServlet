@@ -57,34 +57,34 @@
                     </tbody>
                 </table>
                 <c:if test="${!sessionScope.user.admin}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><fmt:message key="trucks.button.change_state"/></button>
-                </c:if>
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <form action="motor_depot" method="post">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title"><fmt:message key="trucks.button.change_state"/></h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="stateList"><fmt:message key="trucks.table.state"/></label>
-                                        <select class="form-control" id="stateList" name="chosenState">
-                                            <option value="OK"><fmt:message key="trucks.table.state.ok"/></option>
-                                            <option value="BROKEN"><fmt:message key="trucks.table.state.broken"/></option>
-                                            <option value="UNDER_REPAIR"><fmt:message key="trucks.table.state.under_repair"/></option>
-                                        </select>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeStateModal"><fmt:message key="trucks.button.change_state"/></button>
+                    <div id="changeStateModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <form action="motor_depot" method="post">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title"><fmt:message key="trucks.button.change_state"/></h4>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-default"><fmt:message key="trucks.modal.button.save"/></button>
-                                    <input type="hidden" name="command" value="change_truck_state"/>
-                                </div>
-                            </form>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="stateList"><fmt:message key="trucks.table.state"/></label>
+                                            <select class="form-control" id="stateList" name="chosenState">
+                                                <option value="OK"><fmt:message key="trucks.table.state.ok"/></option>
+                                                <option value="BROKEN"><fmt:message key="trucks.table.state.broken"/></option>
+                                                <option value="UNDER_REPAIR"><fmt:message key="trucks.table.state.under_repair"/></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-default"><fmt:message key="trucks.modal.button.save"/></button>
+                                        <input type="hidden" name="command" value="change_truck_state"/>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </c:if>
             </div>
         </div>
     </div>
