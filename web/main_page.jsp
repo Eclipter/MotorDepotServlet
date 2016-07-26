@@ -20,27 +20,28 @@
                 <c:choose>
                     <c:when test="${sessionScope.user.admin}">
                         <header>
-                            <h1><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.admin"/>
+                            <h1 style="font-family: 'Arial', serif"><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.admin"/>
                                 <c:out value="${sessionScope.user.user.login}"/>!</h1>
                         </header>
                         <article>
-                            <p>
+                            <p style="padding-top: 15px;font-size: large;font-family: 'Arial',serif;">
                                 <fmt:message key="index.welcomeMessage.admin"/>
                             </p>
                         </article>
                     </c:when>
                     <c:otherwise>
                         <header>
-                            <h1><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.driver"/>
+                            <h1 style="font-family: 'Arial', serif"><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.driver"/>
                                 <c:out value="${sessionScope.user.user.login}"/>!</h1>
                         </header>
                         <article>
-                            <p>
+                            <p style="padding-top: 15px;font-size: large;font-family: 'Arial',serif;">
                                 <fmt:message key="index.welcomeMessage.driver"/>
                             </p>
                         </article>
                     </c:otherwise>
                 </c:choose>
+                <img style="padding-top: 20px" src="images/drivers.jpg"/>
             </div>
         </div>
     </div>

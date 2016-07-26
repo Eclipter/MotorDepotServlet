@@ -57,7 +57,7 @@ public class MotorDepotController extends HttpServlet {
             req.setAttribute(RequestParameterName.ERROR_MESSAGE, message);
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         } catch (Exception e) {
-            LOG.error("unexpected error", e);
+            LOG.error("UNEXPECTED ERROR", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.UNEXPECTED,
@@ -80,7 +80,7 @@ public class MotorDepotController extends HttpServlet {
             req.setAttribute(RequestParameterName.ERROR_MESSAGE, message);
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         } catch (Exception e) {
-            LOG.error("unexpected error", e);
+            LOG.error("UNEXPECTED ERROR", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.UNEXPECTED,

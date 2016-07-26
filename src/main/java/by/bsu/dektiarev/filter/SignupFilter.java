@@ -34,6 +34,7 @@ public class SignupFilter implements Filter {
         String command = req.getParameter(RequestParameterName.COMMAND);
         ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
         if (!ActionEnum.SIGNUP.equals(actionEnum)) {
+            LOG.info("signup filter passed");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             String username = req.getParameter(RequestParameterName.USERNAME);
@@ -80,7 +81,7 @@ public class SignupFilter implements Filter {
                     res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
                     return;
                 }
-
+                LOG.info("signup filter passed");
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         }

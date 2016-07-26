@@ -16,12 +16,12 @@ public final class InternationalizedBundleManager {
      * Gets the value from specified bundle
      * @param bundleName name of bundle
      * @param key specified key
-     * @param languageTag specified language
+     * @param languageTag specified language or null in order to get default language
      * @return value from bundle
      */
     public static String getProperty(String bundleName, String key, String languageTag) {
         Locale locale;
-        if(languageTag.equals(LANGUAGE_ENGLISH) || languageTag.equals(LANGUAGE_RUSSIAN)) {
+        if(LANGUAGE_ENGLISH.equals(languageTag) || LANGUAGE_RUSSIAN.equals(languageTag)) {
             locale = new Locale(languageTag);
         } else {
             locale = Locale.getDefault();

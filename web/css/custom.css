@@ -6,3 +6,12 @@ body {
 .language-icon {
     max-height: 20px;
 }
+
+p.welcome-message {
+    padding-top: 15px;
+    font-size: large;
+}
+
+img.drivers-image {
+    padding-top: 20px;
+}

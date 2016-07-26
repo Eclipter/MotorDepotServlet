@@ -3,6 +3,8 @@ package by.bsu.dektiarev.filter;
 import by.bsu.dektiarev.action.util.ActionEnum;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
 import by.bsu.dektiarev.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import java.io.IOException;
  * Created by USER on 08.06.2016.
  */
 public class CommandFilter implements Filter {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -29,6 +33,7 @@ public class CommandFilter implements Filter {
 
         String command = req.getParameter(RequestParameterName.COMMAND);
         if(command == null) {
+            LOG.warn("no command to execute");
             req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.NO_COMMAND,
@@ -40,6 +45,7 @@ public class CommandFilter implements Filter {
         try {
             ActionEnum.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException e) {
+            LOG.warn("wrong command name");
             req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessage.WRONG_COMMAND,
@@ -47,7 +53,7 @@ public class CommandFilter implements Filter {
             res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             return;
         }
-
+        LOG.info("command filter passed");
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
