@@ -59,7 +59,7 @@
                 <c:if test="${!sessionScope.user.admin}">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changeStateModal"><fmt:message key="trucks.button.change_state"/></button>
                     <div id="changeStateModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog">
                             <div class="modal-content">
                                 <form action="motor_depot" method="post">
                                     <div class="modal-header">

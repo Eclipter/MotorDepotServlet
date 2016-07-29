@@ -75,7 +75,7 @@
                                                         key="requests.delete"/>
                                                 </button>
                                                 <div id="confirmModal${request.request.id}" class="modal fade" role="dialog">
-                                                    <div class="modal-dialog modal-lg">
+                                                    <div class="modal-dialog modal-sm">
                                                         <div class="modal-content">
                                                             <div class="modal-body">
                                                                 <fmt:message key="requests.are_you_sure"/>
@@ -108,7 +108,7 @@
                             key="requests.button.add_request"/></button>
                 </c:if>
                 <div id="addRequestModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog modal-sm">
+                    <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="motor_depot" method="post">
                                 <div class="modal-header">

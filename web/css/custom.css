@@ -1,17 +1,22 @@
 body {
     background: url(../images/back.jpg) no-repeat;
     background-size: cover;
+    font-family: 'Arial', serif;
+    font-size: medium;
 }
 
 .language-icon {
     max-height: 20px;
 }
 
-p.welcome-message {
-    padding-top: 15px;
-    font-size: large;
+.welcome-message {
+    margin-top: 15px;
 }
 
-img.drivers-image {
-    padding-top: 20px;
+.drivers-image {
+    margin-top: 20px;
+}
+
+.login-form {
+    margin-top: 240px
 }

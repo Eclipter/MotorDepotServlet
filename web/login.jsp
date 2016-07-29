@@ -55,8 +55,8 @@
                         <div class="form-group last">
                             <div class="col-sm-offset-3 col-sm-9">
                                 <button type="submit" class="btn btn-primary"><fmt:message key="login.button.signin"/></button>
-                                <a href="<c:url value="motor_depot"><c:param name="command" value="get_signup_form"/></c:url>">
-                                    <button type="button" class="btn btn-default"><fmt:message key="login.button.signup"/></button>
+                                <a class="btn btn-default" href="<c:url value="motor_depot"><c:param name="command" value="get_signup_form"/></c:url>">
+                                    <fmt:message key="login.button.signup"/>
                                 </a>
                             </div>
                         </div>

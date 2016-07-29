@@ -38,7 +38,7 @@
                         <fmt:message key="trips.table.button.change_state"/>
                     </button>
                     <div id="changeStateModal${trip.id}" class="modal fade" role="dialog">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog">
                             <div class="modal-content">
                                 <form action="motor_depot" method="POST">
                                     <div class="modal-header">

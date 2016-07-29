@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="bundle.jspf"%>
+<%@ include file="bundle.jspf" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -20,28 +20,27 @@
                 <c:choose>
                     <c:when test="${sessionScope.user.admin}">
                         <header>
-                            <h1 style="font-family: 'Arial', serif"><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.admin"/>
+                            <h1><fmt:message key="index.text.hello"/>, <fmt:message
+                                    key="index.text.admin"/>
                                 <c:out value="${sessionScope.user.user.login}"/>!</h1>
                         </header>
                         <article>
-                            <p style="padding-top: 15px;font-size: large;font-family: 'Arial',serif;">
+                            <p class="welcome-message">
                                 <fmt:message key="index.welcomeMessage.admin"/>
                             </p>
                         </article>
                     </c:when>
                     <c:otherwise>
-                        <header>
-                            <h1 style="font-family: 'Arial', serif"><fmt:message key="index.text.hello"/>, <fmt:message key="index.text.driver"/>
-                                <c:out value="${sessionScope.user.user.login}"/>!</h1>
-                        </header>
-                        <article>
-                            <p style="padding-top: 15px;font-size: large;font-family: 'Arial',serif;">
-                                <fmt:message key="index.welcomeMessage.driver"/>
-                            </p>
-                        </article>
+                        <h1><fmt:message key="index.text.hello"/>, <fmt:message
+                                key="index.text.driver"/>
+                            <c:out value="${sessionScope.user.user.login}"/>!
+                        </h1>
+                        <p class="welcome-message">
+                            <fmt:message key="index.welcomeMessage.driver"/>
+                        </p>
                     </c:otherwise>
                 </c:choose>
-                <img style="padding-top: 20px" src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
+                <img class="drivers-image" src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
             </div>
         </div>
     </div>
