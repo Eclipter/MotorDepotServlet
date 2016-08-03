@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="drivers.heading"/></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/custom-bootstrap.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -34,18 +33,8 @@
                             <td>
                                 <a href="#" data-toggle="popover"
                                    title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truck.id}"
-                                   data-trigger="hover" data-content="<fmt:message key="trucks.table.state"/>:
-                                   <c:choose>
-                                       <c:when test="${driver.truck.state.truckStateName eq 'OK'}">
-                                        <fmt:message key="trucks.table.state.ok"/>
-                                       </c:when>
-                                       <c:when test="${driver.truck.state.truckStateName eq 'BROKEN'}">
-                                        <fmt:message key="trucks.table.state.broken"/>
-                                       </c:when>
-                                       <c:otherwise>
-                                        <fmt:message key="trucks.table.state.under_repair"/>
-                                       </c:otherwise>
-                                   </c:choose>">
+                                   data-trigger="hover" data-content="<fmt:message key="trucks.table.capacity"/>:
+                                   ${driver.truck.capacity}">
                                         ${driver.truck.id}
                                 </a>
                             </td>

@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="trucks.heading"/></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/custom-bootstrap.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -77,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="submit" class="btn btn-default"><fmt:message key="trucks.modal.button.save"/></button>
+                                        <button type="submit" class="btn btn-primary"><fmt:message key="trucks.modal.button.save"/></button>
                                         <input type="hidden" name="command" value="change_truck_state"/>
                                     </div>
                                 </form>

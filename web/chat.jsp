@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title><fmt:message key="chat.heading"/></title>
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/custom-bootstrap.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     <script src="js/jquery-2.1.4.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -109,7 +109,7 @@
 
                 <div class="form-group">
                     <label for="chatArea"><fmt:message key="chat.label.chat"/></label>
-                    <textarea id="chatArea" rows="10" class="form-control" disabled></textarea>
+                    <textarea id="chatArea" rows="10" class="form-control chat-area" disabled></textarea>
                 </div>
 
                 <div class="form-group">

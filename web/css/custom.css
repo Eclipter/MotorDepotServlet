@@ -18,5 +18,14 @@ body {
 }
 
 .login-form {
-    margin-top: 240px
+    margin-top: 240px;
+}
+
+textarea.chat-area[disabled] {
+    background-color: #abaaaa;
+    color: #e6e6e6;
+}
+
+.hover-link {
+    color: #bbae9e;
 }
