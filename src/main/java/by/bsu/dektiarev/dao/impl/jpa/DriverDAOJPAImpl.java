@@ -58,15 +58,10 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
-            User user = new User();
-            user.setLogin(login);
-            String encryptedPassword = PasswordEncryptor.encryptPassword(password);
-            user.setPassword(encryptedPassword);
-            getManager().persist(user);
-
             Driver driver = new Driver();
-            driver.setUserId(user.getId());
-            driver.setUser(user);
+            String encryptedPassword = PasswordEncryptor.encryptPassword(password);
+            driver.setPassword(encryptedPassword);
+            driver.setLogin(login);
             driver.setTruck(truck);
             getManager().persist(driver);
             transaction.commit();

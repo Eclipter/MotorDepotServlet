@@ -29,7 +29,7 @@
                     <tbody>
                     <c:forEach items="${requestScope.drivers}" var="driver">
                         <tr>
-                            <td><c:out value="${driver.user.login}"/></td>
+                            <td><c:out value="${driver.login}"/></td>
                             <td>
                                 <a href="#" data-toggle="popover"
                                    title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truck.id}"

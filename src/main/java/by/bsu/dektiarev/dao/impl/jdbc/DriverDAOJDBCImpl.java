@@ -136,14 +136,11 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             Integer stateId = resultSet.getInt(ColumnName.STATE_ID);
             String stateName = resultSet.getString(ColumnName.STATE_NAME);
             Driver driver = new Driver();
-            User user = new User();
             Truck truck = new Truck();
             TruckStateDTO truckState = new TruckStateDTO();
-            user.setId(userId);
-            user.setLogin(login);
-            user.setPassword(password);
-            driver.setUserId(userId);
-            driver.setUser(user);
+            driver.setId(userId);
+            driver.setLogin(login);
+            driver.setPassword(password);
             truck.setId(truckId);
             truck.setCapacity(capacity);
             truckState.setId(stateId);

@@ -23,7 +23,7 @@
             <td><fmt:message key="requests.table.id"/>: ${trip.request.id}, <fmt:message key="requests.table.weight"/>: ${trip.request.cargoWeight}</td>
             <td>${trip.request.departureStation.name} (${trip.request.departureStation.address})</td>
             <td>${trip.request.destinationStation.name} (${trip.request.destinationStation.address})</td>
-            <td><c:out value="${trip.driver.user.login}"/></td>
+            <td><c:out value="${trip.driver.login}"/></td>
             <c:choose>
                 <c:when test="${trip.isComplete}">
                     <td><span class="glyphicon glyphicon-ok"></span></td>
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <p>
-                                            <fmt:message key="trips.modal.text.trip"/> ${trip.id}, <fmt:message key="trips.modal.text.truck"/> ${trip.driver.truck.id}, <fmt:message key="trips.modal.text.driver"/>: <c:out value="${trip.driver.user.login}"/>
+                                            <fmt:message key="trips.modal.text.trip"/> ${trip.id}, <fmt:message key="trips.modal.text.truck"/> ${trip.driver.truck.id}, <fmt:message key="trips.modal.text.driver"/>: <c:out value="${trip.driver.login}"/>
                                         </p>
                                         <p>
                                         <div class="form-group">

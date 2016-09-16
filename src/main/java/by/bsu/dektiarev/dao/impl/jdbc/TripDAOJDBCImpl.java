@@ -148,12 +148,9 @@ public class TripDAOJDBCImpl implements TripDAO {
             trip.setId(tripId);
             trip.setIsComplete(isComplete);
             Driver driver = new Driver();
-            driver.setUserId(userId);
-            User user = new User();
-            user.setId(userId);
-            user.setLogin(login);
-            user.setPassword(password);
-            driver.setUser(user);
+            driver.setId(userId);
+            driver.setLogin(login);
+            driver.setPassword(password);
             Truck truck = new Truck();
             truck.setId(truckId);
             truck.setCapacity(capacity);

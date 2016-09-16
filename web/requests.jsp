@@ -52,7 +52,7 @@
                                         <a href="#" data-toggle="popover"
                                            title="<fmt:message key="requests.table.assigned"/>:"
                                            data-trigger="hover"
-                                           data-content="<fmt:message key="requests.table.hover.driver"/> <c:out value="${request.driver.user.login}"/>">
+                                           data-content="<fmt:message key="requests.table.hover.driver"/> <c:out value="${request.driver.login}"/>">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </a>
                                     </td>
