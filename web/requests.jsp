@@ -69,7 +69,7 @@
                                                 <input type="hidden" name="command" value="delete_request">
                                                 <input type="hidden" name="request_id" value="${request.request.id}">
                                                 <button class="btn btn-danger" type="button" data-toggle="modal"
-                                                        data-target="#confirmModal">
+                                                        data-target="#confirmModal${request.request.id}">
                                                     <span class="glyphicon glyphicon-remove"></span> <fmt:message
                                                         key="requests.delete"/>
                                                 </button>

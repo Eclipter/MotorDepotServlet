@@ -32,8 +32,7 @@ public class SignupFilter implements Filter {
         String contextPath = req.getContextPath();
 
         String command = req.getParameter(RequestParameterName.COMMAND);
-        ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
-        if (!ActionEnum.SIGNUP.equals(actionEnum)) {
+        if (command == null || !ActionEnum.SIGNUP.equals(ActionEnum.valueOf(command.toUpperCase()))) {
             LOG.info("signup filter passed");
             filterChain.doFilter(servletRequest, servletResponse);
         } else {

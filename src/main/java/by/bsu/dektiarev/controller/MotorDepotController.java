@@ -3,6 +3,7 @@ package by.bsu.dektiarev.controller;
 import by.bsu.dektiarev.action.Action;
 import by.bsu.dektiarev.action.util.CommandHelper;
 import by.bsu.dektiarev.exception.ActionExecutionException;
+import by.bsu.dektiarev.exception.CommandNotFoundException;
 import by.bsu.dektiarev.exception.ExceptionalMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,13 +35,16 @@ public class MotorDepotController extends HttpServlet {
     private String executeAction(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         String command = req.getParameter(RequestParameterName.COMMAND);
         LOG.info("processing " + command + " command");
-        Action action = CommandHelper.getCommand(command);
-        if (action == null) {
-            throw new ActionExecutionException(InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                    ExceptionalMessage.NO_COMMAND,
-                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+        if(command == null) {
+            return PagesBundleManager.getProperty(PageNameConstant.INDEX);
         }
-        return action.execute(req, resp);
+        else {
+            Action action = CommandHelper.getCommand(command);
+            if (action == null) {
+                throw new CommandNotFoundException(ExceptionalMessage.NO_COMMAND);
+            }
+            return action.execute(req, resp);
+        }
     }
 
     @Override

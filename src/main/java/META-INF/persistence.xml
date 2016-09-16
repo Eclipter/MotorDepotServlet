@@ -6,11 +6,5 @@
 
     <persistence-unit name="MotorDepotHibernateManager">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <class>by.bsu.dektiarev.entity.Request</class>
-        <class>by.bsu.dektiarev.entity.Truck</class>
-        <class>by.bsu.dektiarev.entity.Driver</class>
-        <class>by.bsu.dektiarev.entity.TruckStateDTO</class>
-        <class>by.bsu.dektiarev.entity.Trip</class>
-        <class>by.bsu.dektiarev.entity.User</class>
     </persistence-unit>
 </persistence>

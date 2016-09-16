@@ -14,15 +14,6 @@
     </filter-mapping>
 
     <filter>
-        <filter-name>CommandFilter</filter-name>
-        <filter-class>by.bsu.dektiarev.filter.CommandFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>CommandFilter</filter-name>
-        <url-pattern>/motor_depot</url-pattern>
-    </filter-mapping>
-
-    <filter>
         <filter-name>LocaleFilter</filter-name>
         <filter-class>by.bsu.dektiarev.filter.LocaleFilter</filter-class>
     </filter>

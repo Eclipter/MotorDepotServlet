@@ -41,14 +41,14 @@
                             <label for="inputLogin" class="col-sm-3 control-label"><fmt:message key="login.label.login"/></label>
                             <div class="col-sm-9">
                                 <input type="text" name="username" class="form-control" id="inputLogin"
-                                       placeholder="<fmt:message key="login.label.password"/>" required>
+                                       placeholder="<fmt:message key="login.label.login"/>" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword" class="col-sm-3 control-label"><fmt:message key="login.label.password"/></label>
                             <div class="col-sm-9">
                                 <input type="password" name="password" class="form-control" id="inputPassword"
-                                       placeholder="<fmt:message key="login.label.login"/>" required>
+                                       placeholder="<fmt:message key="login.label.password"/>" required>
                             </div>
                         </div>
                         <div class="form-group last">

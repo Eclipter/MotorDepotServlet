@@ -24,7 +24,7 @@
                                 <c:out value="${sessionScope.user.user.login}"/>!</h1>
                         </header>
                         <article>
-                            <p class="welcome-message">
+                            <p>
                                 <fmt:message key="index.welcomeMessage.admin"/>
                             </p>
                         </article>
@@ -34,12 +34,13 @@
                                 key="index.text.driver"/>
                             <c:out value="${sessionScope.user.user.login}"/>!
                         </h1>
-                        <p class="welcome-message">
+                        <p>
                             <fmt:message key="index.welcomeMessage.driver"/>
                         </p>
                     </c:otherwise>
                 </c:choose>
-                <img class="drivers-image" src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
+                <br>
+                <img src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
             </div>
         </div>
     </div>

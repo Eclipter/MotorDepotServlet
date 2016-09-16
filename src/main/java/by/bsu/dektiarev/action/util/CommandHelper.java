@@ -1,6 +1,8 @@
 package by.bsu.dektiarev.action.util;
 
 import by.bsu.dektiarev.action.*;
+import by.bsu.dektiarev.exception.CommandNotFoundException;
+import by.bsu.dektiarev.exception.ExceptionalMessage;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -35,8 +37,14 @@ public final class CommandHelper {
         actionMap.put(ActionEnum.DELETE_REQUEST, new DeleteRequestAction());
     }
 
-    public static Action getCommand(String command) {
-        return actionMap.get(ActionEnum.valueOf(command.toUpperCase()));
+    public static Action getCommand(String command) throws CommandNotFoundException {
+        ActionEnum action;
+        try {
+            action = ActionEnum.valueOf(command.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new CommandNotFoundException(ExceptionalMessage.WRONG_COMMAND);
+        }
+        return actionMap.get(action);
     }
 
     private CommandHelper() {

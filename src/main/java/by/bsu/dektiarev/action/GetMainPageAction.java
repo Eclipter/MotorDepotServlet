@@ -19,7 +19,7 @@ public class GetMainPageAction implements Action {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
-        LOG.info("redirecting to index page");
-        return PagesBundleManager.getProperty(PageNameConstant.INDEX);
+        LOG.info("redirecting to main page");
+        return PagesBundleManager.getProperty(PageNameConstant.MAIN);
     }
 }

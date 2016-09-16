@@ -43,27 +43,29 @@ public class AuthenticationFilter implements Filter {
         String contextPath = req.getContextPath();
         HttpSession session = req.getSession(false);
         String command = req.getParameter(RequestParameterName.COMMAND);
-        ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
-        UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParameterName.USER);
-        if(userInfoBean == null) {
-            if(!ActionEnum.GET_SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
-                    && !ActionEnum.LOGIN.equals(actionEnum) && !ActionEnum.GET_LOGIN_FORM.equals(actionEnum)) {
-                LOG.warn("unauthorised access attempt");
-                res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
-                return;
-            }
-            else {
-                LOG.info("authentication filter passed");
-                filterChain.doFilter(servletRequest, servletResponse);
-                return;
-            }
-        }
-        else if(!userInfoBean.isAdmin()) {
-            for(ActionEnum forbiddenCommand : ADMIN_COMMANDS) {
-                if(actionEnum == forbiddenCommand) {
+        if(command != null) {
+            ActionEnum actionEnum = ActionEnum.valueOf(command.toUpperCase());
+            UserInfoBean userInfoBean = (UserInfoBean) session.getAttribute(RequestParameterName.USER);
+            if(userInfoBean == null) {
+                if(!ActionEnum.GET_SIGNUP_FORM.equals(actionEnum) && !ActionEnum.SIGNUP.equals(actionEnum)
+                        && !ActionEnum.LOGIN.equals(actionEnum) && !ActionEnum.GET_LOGIN_FORM.equals(actionEnum)) {
                     LOG.warn("unauthorised access attempt");
                     res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
                     return;
+                }
+                else {
+                    LOG.info("authentication filter passed");
+                    filterChain.doFilter(servletRequest, servletResponse);
+                    return;
+                }
+            }
+            else if(!userInfoBean.isAdmin()) {
+                for(ActionEnum forbiddenCommand : ADMIN_COMMANDS) {
+                    if(actionEnum == forbiddenCommand) {
+                        LOG.warn("unauthorised access attempt");
+                        res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.LOGIN));
+                        return;
+                    }
                 }
             }
         }

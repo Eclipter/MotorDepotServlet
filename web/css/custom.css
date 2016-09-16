@@ -1,20 +1,11 @@
 body {
     background: url(../images/back.jpg) no-repeat;
     background-size: cover;
-    font-family: 'Arial', serif;
     font-size: medium;
 }
 
 .language-icon {
     max-height: 20px;
-}
-
-.welcome-message {
-    margin-top: 15px;
-}
-
-.drivers-image {
-    margin-top: 20px;
 }
 
 .login-form {
@@ -26,6 +17,6 @@ textarea.chat-area[disabled] {
     color: #e6e6e6;
 }
 
-.hover-link {
+a[data-toggle='popover'] {
     color: #bbae9e;
 }
