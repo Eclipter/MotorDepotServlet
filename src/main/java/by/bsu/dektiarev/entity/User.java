@@ -11,7 +11,8 @@ import java.util.Objects;
 @Table(name = "user", schema = "motor_depot")
 @Inheritance(strategy = InheritanceType.JOINED)
 @NamedQueries({
-        @NamedQuery(name = "User.search", query = "SELECT u FROM User u WHERE u.login = :login AND u.password = MD5(:pass)"),
+        @NamedQuery(name = "User.search", query = "SELECT u FROM User u" +
+                " WHERE u.login = :login AND u.password = MD5(:pass)"),
         @NamedQuery(name = "User.searchByLogin", query = "SELECT u FROM User u WHERE u.login = :login")
 })
 public class User implements Serializable {

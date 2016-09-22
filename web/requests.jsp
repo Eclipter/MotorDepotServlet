@@ -44,8 +44,20 @@
                         <tr>
                             <td>${request.request.id}</td>
                             <td>${request.request.cargoWeight}</td>
-                            <td>${request.request.departureStation.name} (${request.request.departureStation.address})</td>
-                            <td>${request.request.destinationStation.name} (${request.request.destinationStation.address})</td>
+                            <td>
+                                <a href="#" data-toggle="popover" data-trigger="hover"
+                                   title="<fmt:message key="requests.table.hover.address"/>"
+                                   data-content="${request.request.departureStation.address}">
+                                        ${request.request.departureStation.name}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" data-toggle="popover" data-trigger="hover"
+                                   title="<fmt:message key="requests.table.hover.address"/>"
+                                   data-content="${request.request.destinationStation.address}">
+                                        ${request.request.destinationStation.name}
+                                </a>
+                            </td>
                             <c:choose>
                                 <c:when test="${request.driver != null}">
                                     <td>

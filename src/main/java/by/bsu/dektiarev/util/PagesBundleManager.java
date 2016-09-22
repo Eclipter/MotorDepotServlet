@@ -10,7 +10,6 @@ public final class PagesBundleManager {
 
     private static final ResourceBundle PAGES_BUNDLE = ResourceBundle.getBundle(BundleName.PAGES);
 
-
     public static String getProperty(String key) {
         return PAGES_BUNDLE.getString(key);
     }

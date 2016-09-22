@@ -21,8 +21,20 @@
         <tr>
             <td>${trip.id}</td>
             <td><fmt:message key="requests.table.id"/>: ${trip.request.id}, <fmt:message key="requests.table.weight"/>: ${trip.request.cargoWeight}</td>
-            <td>${trip.request.departureStation.name} (${trip.request.departureStation.address})</td>
-            <td>${trip.request.destinationStation.name} (${trip.request.destinationStation.address})</td>
+            <td>
+                <a href="#" data-toggle="popover" data-trigger="hover"
+                   title="<fmt:message key="requests.table.hover.address"/>"
+                   data-content="${trip.request.departureStation.address}">
+                        ${trip.request.departureStation.name}
+                </a>
+            </td>
+            <td>
+                <a href="#" data-toggle="popover" data-trigger="hover"
+                   title="<fmt:message key="requests.table.hover.address"/>"
+                   data-content="${trip.request.destinationStation.address}">
+                        ${trip.request.destinationStation.name}
+                </a>
+            </td>
             <td><c:out value="${trip.driver.login}"/></td>
             <c:choose>
                 <c:when test="${trip.isComplete}">

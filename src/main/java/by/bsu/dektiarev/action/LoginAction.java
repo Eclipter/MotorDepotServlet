@@ -44,10 +44,16 @@ public class LoginAction implements Action {
                 LOG.info("user found");
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
-                userInfoBean.setUser(user);
                 DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
                 Driver driver = driverDAO.searchByUser(user);
-                userInfoBean.setAdmin(driver == null);
+                if(driver != null) {
+                    userInfoBean.setUser(driver);
+                    userInfoBean.setAdmin(false);
+                }
+                else {
+                    userInfoBean.setUser(user);
+                    userInfoBean.setAdmin(true);
+                }
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
                 return URLConstant.GET_MAIN_PAGE;
             } else {

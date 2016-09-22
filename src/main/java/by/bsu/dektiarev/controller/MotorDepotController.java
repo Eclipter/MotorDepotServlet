@@ -25,7 +25,7 @@ public class MotorDepotController extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger();
 
     /**
-     * Executes by.bsu.dektiarev.action depending on command that is kept in request parameters
+     * Executes action depending on command that is kept in request parameters
      *
      * @param req  servlet request
      * @param resp servlet response
