@@ -9,7 +9,7 @@ import by.bsu.dektiarev.entity.*;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,13 +23,13 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public List<Driver> getAllDrivers() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_DRIVERS)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_DRIVERS_LIMITED)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -44,7 +44,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -65,7 +65,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -86,7 +86,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -95,7 +95,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     @Override
     public void addNewDriver(String login, String password, Truck truck) throws DAOException {
         if(login == null || password == null || "".equals(login) || "".equals(password)) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             connection.setAutoCommit(false);
@@ -107,7 +107,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 statement.executeUpdate();
                 try (ResultSet keySet = statement.getGeneratedKeys()) {
                     if(!keySet.next()) {
-                        throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+                        throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
                     userId = keySet.getInt(1);
                 }
@@ -119,7 +119,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             }
             connection.commit();
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

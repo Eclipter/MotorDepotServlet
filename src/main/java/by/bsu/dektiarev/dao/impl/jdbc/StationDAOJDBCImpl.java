@@ -7,7 +7,7 @@ import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +30,7 @@ public class StationDAOJDBCImpl implements StationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

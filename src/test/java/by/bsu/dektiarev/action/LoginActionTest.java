@@ -9,7 +9,7 @@ import by.bsu.dektiarev.entity.Driver;
 import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.RequestParameterName;
 import by.bsu.dektiarev.util.URLConstant;
 import org.junit.After;
@@ -123,7 +123,7 @@ public class LoginActionTest {
         when(userDAO.authenticateUser(username, password)).thenReturn(null);
 
         expectedException.expect(ActionExecutionException.class);
-        expectedException.expectMessage(ExceptionalMessage.WRONG_LOGIN_PASS);
+        expectedException.expectMessage(ExceptionalMessageKey.WRONG_LOGIN_PASS);
         loginAction.execute(req, resp);
     }
 
@@ -133,7 +133,7 @@ public class LoginActionTest {
         when(req.getParameter(RequestParameterName.PASSWORD)).thenReturn(password);
 
         expectedException.expect(ActionExecutionException.class);
-        expectedException.expectMessage(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+        expectedException.expectMessage(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
         loginAction.execute(req, resp);
     }
 
@@ -143,7 +143,7 @@ public class LoginActionTest {
         when(req.getParameter(RequestParameterName.USERNAME)).thenReturn(username);
 
         expectedException.expect(ActionExecutionException.class);
-        expectedException.expectMessage(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+        expectedException.expectMessage(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
         loginAction.execute(req, resp);
     }
 
@@ -151,7 +151,7 @@ public class LoginActionTest {
     public void executeTestWithAbsentLoginAndPassword() throws Exception {
 
         expectedException.expect(ActionExecutionException.class);
-        expectedException.expectMessage(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+        expectedException.expectMessage(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
         loginAction.execute(req, resp);
     }
 

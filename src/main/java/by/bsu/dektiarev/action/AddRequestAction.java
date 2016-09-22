@@ -5,7 +5,7 @@ import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.RequestParameterName;
@@ -32,7 +32,7 @@ public class AddRequestAction implements Action {
             String departurePointParameter = req.getParameter(RequestParameterName.DEPARTURE_STATION_ID);
             String destinationPointParameter = req.getParameter(RequestParameterName.DESTINATION_STATION_ID);
             if (cargoWeightParameter == null || departurePointParameter == null || destinationPointParameter == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             Double cargoWeight;
             Integer departureStationId;
@@ -42,14 +42,14 @@ public class AddRequestAction implements Action {
                 departureStationId = Integer.valueOf(departurePointParameter);
                 destinationStationId = Integer.valueOf(destinationPointParameter);
             } catch (NumberFormatException e) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             if (cargoWeight <= 0) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_FOR_WEIGHT);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_FOR_WEIGHT);
             }
             if(departureStationId <= 0 || destinationStationId <= 0 ||
                     Objects.equals(departureStationId, destinationStationId)) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             LOG.info("adding new request with cargo weight: " + cargoWeight);

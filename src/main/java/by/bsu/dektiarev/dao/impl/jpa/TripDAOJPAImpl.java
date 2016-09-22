@@ -4,7 +4,7 @@ import by.bsu.dektiarev.dao.TripDAO;
 import by.bsu.dektiarev.entity.*;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -24,7 +24,7 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     public List<Trip> getTripsByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         return driver.getTripList();
     }
@@ -37,22 +37,22 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
             transaction.begin();
             Request request = getManager().find(Request.class, requestId);
             if(request == null) {
-                throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             double cargoWeight = request.getCargoWeight();
 
             Driver driver = getManager().find(Driver.class, driverId);
             if(driver == null) {
-                throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             Truck truck = driver.getTruck();
             double capacity = truck.getCapacity();
             if (cargoWeight > capacity) {
-                throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
+                throw new DAOException(ExceptionalMessageKey.WEIGHT_MORE_THAN_CAPACITY);
             }
             TruckStateDTO truckStateDTO = truck.getState();
             if (!TruckState.OK.equals(truckStateDTO.getTruckStateName())) {
-                throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
+                throw new DAOException(ExceptionalMessageKey.TRUCK_NOT_OK);
             }
 
             Trip trip = new Trip();
@@ -72,10 +72,10 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
         transaction.begin();
         Trip trip = getManager().find(Trip.class, tripId);
         if(trip == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         if(state == trip.getIsComplete()) {
-            throw new DAOException(ExceptionalMessage.TRIP_HAS_THIS_STATE);
+            throw new DAOException(ExceptionalMessageKey.TRIP_HAS_THIS_STATE);
         }
 
         trip.setIsComplete(state);

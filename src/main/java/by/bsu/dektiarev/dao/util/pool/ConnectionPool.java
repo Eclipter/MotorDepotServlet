@@ -1,7 +1,7 @@
 package by.bsu.dektiarev.dao.util.pool;
 
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
@@ -48,12 +48,12 @@ public class ConnectionPool {
         try {
             if (destroying.get()) {
                 LOG.error("requesting database pool while destroying pool");
-                throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
+                throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
             ProxyConnection connection = freeConnections.poll(maxWaitingTime, TimeUnit.SECONDS);
             if (connection == null) {
                 LOG.error("timed out waiting for pool");
-                throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
+                throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
             busyConnections.put(connection);
             if(!connection.getAutoCommit()) {
@@ -62,10 +62,10 @@ public class ConnectionPool {
             return connection;
         } catch (InterruptedException ex) {
             LOG.error("interrupted while retrieving pool from the pool");
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         } catch (SQLException ex) {
             LOG.error("error during connection setup");
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         }
     }
 
@@ -80,12 +80,12 @@ public class ConnectionPool {
             boolean removed = busyConnections.remove(connection);
             if (!removed) {
                 LOG.error("returning wrong pool");
-                throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR);
+                throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
             freeConnections.put(connection);
         } catch (InterruptedException e) {
             LOG.error("interrupted while returning connection back to pool", e);
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, e);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, e);
         }
     }
 
@@ -119,16 +119,16 @@ public class ConnectionPool {
             LOG.info("pool initialized");
         } catch (InterruptedException ex) {
             LOG.error("interrupted while initializing pool", ex);
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         } catch (ClassNotFoundException ex) {
             LOG.error("driver class not found", ex);
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         } catch (SQLException ex) {
             LOG.error("sql error while initializing pool", ex);
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         } catch (NumberFormatException ex) {
             LOG.error("error while parsing db configuration");
-            throw new DatabaseConnectionException(ExceptionalMessage.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         }
     }
 

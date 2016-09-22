@@ -1,6 +1,6 @@
 package by.bsu.dektiarev.filter;
 
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,7 +38,7 @@ public class LocaleFilter implements Filter {
                 LOG.warn("unknown language specified");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                                ExceptionalMessage.WRONG_COMMAND,
+                                ExceptionalMessageKey.WRONG_COMMAND,
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             }

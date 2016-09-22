@@ -4,7 +4,7 @@ import by.bsu.dektiarev.dao.GenericDAO;
 import by.bsu.dektiarev.dao.impl.jdbc.*;
 import by.bsu.dektiarev.dao.impl.jpa.*;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
 import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
 
@@ -12,7 +12,7 @@ import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
  * Factory that creates and returns DAO object of a specified type
  * Created by USER on 15.06.2016.
  */
-public class DAOFactory {
+public final class DAOFactory {
 
     private static final DAOFactory INSTANCE = new DAOFactory();
 
@@ -42,7 +42,7 @@ public class DAOFactory {
             case STATION:
                 return useJPA ? new StationDAOJPAImpl() : new StationDAOJDBCImpl();
             default:
-                throw new DAOException(ExceptionalMessage.NO_DAO_CLASS);
+                throw new DAOException(ExceptionalMessageKey.NO_DAO_CLASS);
         }
     }
 }

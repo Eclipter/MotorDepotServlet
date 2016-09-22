@@ -8,7 +8,7 @@ import by.bsu.dektiarev.entity.Request;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,13 +25,13 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public List<Request> getAllRequests() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUESTS)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUESTS_LIMITED)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -40,13 +40,13 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public List<Request> getUnassignedRequests() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_UNASSIGNED_REQUESTS)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_UNASSIGNED_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -55,7 +55,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
         if(cargoWeight < 0) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_REQUEST)) {
@@ -65,7 +65,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -74,7 +74,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public void deleteRequest(int requestId) throws DAOException {
         if(requestId <= 0) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.DELETE_REQUEST)) {
@@ -82,7 +82,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

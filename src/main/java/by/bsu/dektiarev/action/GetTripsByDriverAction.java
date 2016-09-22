@@ -7,7 +7,7 @@ import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.entity.Trip;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.*;
@@ -32,7 +32,7 @@ public class GetTripsByDriverAction implements Action {
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             UserInfoBean userInfoBean = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
             if (userInfoBean == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             Integer driverId = userInfoBean.getUser().getId();
             LOG.info("requesting trips of driver " + driverId);

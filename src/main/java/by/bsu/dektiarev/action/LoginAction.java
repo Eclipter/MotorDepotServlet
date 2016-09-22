@@ -9,7 +9,7 @@ import by.bsu.dektiarev.entity.Driver;
 import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.RequestParameterName;
@@ -36,7 +36,7 @@ public class LoginAction implements Action {
             String userName = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             if (userName == null || password == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             LOG.info("authenticating user: " + userName + " " + password);
             User user = userDAO.authenticateUser(userName, password);
@@ -57,7 +57,7 @@ public class LoginAction implements Action {
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
                 return URLConstant.GET_MAIN_PAGE;
             } else {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_LOGIN_PASS);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_LOGIN_PASS);
             }
         } catch (DAOException ex) {
             throw new ActionExecutionException(ex.getMessage());

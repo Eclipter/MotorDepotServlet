@@ -9,7 +9,7 @@ import by.bsu.dektiarev.entity.TruckStateDTO;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,15 +21,17 @@ import java.util.List;
 public class TruckDAOJDBCImpl implements TruckDAO {
 
     @Override
-    public List<Truck> getAllTrucks() throws DAOException {
+    public List<Truck> getAllTrucks(Integer offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRUCKS)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRUCKS_LIMITED)) {
+                statement.setInt(1, offset);
+                statement.setInt(2, COLLECTION_QUERY_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTrucksFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -39,17 +41,36 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     public Truck getTruckByDriver(int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRUCK_BY_DRIVER_ID)) {
-                statement.setInt(1, driverId);
+                statement.setLong(1, driverId);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     List<Truck> truckList = getTrucksFromResultSet(resultSet);
                     if(truckList.size() == 0) {
-                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                        throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
                     }
                     return truckList.get(0);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
+        } catch (DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public Integer getNumberOfTrucks() throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_TRUCKS)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if(resultSet.next()) {
+                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                    } else {
+                        throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -58,7 +79,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     @Override
     public void changeTruckState(int truckId, TruckState truckStateToSet) throws DAOException {
         if(truckStateToSet == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             TruckState truckState;
@@ -68,12 +89,12 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                     if(resultSet.next()) {
                         truckState = TruckState.valueOf(resultSet.getString(ColumnName.STATE_NAME));
                     } else {
-                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                        throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
                     }
                 }
             }
             if(truckState.equals(truckStateToSet)) {
-                throw new DAOException(ExceptionalMessage.TRUCK_HAS_THE_SAME_STATE);
+                throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
             }
             try(PreparedStatement statement = connection.prepareStatement(DatabaseQuery.CHANGE_TRUCK_STATE)) {
                 statement.setInt(1, truckStateToSet.ordinal() + 1);
@@ -81,7 +102,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -90,7 +111,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     @Override
     public Truck addNewTruck(String number, double capacity) throws DAOException {
         if(capacity < 0 || number == null || number.equals("")) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             Integer truckId;
@@ -101,7 +122,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 statement.executeUpdate();
                 try (ResultSet keySet = statement.getGeneratedKeys()) {
                     if(!keySet.next()) {
-                        throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+                        throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
                     truckId = keySet.getInt(1);
                 }
@@ -111,7 +132,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     List<Truck> truckList = getTrucksFromResultSet(resultSet);
                     if(truckList.isEmpty()) {
-                        throw new DAOException(ExceptionalMessage.SQL_ERROR);
+                        throw new DAOException(ExceptionalMessageKey.SQL_ERROR);
                     }
                     else {
                        return truckList.get(0);
@@ -119,7 +140,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

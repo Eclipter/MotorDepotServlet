@@ -2,7 +2,7 @@ package by.bsu.dektiarev.action.util;
 
 import by.bsu.dektiarev.action.*;
 import by.bsu.dektiarev.exception.CommandNotFoundException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public final class CommandHelper {
         try {
             action = ActionEnum.valueOf(command.toUpperCase());
         } catch (IllegalArgumentException ex) {
-            throw new CommandNotFoundException(ExceptionalMessage.WRONG_COMMAND);
+            throw new CommandNotFoundException(ExceptionalMessageKey.WRONG_COMMAND);
         }
         return actionMap.get(action);
     }

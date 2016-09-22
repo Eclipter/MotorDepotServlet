@@ -6,7 +6,7 @@ package by.bsu.dektiarev.dao.util;
  */
 public final class DatabaseQuery {
 
-    public static final String GET_ALL_DRIVERS = "SELECT\n" +
+    public static final String GET_ALL_DRIVERS_LIMITED = "SELECT\n" +
             "  driver.USER_ID,\n" +
             "  user.LOGIN,\n" +
             "  user.PASSWORD,\n" +
@@ -18,7 +18,8 @@ public final class DatabaseQuery {
             "FROM driver\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
-            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID";
+            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID" +
+            "  LIMIT ?,?";
 
     public static final String GET_DRIVERS_WITH_HEALTHY_TRUCKS = "SELECT\n" +
             "  driver.USER_ID,\n" +
@@ -50,9 +51,11 @@ public final class DatabaseQuery {
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +
             "WHERE USER_ID = ?";
 
+    public static final String GET_NUMBER_OF_DRIVERS = "SELECT COUNT(*) AS COUNT FROM driver";
+
     public static final String INSERT_DRIVER = "INSERT INTO driver VALUES (?, ?)";
 
-    public static final String GET_ALL_REQUESTS = "SELECT\n" +
+    public static final String GET_ALL_REQUESTS_LIMITED = "SELECT\n" +
             "  request.ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
             "  request.DEPARTURE_STATION_ID,\n" +
@@ -63,9 +66,10 @@ public final class DatabaseQuery {
             "  destination_station.ADDRESS AS DESTINATION_ADDRESS\n" +
             "FROM request\n" +
             "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
-            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID";
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID" +
+            "  LIMIT ?,?";
 
-    public static final String GET_UNASSIGNED_REQUESTS = "SELECT\n" +
+    public static final String GET_ALL_UNASSIGNED_REQUESTS = "SELECT\n" +
             "  request.ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
             "  request.DEPARTURE_STATION_ID,\n" +
@@ -77,6 +81,28 @@ public final class DatabaseQuery {
             "FROM request\n" +
             "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
             "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
+            "WHERE request.ID NOT IN (SELECT trip.REQUEST_ID\n" +
+            "                         FROM trip)";
+
+    public static final String GET_ALL_UNASSIGNED_REQUESTS_LIMITED = "SELECT\n" +
+            "  request.ID,\n" +
+            "  request.CARGO_WEIGHT,\n" +
+            "  request.DEPARTURE_STATION_ID,\n" +
+            "  departure_station.NAME      AS DEPARTURE_NAME,\n" +
+            "  departure_station.ADDRESS   AS DEPARTURE_ADDRESS,\n" +
+            "  request.DESTINATION_STATION_ID,\n" +
+            "  destination_station.NAME    AS DESTINATION_NAME,\n" +
+            "  destination_station.ADDRESS AS DESTINATION_ADDRESS\n" +
+            "FROM request\n" +
+            "  JOIN station departure_station ON request.DEPARTURE_STATION_ID = departure_station.ID\n" +
+            "  JOIN station destination_station ON request.DESTINATION_STATION_ID = destination_station.ID\n" +
+            "WHERE request.ID NOT IN (SELECT trip.REQUEST_ID\n" +
+            "                         FROM trip)" +
+            "  LIMIT ?,?";
+
+    public static final String GET_NUMBER_OF_REQUESTS = "SELECT COUNT(*) AS COUNT FROM request";
+
+    public static final String GET_NUMBER_OF_UNASSIGNED_REQUESTS = "SELECT COUNT(*) AS COUNT FROM request " +
             "WHERE request.ID NOT IN (SELECT trip.REQUEST_ID\n" +
             "                         FROM trip)";
 
@@ -102,7 +128,7 @@ public final class DatabaseQuery {
 
     public static final String DELETE_REQUEST = "DELETE FROM request WHERE request.ID = ?";
 
-    public static final String GET_ALL_TRIPS = "SELECT\n" +
+    public static final String GET_ALL_TRIPS_LIMITED = "SELECT\n" +
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
@@ -127,9 +153,10 @@ public final class DatabaseQuery {
             "  JOIN driver ON trip.DRIVER_ID = driver.USER_ID\n" +
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
-            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID";
+            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID" +
+            "  LIMIT ?,?";
 
-    public static final String GET_TRIPS_BY_DRIVER = "SELECT\n" +
+    public static final String GET_TRIPS_BY_DRIVER_LIMITED = "SELECT\n" +
             "  trip.ID,\n" +
             "  trip.REQUEST_ID,\n" +
             "  request.CARGO_WEIGHT,\n" +
@@ -155,6 +182,12 @@ public final class DatabaseQuery {
             "  JOIN user ON driver.USER_ID = user.ID\n" +
             "  JOIN truck ON driver.TRUCK_ID = truck.ID\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +
+            "WHERE trip.DRIVER_ID = ?" +
+            "  LIMIT ?,?";
+
+    public static final String GET_NUMBER_OF_TRIPS = "SELECT COUNT(*) AS COUNT FROM trip";
+
+    public static final String GET_NUMBER_OF_TRIPS_BY_DRIVER = "SELECT COUNT(*) AS COUNT FROM trip " +
             "WHERE trip.DRIVER_ID = ?";
 
     public static final String GET_REQUEST_BY_ID = "SELECT\n" +
@@ -217,14 +250,15 @@ public final class DatabaseQuery {
             "SET trip.IS_COMPLETE = ?\n" +
             "WHERE trip.ID = ?";
 
-    public static final String GET_ALL_TRUCKS = "SELECT\n" +
+    public static final String GET_ALL_TRUCKS_LIMITED = "SELECT\n" +
             "  truck.ID,\n" +
             "  truck.NUMBER,\n" +
             "  truck.CAPACITY,\n" +
             "  truck.STATE_ID,\n" +
             "  truck_state.STATE_NAME\n" +
             "FROM truck\n" +
-            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID";
+            "  JOIN truck_state ON truck.STATE_ID = truck_state.ID" +
+            "  LIMIT ?,?";
 
     public static final String GET_TRUCK_BY_ID = "SELECT\n" +
             "  truck.ID,\n" +
@@ -235,6 +269,8 @@ public final class DatabaseQuery {
             "FROM truck\n" +
             "  JOIN truck_state ON truck.STATE_ID = truck_state.ID\n" +
             "WHERE truck.ID = ?";
+
+    public static final String GET_NUMBER_OF_TRUCKS = "SELECT COUNT(*) AS COUNT FROM truck";
 
     public static final String CHANGE_TRUCK_STATE = "UPDATE truck\n" +
             "SET truck.STATE_ID = ?\n" +

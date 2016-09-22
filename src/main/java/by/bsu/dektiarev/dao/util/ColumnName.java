@@ -26,6 +26,7 @@ public final class ColumnName {
     public static final String CARGO_WEIGHT = "CARGO_WEIGHT";
     public static final String REQUEST_ID = "REQUEST_ID";
     public static final String IS_COMPLETE = "IS_COMPLETE";
+    public static final String COUNT = "COUNT";
 
     private ColumnName() {
     }

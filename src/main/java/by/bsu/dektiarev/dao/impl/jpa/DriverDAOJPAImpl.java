@@ -6,7 +6,7 @@ import by.bsu.dektiarev.entity.Request;
 import by.bsu.dektiarev.entity.Truck;
 import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.PasswordEncryptor;
 
 import javax.persistence.EntityTransaction;
@@ -53,7 +53,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     @Override
     public void addNewDriver(String login, String password, Truck truck) throws DAOException {
         if(login == null || password == null || "".equals(login) || "".equals(password)) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         try {
@@ -66,7 +66,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
             getManager().persist(driver);
             transaction.commit();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }

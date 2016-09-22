@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="bundle.jspf"%>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -84,6 +85,17 @@
                         </div>
                     </div>
                 </c:if>
+            </div>
+            <div class="panel-footer">
+                <c:if test="${empty requestScope.startFrom or requestScope.startFrom < 0}">
+                    <c:set var="startFrom" value="0"/>
+                </c:if>
+                <a href="${currentURL}&startFrom=${startFrom - applicationScope.fetchLimit}">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a> ${startFrom + 1} - ${startFrom + fn:length(requestScope.trucks)}
+                <a href="${currentURL}&startFrom=${startFrom + fn:length(requestScope.trucks)}">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
             </div>
         </div>
     </div>

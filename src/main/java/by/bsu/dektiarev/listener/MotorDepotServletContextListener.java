@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.listener;
 
+import by.bsu.dektiarev.dao.GenericDAO;
 import by.bsu.dektiarev.dao.util.EntityManagerFactoryProvider;
 import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
@@ -9,6 +10,7 @@ import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
 import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
 import by.bsu.dektiarev.util.RequestParameterName;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -21,6 +23,10 @@ public class MotorDepotServletContextListener implements ServletContextListener 
 
     private static final Logger LOG = LogManager.getLogger();
     private static final String INITIALIZING_POOL_ERROR = "Initializing pool error";
+
+    private void setCollectionFetchLimitParameter(ServletContext context) {
+        context.setAttribute(RequestParameterName.FETCH_LIMIT, GenericDAO.COLLECTION_QUERY_LIMIT);
+    }
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -36,6 +42,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
         } else {
             EntityManagerFactoryProvider.getInstance();
         }
+        setCollectionFetchLimitParameter(servletContextEvent.getServletContext());
     }
 
     @Override

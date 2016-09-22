@@ -4,7 +4,7 @@ package by.bsu.dektiarev.exception;
  * Class with resource bundle keys of exceptional messages
  * Created by USER on 15.02.2016.
  */
-public final class ExceptionalMessage {
+public final class ExceptionalMessageKey {
     public static final String WEIGHT_MORE_THAN_CAPACITY = "cargo_heavier_than_capacity";
     public static final String TRUCK_NOT_OK = "truck_not_ok";
     public static final String TRUCK_HAS_THE_SAME_STATE = "truck_same_state";

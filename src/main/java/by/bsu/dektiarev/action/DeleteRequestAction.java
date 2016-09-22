@@ -5,7 +5,7 @@ import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.RequestParameterName;
 import by.bsu.dektiarev.util.URLConstant;
 import org.apache.logging.log4j.LogManager;
@@ -28,16 +28,16 @@ public class DeleteRequestAction implements Action {
         try {
             String requestIdParameter = req.getParameter(RequestParameterName.REQUEST_ID);
             if(requestIdParameter == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             Integer requestId;
             try {
                 requestId = Integer.valueOf(requestIdParameter);
             } catch (NumberFormatException e) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             if (requestId <= 0) {
-                throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             LOG.info("deleting request {}", requestId);

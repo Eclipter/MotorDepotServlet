@@ -5,7 +5,7 @@ import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.RequestParameterName;
@@ -32,7 +32,7 @@ public class AssignDriverToATripAction implements Action {
             Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
             Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
             if (chosenDriverId == null || chosenRequestId == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             LOG.info("assigning driver " + chosenDriverId + " to request " + chosenRequestId);
             tripDAO.assignDriverToATrip(chosenRequestId, chosenDriverId);
@@ -40,7 +40,7 @@ public class AssignDriverToATripAction implements Action {
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());
         } catch (NumberFormatException e) {
-            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
     }
 }

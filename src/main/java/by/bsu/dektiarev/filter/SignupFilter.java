@@ -1,7 +1,7 @@
 package by.bsu.dektiarev.filter;
 
 import by.bsu.dektiarev.action.util.ActionEnum;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.*;
@@ -49,14 +49,14 @@ public class SignupFilter implements Filter {
                 LOG.warn("missing signup parameters");
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                                ExceptionalMessage.MISSING_REQUEST_PARAMETERS,
+                                ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS,
                                 (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
             } else if (!password.equals(passwordRepeat)) {
-                LOG.warn(ExceptionalMessage.PASSWORDS_NOT_EQUAL);
+                LOG.warn(ExceptionalMessageKey.PASSWORDS_NOT_EQUAL);
                 req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                                ExceptionalMessage.PASSWORDS_NOT_EQUAL,
+                                ExceptionalMessageKey.PASSWORDS_NOT_EQUAL,
                                 (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
             } else {
@@ -66,7 +66,7 @@ public class SignupFilter implements Filter {
                         LOG.warn("truck capacity below zero");
                         req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                                 InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                                        ExceptionalMessage.TRUCK_CAPACITY_BELOW_ZERO,
+                                        ExceptionalMessageKey.TRUCK_CAPACITY_BELOW_ZERO,
                                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                         res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
                         return;
@@ -75,7 +75,7 @@ public class SignupFilter implements Filter {
                     LOG.warn("wrong input for truck capacity");
                     req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
                             InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                                    ExceptionalMessage.WRONG_INPUT_FOR_CAPACITY,
+                                    ExceptionalMessageKey.WRONG_INPUT_FOR_CAPACITY,
                                     (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                     res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.SIGNUP_FORM));
                     return;

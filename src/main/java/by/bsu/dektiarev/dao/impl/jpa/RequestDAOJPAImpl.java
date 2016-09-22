@@ -4,7 +4,7 @@ import by.bsu.dektiarev.dao.RequestDAO;
 import by.bsu.dektiarev.entity.Request;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -31,12 +31,12 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     @Override
     public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
         if(cargoWeight < 0 || departurePointId <= 0 || destinationPointId <= 0) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         Station departureStation = getManager().find(Station.class, departurePointId);
         Station destinationStation = getManager().find(Station.class, destinationPointId);
         if(departureStation == null || destinationStation == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         try {
@@ -48,7 +48,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             getManager().persist(request);
             transaction.commit();
         } catch (java.lang.Exception ex) {
-            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }
@@ -57,11 +57,11 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     @Override
     public void deleteRequest(int requestId) throws DAOException {
         if(requestId <= 0) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         Request request = getManager().find(Request.class, requestId);
         if(request == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         try {
@@ -69,7 +69,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             getManager().remove(request);
             transaction.commit();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }

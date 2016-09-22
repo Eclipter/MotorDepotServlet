@@ -7,7 +7,7 @@ import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     @Override
     public boolean isLoginOccupied(String login) throws DAOException {
         if(login == null || "".equals(login)) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_USER_BY_LOGIN)) {
@@ -31,7 +31,7 @@ public class UserDAOJDBCImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -40,7 +40,7 @@ public class UserDAOJDBCImpl implements UserDAO {
     @Override
     public User authenticateUser(String login, String pass) throws DAOException {
         if(login == null || pass == null || "".equals(login) || "".equals(pass)) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_USER_BY_LOGIN_AND_PASSWORD)) {
@@ -57,7 +57,7 @@ public class UserDAOJDBCImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

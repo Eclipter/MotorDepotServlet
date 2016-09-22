@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="bundle.jspf"%>
-<%@ taglib prefix="trtg" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,7 @@
                 <fmt:message key="trips.heading"/>
             </div>
             <div class="panel-body">
-                <trtg:triptable trips="${requestScope.trips}"/>
+                <custom:triptable trips="${requestScope.trips}"/>
             </div>
         </div>
     </div>

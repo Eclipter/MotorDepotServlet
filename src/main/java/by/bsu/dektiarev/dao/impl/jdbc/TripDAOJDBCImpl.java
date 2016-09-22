@@ -8,7 +8,7 @@ import by.bsu.dektiarev.entity.*;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,13 +25,13 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public List<Trip> getAllTrips() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRIPS)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRIPS_LIMITED)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -40,14 +40,14 @@ public class TripDAOJDBCImpl implements TripDAO {
     @Override
     public List<Trip> getTripsByDriver(int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIPS_BY_DRIVER)) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIPS_BY_DRIVER_LIMITED)) {
                 statement.setInt(1, driverId);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -66,7 +66,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                         cargoWeight = resultSet.getDouble(ColumnName.CARGO_WEIGHT);
                     }
                     else {
-                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                        throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
                     }
                 }
             }
@@ -78,15 +78,15 @@ public class TripDAOJDBCImpl implements TripDAO {
                         truckState = TruckState.valueOf(resultSet.getString(ColumnName.STATE_NAME));
                     }
                     else {
-                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                        throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
                     }
                 }
             }
             if(cargoWeight > capacity) {
-                throw new DAOException(ExceptionalMessage.WEIGHT_MORE_THAN_CAPACITY);
+                throw new DAOException(ExceptionalMessageKey.WEIGHT_MORE_THAN_CAPACITY);
             }
             if(!TruckState.OK.equals(truckState)) {
-                throw new DAOException(ExceptionalMessage.TRUCK_NOT_OK);
+                throw new DAOException(ExceptionalMessageKey.TRUCK_NOT_OK);
             }
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.INSERT_TRIP)) {
                 statement.setInt(1, requestId);
@@ -94,7 +94,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }
@@ -109,14 +109,14 @@ public class TripDAOJDBCImpl implements TripDAO {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     List<Trip> tripList = getTripsFromResultSet(resultSet);
                     if(tripList.isEmpty()) {
-                        throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                        throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
                     } else {
                         tripState = tripList.get(0).getIsComplete();
                     }
                 }
             }
             if(tripState.equals(state)) {
-                throw new DAOException(ExceptionalMessage.TRIP_HAS_THIS_STATE);
+                throw new DAOException(ExceptionalMessageKey.TRIP_HAS_THIS_STATE);
             }
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.CHANGE_TRIP_STATE)) {
                 statement.setBoolean(1, state);
@@ -124,7 +124,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new DAOException(ExceptionalMessage.SQL_ERROR, e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
         }

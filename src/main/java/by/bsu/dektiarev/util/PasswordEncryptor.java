@@ -1,7 +1,7 @@
 package by.bsu.dektiarev.util;
 
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.nio.charset.Charset;
@@ -23,7 +23,7 @@ public class PasswordEncryptor {
             byte[] encryptedBytes = messageDigest.digest(passwordBytes);
             return (new HexBinaryAdapter()).marshal(encryptedBytes);
         } catch (NoSuchAlgorithmException e) {
-            throw new DAOException(ExceptionalMessage.ENCRYPTING_ERROR);
+            throw new DAOException(ExceptionalMessageKey.ENCRYPTING_ERROR);
         }
     }
 

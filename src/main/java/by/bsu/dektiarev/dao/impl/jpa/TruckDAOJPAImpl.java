@@ -6,7 +6,7 @@ import by.bsu.dektiarev.entity.Truck;
 import by.bsu.dektiarev.entity.TruckStateDTO;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -15,10 +15,13 @@ import java.util.List;
 public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
 
     private static final String GET_ALL_QUERY = "Truck.getAll";
+    private static final String GET_NUMBER_QUERY = "Truck.getNumber";
 
     @Override
-    public List<Truck> getAllTrucks() {
+    public List<Truck> getAllTrucks(Integer offset) {
         TypedQuery<Truck> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Truck.class);
+        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
 
@@ -26,31 +29,37 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     public Truck getTruckByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         return driver.getTruck();
     }
 
     @Override
+    public Integer getNumberOfTrucks() throws DAOException {
+        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+        return namedQuery.getSingleResult().intValue();
+    }
+
+    @Override
     public void changeTruckState(int truckId, TruckState truckStateToSet) throws DAOException {
         if(truckStateToSet == null) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         try {
             transaction.begin();
             Truck truck = getManager().find(Truck.class, truckId);
             if(truck == null) {
-                throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             TruckStateDTO truckStateDTO = truck.getState();
             if(truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
-                throw new DAOException(ExceptionalMessage.TRUCK_HAS_THE_SAME_STATE);
+                throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
             }
 
             TruckStateDTO newEntity = getManager().find(TruckStateDTO.class, truckStateToSet.ordinal() + 1);
             if(newEntity == null) {
-                throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             truck.setState(newEntity);
             transaction.commit();
@@ -62,7 +71,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     @Override
     public Truck addNewTruck(String number, double capacity) throws DAOException {
         if(capacity < 0 || number == null || number.equals("")) {
-            throw new DAOException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         Truck truck = new Truck();
@@ -76,7 +85,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
             getManager().persist(truck);
             transaction.commit();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessage.DML_EXCEPTION);
+            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
         } finally {
             getManager().clear();
         }

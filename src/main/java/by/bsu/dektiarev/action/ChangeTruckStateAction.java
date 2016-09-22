@@ -7,7 +7,7 @@ import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.RequestParameterName;
 import by.bsu.dektiarev.util.URLConstant;
 import org.apache.logging.log4j.LogManager;
@@ -32,7 +32,7 @@ public class ChangeTruckStateAction implements Action {
         try {
             String chosenStateParameter = req.getParameter(RequestParameterName.CHOSEN_STATE);
             if (chosenStateParameter == null) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             UserInfoBean currentUser = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
@@ -45,10 +45,10 @@ public class ChangeTruckStateAction implements Action {
             throw new ActionExecutionException(e.getMessage());
         } catch (NumberFormatException e) {
             LOG.warn("wrong input for truck id");
-            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         } catch (IllegalArgumentException e) {
             LOG.warn("wrong input for truck state");
-            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
     }
 }

@@ -5,7 +5,7 @@ import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.RequestParameterName;
@@ -30,7 +30,7 @@ public class ChangeTripStateAction implements Action {
             String tripIdString = req.getParameter(RequestParameterName.TRIP_ID);
             String chosenState = req.getParameter(RequestParameterName.CHOSEN_STATE);
             if (tripIdString == null || chosenState == null || chosenState.equals("")) {
-                throw new ActionExecutionException(ExceptionalMessage.MISSING_REQUEST_PARAMETERS);
+                throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             Integer tripId = Integer.valueOf(tripIdString);
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
@@ -43,13 +43,13 @@ public class ChangeTripStateAction implements Action {
                     tripDAO.changeTripState(tripId, false);
                     break;
                 default:
-                    throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+                    throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());
         } catch (NumberFormatException e) {
-            throw new ActionExecutionException(ExceptionalMessage.WRONG_INPUT_PARAMETERS);
+            throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
     }
 }

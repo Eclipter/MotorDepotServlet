@@ -29,6 +29,8 @@ public final class RequestParameterName {
     public static final String STATIONS = "stations";
     public static final String LANGUAGE = "language";
     public static final String REQUEST_ID = "request_id";
+    public static final String START_FROM = "startFrom";
+    public static final String FETCH_LIMIT = "fetchLimit";
 
     private RequestParameterName() {
     }

@@ -13,6 +13,7 @@ import java.util.Objects;
 @PrimaryKeyJoinColumn(name = "USER_ID")
 @NamedQueries({
         @NamedQuery(name = "Driver.getAll", query = "SELECT d FROM Driver d"),
+        @NamedQuery(name = "Driver.getNumber", query = "SELECT COUNT(d) FROM Driver d"),
         @NamedQuery(name = "Driver.getDriversWithHealthyTrucks", query = "SELECT d FROM Driver d WHERE d.truck IN " +
                 "(SELECT t FROM Truck t WHERE t.state = (SELECT s FROM TruckStateDTO s WHERE s.id = 1))"),
         @NamedQuery(name = "Driver.getDriverByLogin", query = "SELECT d FROM Driver d WHERE d.login = :login"),

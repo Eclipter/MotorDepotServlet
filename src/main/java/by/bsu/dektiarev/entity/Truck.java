@@ -9,7 +9,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "truck", schema = "motor_depot")
 @NamedQueries({
-        @NamedQuery(name = "Truck.getAll", query = "SELECT a FROM Truck a")
+        @NamedQuery(name = "Truck.getAll", query = "SELECT a FROM Truck a"),
+        @NamedQuery(name = "Truck.getNumber", query = "SELECT COUNT(a) FROM Truck a")
 })
 public class Truck {
 

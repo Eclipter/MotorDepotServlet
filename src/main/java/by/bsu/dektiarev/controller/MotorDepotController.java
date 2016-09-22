@@ -4,7 +4,7 @@ import by.bsu.dektiarev.action.Action;
 import by.bsu.dektiarev.action.util.CommandHelper;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.CommandNotFoundException;
-import by.bsu.dektiarev.exception.ExceptionalMessage;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.*;
@@ -41,7 +41,7 @@ public class MotorDepotController extends HttpServlet {
         else {
             Action action = CommandHelper.getCommand(command);
             if (action == null) {
-                throw new CommandNotFoundException(ExceptionalMessage.NO_COMMAND);
+                throw new CommandNotFoundException(ExceptionalMessageKey.NO_COMMAND);
             }
             return action.execute(req, resp);
         }
@@ -64,7 +64,7 @@ public class MotorDepotController extends HttpServlet {
             LOG.error("UNEXPECTED ERROR", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                            ExceptionalMessage.UNEXPECTED,
+                            ExceptionalMessageKey.UNEXPECTED,
                             (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + e.getMessage());
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         }
@@ -87,7 +87,7 @@ public class MotorDepotController extends HttpServlet {
             LOG.error("UNEXPECTED ERROR", e);
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
-                            ExceptionalMessage.UNEXPECTED,
+                            ExceptionalMessageKey.UNEXPECTED,
                             (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + e.getMessage());
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         }
