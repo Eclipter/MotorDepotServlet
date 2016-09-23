@@ -13,20 +13,43 @@ import java.util.List;
 public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
 
     private static final String GET_ALL_QUERY = "Trip.getAll";
+    private static final String GET_NUMBER_QUERY = "Trip.getNumberOfAll";
 
     @Override
-    public List<Trip> getAllTrips() {
+    public List<Trip> getAllTrips(Integer offset) {
         TypedQuery<Trip> query = getManager().createNamedQuery(GET_ALL_QUERY, Trip.class);
+        query.setMaxResults(COLLECTION_QUERY_LIMIT);
+        query.setFirstResult(offset);
         return query.getResultList();
     }
 
     @Override
-    public List<Trip> getTripsByDriver(int driverId) throws DAOException {
+    public List<Trip> getTripsByDriver(Integer driverId, Integer offset) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        return driver.getTripList();
+        List<Trip> tripList = driver.getTripList();
+        int toIndex = offset + COLLECTION_QUERY_LIMIT;
+        if(toIndex > tripList.size()) {
+            toIndex = tripList.size();
+        }
+        return tripList.subList(offset, toIndex);
+    }
+
+    @Override
+    public Integer getNumberOfTrips() throws DAOException {
+        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+        return namedQuery.getSingleResult().intValue();
+    }
+
+    @Override
+    public Integer getNumberOfTripsByDriver(Integer driverId) throws DAOException {
+        Driver driver = getManager().find(Driver.class, driverId);
+        if(driver == null) {
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        }
+        return driver.getTripList().size();
     }
 
     @Override

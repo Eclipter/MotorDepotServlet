@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.action;
 
+import by.bsu.dektiarev.action.util.OffsetParameterOperator;
 import by.bsu.dektiarev.action.util.RequestViewBeanListProvider;
 import by.bsu.dektiarev.bean.RequestViewBean;
 import by.bsu.dektiarev.dao.RequestDAO;
@@ -29,11 +30,13 @@ public class GetUnassignedRequestsAction implements Action {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws ActionExecutionException {
         try {
-            LOG.info("requesting all unset requests");
+            LOG.info("requesting all unassigned requests");
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
-            List<Request> unsetRequests = requestDAO.getUnassignedRequests();
+            Integer numberOfRequests = requestDAO.getNumberOfUnassignedRequests();
+            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfRequests);
+            List<Request> unassignedRequests = requestDAO.getUnassignedRequests(offset);
             List<RequestViewBean> requestViewBeanList =
-                    RequestViewBeanListProvider.createRequestViewBeanList(unsetRequests);
+                    RequestViewBeanListProvider.createRequestViewBeanList(unassignedRequests);
             req.setAttribute(RequestParameterName.REQUESTS, requestViewBeanList);
             return PagesBundleManager.getProperty(PageNameConstant.REQUESTS);
         } catch (DAOException e) {

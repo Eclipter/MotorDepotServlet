@@ -15,10 +15,14 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
 
     private static final String GET_ALL_QUERY = "Request.getAll";
     private static final String GET_UNASSIGNED_QUERY = "Request.getUnassigned";
+    private static final String GET_NUMBER_OF_ALL_QUERY = "Request.getNumberOfAll";
+    private static final String GET_NUMBER_OF_UNASSIGNED_QUERY = "Truck.getNumberOfUnassigned";
 
     @Override
-    public List<Request> getAllRequests() {
+    public List<Request> getAllRequests(Integer offset) {
         TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Request.class);
+        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
 
@@ -26,6 +30,26 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     public List<Request> getUnassignedRequests() {
         TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
         return namedQuery.getResultList();
+    }
+
+    @Override
+    public List<Request> getUnassignedRequests(Integer offset) throws DAOException {
+        TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
+        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setFirstResult(offset);
+        return namedQuery.getResultList();
+    }
+
+    @Override
+    public Integer getNumberOfAllRequests() throws DAOException {
+        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_ALL_QUERY, Long.class);
+        return namedQuery.getSingleResult().intValue();
+    }
+
+    @Override
+    public Integer getNumberOfUnassignedRequests() throws DAOException {
+        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_UNASSIGNED_QUERY, Long.class);
+        return namedQuery.getSingleResult().intValue();
     }
 
     @Override

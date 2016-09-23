@@ -16,13 +16,16 @@ import java.util.List;
 public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
 
     private static final String GET_ALL_QUERY = "Driver.getAll";
+    private static final String GET_NUMBER_QUERY = "Driver.getNumber";
     private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getDriversWithHealthyTrucks";
     private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.searchByRequest";
     private static final String REQUEST_PARAMETER = "request";
 
     @Override
-    public List<Driver> getAllDrivers() {
+    public List<Driver> getAllDrivers(Integer offset) {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Driver.class);
+        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
 
@@ -31,6 +34,12 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_DRIVERS_HEALTHY_TRUCKS_QUERY,
                 Driver.class);
         return namedQuery.getResultList();
+    }
+
+    @Override
+    public Integer getNumberOfDrivers() throws DAOException {
+        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+        return namedQuery.getSingleResult().intValue();
     }
 
     @Override

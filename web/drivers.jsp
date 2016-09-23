@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="bundle.jspf" %>
+<%@ taglib prefix="custom" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -42,6 +43,9 @@
                     </c:forEach>
                     </tbody>
                 </table>
+            </div>
+            <div class="panel-footer">
+                <custom:page_arrows list="${requestScope.drivers}" currentURL="${currentURL}"/>
             </div>
         </div>
     </div>

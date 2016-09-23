@@ -13,6 +13,14 @@
         <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_main_page')}"/>
     </c:otherwise>
 </c:choose>
+<c:choose>
+    <c:when test="${not empty req.getParameter('startFrom')}">
+        <c:set var="languageLink" value="${currentURL}&startFrom=${req.getParameter('startFrom')}&language="/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="languageLink" value="${currentURL}&language="/>
+    </c:otherwise>
+</c:choose>
 <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -70,10 +78,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="${currentURL}&language=ru"><img class="language-icon" src="images/icon-rus.ico" alt="ru"/></a>
+                <a href="${languageLink}ru"><img class="language-icon" src="images/icon-rus.ico" alt="ru"/></a>
             </li>
             <li>
-                <a href="${currentURL}&language=en"><img class="language-icon" src="images/icon-us.ico" alt="en"/></a>
+                <a href="${languageLink}en"><img class="language-icon" src="images/icon-us.ico" alt="en"/></a>
             </li>
             <li>
                 <a href="<c:url value="motor_depot"><c:param name="command" value="chat"/></c:url>"><span

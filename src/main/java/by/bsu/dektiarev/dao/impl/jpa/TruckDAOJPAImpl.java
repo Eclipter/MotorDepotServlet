@@ -26,7 +26,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     }
 
     @Override
-    public Truck getTruckByDriver(int driverId) throws DAOException {
+    public Truck getTruckByDriver(Integer driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);

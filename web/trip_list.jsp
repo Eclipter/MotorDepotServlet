@@ -22,6 +22,9 @@
             <div class="panel-body">
                 <custom:triptable trips="${requestScope.trips}"/>
             </div>
+            <div class="panel-footer">
+                <custom:page_arrows list="${requestScope.trips}" currentURL="${currentURL}"/>
+            </div>
         </div>
     </div>
 </div>

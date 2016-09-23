@@ -16,7 +16,7 @@ public interface TripDAO extends GenericDAO {
      * @return list of trips
      * @throws DAOException
      */
-    List<Trip> getAllTrips() throws DAOException;
+    List<Trip> getAllTrips(Integer offset) throws DAOException;
 
     /**
     * Get trips by driver id
@@ -24,7 +24,11 @@ public interface TripDAO extends GenericDAO {
     * @return list of trips
      * @throws DAOException
     */
-    List<Trip> getTripsByDriver(int driverId) throws DAOException;
+    List<Trip> getTripsByDriver(Integer driverId, Integer offset) throws DAOException;
+
+    Integer getNumberOfTrips() throws DAOException;
+
+    Integer getNumberOfTripsByDriver(Integer driverId) throws DAOException;
 
     /**
      * Assigns driver to a trip

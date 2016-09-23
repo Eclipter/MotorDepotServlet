@@ -38,7 +38,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     }
 
     @Override
-    public Truck getTruckByDriver(int driverId) throws DAOException {
+    public Truck getTruckByDriver(Integer driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRUCK_BY_DRIVER_ID)) {
                 statement.setLong(1, driverId);

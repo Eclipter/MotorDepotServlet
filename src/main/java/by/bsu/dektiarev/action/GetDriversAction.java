@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.action;
 
+import by.bsu.dektiarev.action.util.OffsetParameterOperator;
 import by.bsu.dektiarev.dao.DriverDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
@@ -29,7 +30,9 @@ public class GetDriversAction implements Action {
         LOG.info("requesting all drivers");
         try {
             DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
-            List<Driver> allDrivers = driverDAO.getAllDrivers();
+            Integer numberOfDrivers = driverDAO.getNumberOfDrivers();
+            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfDrivers);
+            List<Driver> allDrivers = driverDAO.getAllDrivers(offset);
             req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
             return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);
         } catch (DAOException ex) {

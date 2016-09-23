@@ -21,9 +21,11 @@ import java.util.List;
 public class DriverDAOJDBCImpl implements DriverDAO {
 
     @Override
-    public List<Driver> getAllDrivers() throws DAOException {
+    public List<Driver> getAllDrivers(Integer offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_DRIVERS_LIMITED)) {
+                statement.setInt(1, offset);
+                statement.setInt(2, COLLECTION_QUERY_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
                 }
@@ -41,6 +43,25 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVERS_WITH_HEALTHY_TRUCKS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
+        } catch (DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
+    public Integer getNumberOfDrivers() throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_DRIVERS)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if(resultSet.next()) {
+                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                    } else {
+                        throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
+                    }
                 }
             }
         } catch (SQLException e) {

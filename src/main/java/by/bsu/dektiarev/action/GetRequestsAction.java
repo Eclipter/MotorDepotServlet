@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.action;
 
+import by.bsu.dektiarev.action.util.OffsetParameterOperator;
 import by.bsu.dektiarev.action.util.RequestViewBeanListProvider;
 import by.bsu.dektiarev.bean.RequestViewBean;
 import by.bsu.dektiarev.dao.RequestDAO;
@@ -35,7 +36,9 @@ public class GetRequestsAction implements Action {
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             StationDAO stationDAO = (StationDAO) daoFactory.getDAOFromFactory(DAOType.STATION);
             List<Station> stationList = stationDAO.getAllStations();
-            List<Request> allRequests = requestDAO.getAllRequests();
+            Integer numberOfRequests = requestDAO.getNumberOfAllRequests();
+            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfRequests);
+            List<Request> allRequests = requestDAO.getAllRequests(offset);
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(allRequests);
             req.setAttribute(RequestParameterName.STATIONS, stationList);

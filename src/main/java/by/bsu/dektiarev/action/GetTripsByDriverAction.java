@@ -1,5 +1,6 @@
 package by.bsu.dektiarev.action;
 
+import by.bsu.dektiarev.action.util.OffsetParameterOperator;
 import by.bsu.dektiarev.bean.UserInfoBean;
 import by.bsu.dektiarev.dao.TripDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
@@ -36,7 +37,9 @@ public class GetTripsByDriverAction implements Action {
             }
             Integer driverId = userInfoBean.getUser().getId();
             LOG.info("requesting trips of driver " + driverId);
-            List<Trip> allTrips = tripDAO.getTripsByDriver(driverId);
+            Integer numberOfTrips = tripDAO.getNumberOfTripsByDriver(driverId);
+            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfTrips);
+            List<Trip> allTrips = tripDAO.getTripsByDriver(driverId, offset);
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
         } catch (DAOException ex) {

@@ -15,8 +15,9 @@ public interface RequestDAO extends GenericDAO {
      * Gets all the requests
      * @return request list
      * @throws DAOException
+     * @param offset
      */
-    List<Request> getAllRequests() throws DAOException;
+    List<Request> getAllRequests(Integer offset) throws DAOException;
 
     /**
      * Gets all unassigned requests
@@ -24,6 +25,17 @@ public interface RequestDAO extends GenericDAO {
      * @throws DAOException
      */
     List<Request> getUnassignedRequests() throws DAOException;
+
+    /**
+     * Gets all unassigned requests
+     * @return request list
+     * @throws DAOException
+     */
+    List<Request> getUnassignedRequests(Integer offset) throws DAOException;
+
+    Integer getNumberOfAllRequests() throws DAOException;
+
+    Integer getNumberOfUnassignedRequests() throws DAOException;
 
     /**
      * Adds new request to the database

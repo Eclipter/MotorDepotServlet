@@ -25,7 +25,7 @@ public interface TruckDAO extends GenericDAO {
      * @return corresponding truck
      * @throws DAOException
      */
-    Truck getTruckByDriver(int driverId) throws DAOException;
+    Truck getTruckByDriver(Integer driverId) throws DAOException;
 
     /**
      * Gets number of trucks
