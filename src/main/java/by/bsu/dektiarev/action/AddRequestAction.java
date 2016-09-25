@@ -34,13 +34,13 @@ public class AddRequestAction implements Action {
             if (cargoWeightParameter == null || departurePointParameter == null || destinationPointParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
-            Double cargoWeight;
-            Integer departureStationId;
-            Integer destinationStationId;
+            double cargoWeight;
+            int departureStationId;
+            int destinationStationId;
             try {
-                cargoWeight = Double.valueOf(cargoWeightParameter);
-                departureStationId = Integer.valueOf(departurePointParameter);
-                destinationStationId = Integer.valueOf(destinationPointParameter);
+                cargoWeight = Double.parseDouble(cargoWeightParameter);
+                departureStationId = Integer.parseInt(departurePointParameter);
+                destinationStationId = Integer.parseInt(destinationPointParameter);
             } catch (NumberFormatException e) {
                 throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }
@@ -53,7 +53,7 @@ public class AddRequestAction implements Action {
             }
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             LOG.info("adding new request with cargo weight: " + cargoWeight);
-            requestDAO.addNewRequest(departureStationId, destinationStationId, cargoWeight);
+            requestDAO.addRequest(departureStationId, destinationStationId, cargoWeight);
             return URLConstant.GET_REQUESTS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());

@@ -29,13 +29,15 @@ public class AssignDriverToATripAction implements Action {
 
         try {
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
-            Integer chosenRequestId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
-            Integer chosenDriverId = Integer.valueOf(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
-            if (chosenDriverId == null || chosenRequestId == null) {
+            String requestParameter = req.getParameter(RequestParameterName.CHOSEN_REQUEST);
+            String driverParameter = req.getParameter(RequestParameterName.CHOSEN_DRIVER);
+            if (requestParameter == null || driverParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
+            int chosenRequestId = Integer.parseInt(req.getParameter(RequestParameterName.CHOSEN_REQUEST));
+            int chosenDriverId = Integer.parseInt(req.getParameter(RequestParameterName.CHOSEN_DRIVER));
             LOG.info("assigning driver " + chosenDriverId + " to request " + chosenRequestId);
-            tripDAO.assignDriverToATrip(chosenRequestId, chosenDriverId);
+            tripDAO.addTrip(chosenRequestId, chosenDriverId);
             return URLConstant.GET_TRIPS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());

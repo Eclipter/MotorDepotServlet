@@ -45,7 +45,7 @@ public class LoginAction implements Action {
                 HttpSession session = req.getSession();
                 UserInfoBean userInfoBean = new UserInfoBean();
                 DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
-                Driver driver = driverDAO.searchByUser(user);
+                Driver driver = driverDAO.find(user);
                 if(driver != null) {
                     userInfoBean.setUser(driver);
                     userInfoBean.setAdmin(false);

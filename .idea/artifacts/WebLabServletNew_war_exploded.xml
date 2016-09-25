@@ -10,9 +10,12 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="hibernate" />
           <element id="library" level="project" name="mysql-connector-java-5.1.38-bin" />
-          <element id="library" level="project" name="log4j-api-2.4.1-javadoc" />
           <element id="library" level="project" name="jstl-1.2" />
           <element id="library" level="project" name="com.googlecode.json-simple:json-simple:1.1.1" />
+          <element id="library" level="project" name="AppEngine API" />
+          <element id="library" level="project" name="AppEngine ORM" />
+          <element id="library" level="project" name="tools" />
+          <element id="library" level="project" name="log4j-api-2.6.2-javadoc" />
         </element>
       </element>
     </root>

@@ -1,15 +1,15 @@
 package by.bsu.dektiarev.chat;
 
 import by.bsu.dektiarev.bean.UserInfoBean;
+import by.bsu.dektiarev.util.BundleName;
+import by.bsu.dektiarev.util.InternationalizedBundleManager;
+import by.bsu.dektiarev.util.RequestParameterName;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import by.bsu.dektiarev.util.BundleName;
-import by.bsu.dektiarev.util.InternationalizedBundleManager;
-import by.bsu.dektiarev.util.RequestParameterName;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
@@ -19,8 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Server endpoint class that is used to receive and send chat messages using websockets
@@ -142,14 +140,21 @@ public class ChatEndPoint {
                 InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT, ALL_USERS_BUNDLE_KEY,
                         (String) session.getAttribute(RequestParameterName.LANGUAGE)));
         jsonArray.add(jsonObject);
-        jsonArray.addAll(loginMap.entrySet().stream().map((Function<Map.Entry<Session, HttpSession>, Object>)
+        /*jsonArray.addAll(loginMap.entrySet().stream().map((Function<Map.Entry<Session, HttpSession>, Object>)
                 loginEntry -> {
                     JSONObject userJsonObject = new JSONObject();
                     UserInfoBean user = (UserInfoBean)
                             loginEntry.getValue().getAttribute(RequestParameterName.USER);
                     userJsonObject.put(JSONMessageParameter.NAME, user.getUser().getLogin());
                     return userJsonObject;
-                }).collect(Collectors.toList()));
+                }).collect(Collectors.toList()));*/
+        for(Map.Entry<Session, HttpSession> loginEntry : loginMap.entrySet()) {
+            JSONObject userJsonObject = new JSONObject();
+            UserInfoBean user = (UserInfoBean)
+                    loginEntry.getValue().getAttribute(RequestParameterName.USER);
+            userJsonObject.put(JSONMessageParameter.NAME, user.getUser().getLogin());
+            jsonArray.add(userJsonObject);
+        }
         return jsonArray.toJSONString();
     }
 

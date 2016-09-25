@@ -26,7 +26,7 @@ public final class RequestViewBeanListProvider {
         DriverDAO driverDAO = (DriverDAO) DAOFactory.getInstance().getDAOFromFactory(DAOType.DRIVER);
         List<RequestViewBean> requestViewBeanList = new ArrayList<>();
         for(Request request : requestList) {
-            Driver driver = driverDAO.searchByRequest(request);
+            Driver driver = driverDAO.find(request);
             if(driver == null) {
                 requestViewBeanList.add(new RequestViewBean(request));
             }

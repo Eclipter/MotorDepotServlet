@@ -32,7 +32,7 @@ public class ChangeTripStateAction implements Action {
             if (tripIdString == null || chosenState == null || chosenState.equals("")) {
                 throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
-            Integer tripId = Integer.valueOf(tripIdString);
+            int tripId = Integer.parseInt(tripIdString);
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             LOG.info("changing trip " + tripId + " state to " + chosenState);
             switch (chosenState) {

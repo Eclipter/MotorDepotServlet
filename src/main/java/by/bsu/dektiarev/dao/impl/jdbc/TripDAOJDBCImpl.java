@@ -23,11 +23,11 @@ import java.util.List;
 public class TripDAOJDBCImpl implements TripDAO {
 
     @Override
-    public List<Trip> getAllTrips(Integer offset) throws DAOException {
+    public List<Trip> getTrips(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRIPS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_QUERY_LIMIT);
+                statement.setInt(2, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }
@@ -40,12 +40,12 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
-    public List<Trip> getTripsByDriver(Integer driverId, Integer offset) throws DAOException {
+    public List<Trip> getTripsByDriver(int driverId, int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIPS_BY_DRIVER_LIMITED)) {
                 statement.setInt(1, driverId);
                 statement.setInt(2, offset);
-                statement.setInt(3, COLLECTION_QUERY_LIMIT);
+                statement.setInt(3, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }
@@ -63,7 +63,7 @@ public class TripDAOJDBCImpl implements TripDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_TRIPS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -77,13 +77,13 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
-    public Integer getNumberOfTripsByDriver(Integer driverId) throws DAOException {
+    public Integer getNumberOfTripsByDriver(int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_TRIPS_BY_DRIVER)) {
                 statement.setInt(1, driverId);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -97,7 +97,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
-    public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
+    public void addTrip(int requestId, int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             Double capacity;
             Double cargoWeight;
@@ -144,7 +144,7 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
-    public void changeTripState(Integer tripId, boolean state) throws DAOException {
+    public void changeTripState(int tripId, boolean state) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             Boolean tripState;
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIP_BY_ID)) {

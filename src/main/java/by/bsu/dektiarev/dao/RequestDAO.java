@@ -17,7 +17,7 @@ public interface RequestDAO extends GenericDAO {
      * @throws DAOException
      * @param offset
      */
-    List<Request> getAllRequests(Integer offset) throws DAOException;
+    List<Request> getRequests(int offset) throws DAOException;
 
     /**
      * Gets all unassigned requests
@@ -27,11 +27,11 @@ public interface RequestDAO extends GenericDAO {
     List<Request> getUnassignedRequests() throws DAOException;
 
     /**
-     * Gets all unassigned requests
+     * Gets unassigned requests
      * @return request list
      * @throws DAOException
      */
-    List<Request> getUnassignedRequests(Integer offset) throws DAOException;
+    List<Request> getUnassignedRequests(int offset) throws DAOException;
 
     Integer getNumberOfAllRequests() throws DAOException;
 
@@ -44,7 +44,7 @@ public interface RequestDAO extends GenericDAO {
      * @param cargoWeight cargo weight parameter
      * @throws DAOException in case of DML error
      */
-    void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException;
+    void addRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException;
 
     void deleteRequest(int requestId) throws DAOException;
 }

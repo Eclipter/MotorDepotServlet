@@ -30,9 +30,9 @@ public class GetTripsAction implements Action {
         LOG.info("requesting all trips");
         try {
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
-            Integer numberOfTrips = tripDAO.getNumberOfTrips();
+            int numberOfTrips = tripDAO.getNumberOfTrips();
             int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfTrips);
-            List<Trip> allTrips = tripDAO.getAllTrips(offset);
+            List<Trip> allTrips = tripDAO.getTrips(offset);
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
         } catch (DAOException ex) {

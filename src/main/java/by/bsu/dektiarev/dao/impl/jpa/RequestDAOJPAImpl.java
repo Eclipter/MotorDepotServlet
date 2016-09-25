@@ -19,9 +19,9 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     private static final String GET_NUMBER_OF_UNASSIGNED_QUERY = "Truck.getNumberOfUnassigned";
 
     @Override
-    public List<Request> getAllRequests(Integer offset) {
+    public List<Request> getRequests(int offset) {
         TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Request.class);
-        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
         namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
@@ -33,9 +33,9 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     }
 
     @Override
-    public List<Request> getUnassignedRequests(Integer offset) throws DAOException {
+    public List<Request> getUnassignedRequests(int offset) throws DAOException {
         TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
-        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
         namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
@@ -53,7 +53,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     }
 
     @Override
-    public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
+    public void addRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
         if(cargoWeight < 0 || departurePointId <= 0 || destinationPointId <= 0) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

@@ -7,7 +7,9 @@ package by.bsu.dektiarev.util;
 public final class DatabaseConfigurationParameterName {
 
     public static final String URL = "url";
+    public static final String GOOGLE_URL = "googleURL";
     public static final String DRIVER = "driver";
+    public static final String GOOGLE_DRIVER = "googleDriver";
     public static final String USERNAME = "user";
     public static final String PASSWORD = "password";
     public static final String POOL_SIZE = "pool_size";

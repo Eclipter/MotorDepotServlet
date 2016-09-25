@@ -37,7 +37,7 @@ public class GetTripsByDriverAction implements Action {
             }
             Integer driverId = userInfoBean.getUser().getId();
             LOG.info("requesting trips of driver " + driverId);
-            Integer numberOfTrips = tripDAO.getNumberOfTripsByDriver(driverId);
+            int numberOfTrips = tripDAO.getNumberOfTripsByDriver(driverId);
             int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfTrips);
             List<Trip> allTrips = tripDAO.getTripsByDriver(driverId, offset);
             req.setAttribute(RequestParameterName.TRIPS, allTrips);

@@ -17,20 +17,20 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
 
     private static final String GET_ALL_QUERY = "Driver.getAll";
     private static final String GET_NUMBER_QUERY = "Driver.getNumber";
-    private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getDriversWithHealthyTrucks";
-    private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.searchByRequest";
+    private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getAllDriversWithHealthyTrucks";
+    private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.find";
     private static final String REQUEST_PARAMETER = "request";
 
     @Override
-    public List<Driver> getAllDrivers(Integer offset) {
+    public List<Driver> getDrivers(int offset) {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Driver.class);
-        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
         namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
 
     @Override
-    public List<Driver> getDriversWithHealthyTrucks() {
+    public List<Driver> getAllDriversWithHealthyTrucks() {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_DRIVERS_HEALTHY_TRUCKS_QUERY,
                 Driver.class);
         return namedQuery.getResultList();
@@ -43,12 +43,12 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     }
 
     @Override
-    public Driver searchByUser(User user) {
+    public Driver find(User user) {
         return getManager().find(Driver.class, user.getId());
     }
 
     @Override
-    public Driver searchByRequest(Request request) {
+    public Driver find(Request request) {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(SEARCH_FOR_DRIVER_QUERY, Driver.class);
         namedQuery.setParameter(REQUEST_PARAMETER, request);
         List<Driver> driverList = namedQuery.getResultList();
@@ -60,7 +60,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     }
 
     @Override
-    public void addNewDriver(String login, String password, Truck truck) throws DAOException {
+    public void addDriver(String login, String password, Truck truck) throws DAOException {
         if(login == null || password == null || "".equals(login) || "".equals(password)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

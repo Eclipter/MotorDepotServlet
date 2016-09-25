@@ -5,7 +5,7 @@
 <c:set var="req" value="${pageContext.request}" />
 <c:set var="baseURL" value="${fn:replace(req.requestURL, fn:substring(req.requestURI, 1,
          fn:length(req.requestURI)), req.contextPath)}" />
-<c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_login_form')}"/>
+<c:set var="currentURL" value="${baseURL}motor_depot?command=get_login_form"/>
 <html>
 <head>
     <meta charset="UTF-8">

@@ -30,9 +30,9 @@ public class GetDriversAction implements Action {
         LOG.info("requesting all drivers");
         try {
             DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
-            Integer numberOfDrivers = driverDAO.getNumberOfDrivers();
+            int numberOfDrivers = driverDAO.getNumberOfDrivers();
             int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfDrivers);
-            List<Driver> allDrivers = driverDAO.getAllDrivers(offset);
+            List<Driver> allDrivers = driverDAO.getDrivers(offset);
             req.setAttribute(RequestParameterName.DRIVERS, allDrivers);
             return PagesBundleManager.getProperty(PageNameConstant.DRIVERS);
         } catch (DAOException ex) {

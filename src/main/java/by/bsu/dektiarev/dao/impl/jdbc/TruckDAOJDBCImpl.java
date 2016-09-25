@@ -21,11 +21,11 @@ import java.util.List;
 public class TruckDAOJDBCImpl implements TruckDAO {
 
     @Override
-    public List<Truck> getAllTrucks(Integer offset) throws DAOException {
+    public List<Truck> getTrucks(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRUCKS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_QUERY_LIMIT);
+                statement.setInt(2, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTrucksFromResultSet(resultSet);
                 }
@@ -38,7 +38,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     }
 
     @Override
-    public Truck getTruckByDriver(Integer driverId) throws DAOException {
+    public Truck getTruckByDriver(int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRUCK_BY_DRIVER_ID)) {
                 statement.setLong(1, driverId);
@@ -63,7 +63,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_TRUCKS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -109,7 +109,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
     }
 
     @Override
-    public Truck addNewTruck(String number, double capacity) throws DAOException {
+    public Truck addTruck(String number, double capacity) throws DAOException {
         if(capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

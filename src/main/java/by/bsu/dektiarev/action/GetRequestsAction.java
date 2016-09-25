@@ -36,9 +36,9 @@ public class GetRequestsAction implements Action {
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             StationDAO stationDAO = (StationDAO) daoFactory.getDAOFromFactory(DAOType.STATION);
             List<Station> stationList = stationDAO.getAllStations();
-            Integer numberOfRequests = requestDAO.getNumberOfAllRequests();
+            int numberOfRequests = requestDAO.getNumberOfAllRequests();
             int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfRequests);
-            List<Request> allRequests = requestDAO.getAllRequests(offset);
+            List<Request> allRequests = requestDAO.getRequests(offset);
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(allRequests);
             req.setAttribute(RequestParameterName.STATIONS, stationList);

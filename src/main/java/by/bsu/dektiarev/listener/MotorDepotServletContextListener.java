@@ -25,7 +25,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
     private static final String INITIALIZING_POOL_ERROR = "Initializing pool error";
 
     private void setCollectionFetchLimitParameter(ServletContext context) {
-        context.setAttribute(RequestParameterName.FETCH_LIMIT, GenericDAO.COLLECTION_QUERY_LIMIT);
+        context.setAttribute(RequestParameterName.FETCH_LIMIT, GenericDAO.COLLECTION_FETCH_LIMIT);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
             } catch (DatabaseConnectionException e) {
                 LOG.error(e);
                 servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
-                        INITIALIZING_POOL_ERROR);
+                        INITIALIZING_POOL_ERROR + ": " + e.getCause().getMessage());
             }
         } else {
             EntityManagerFactoryProvider.getInstance();

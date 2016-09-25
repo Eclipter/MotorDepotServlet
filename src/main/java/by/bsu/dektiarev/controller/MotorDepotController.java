@@ -65,7 +65,7 @@ public class MotorDepotController extends HttpServlet {
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessageKey.UNEXPECTED,
-                            (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + e.getMessage());
+                            (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + " " + e.getMessage());
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         }
     }
@@ -88,7 +88,7 @@ public class MotorDepotController extends HttpServlet {
             req.setAttribute(RequestParameterName.ERROR_MESSAGE,
                     InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                             ExceptionalMessageKey.UNEXPECTED,
-                            (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + e.getMessage());
+                            (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)) + " " + e.getMessage());
             req.getRequestDispatcher(PagesBundleManager.getProperty(PageNameConstant.ERROR)).forward(req, resp);
         }
     }

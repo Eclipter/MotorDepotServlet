@@ -99,7 +99,7 @@ public class ConnectionPool {
             LOG.warn("rejecting poll initialization: already initialized");
             return;
         }
-        LOG.info("initializing pool pool");
+        LOG.info("initializing pool");
         try {
             final int poolSize = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.POOL_SIZE));

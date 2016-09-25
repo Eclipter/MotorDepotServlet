@@ -33,7 +33,7 @@ public class GetAssignationFormAction implements Action {
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
             List<Request> unsetApplications = requestDAO.getUnassignedRequests();
-            List<Driver> driverList = driverDAO.getDriversWithHealthyTrucks();
+            List<Driver> driverList = driverDAO.getAllDriversWithHealthyTrucks();
             req.setAttribute(RequestParameterName.REQUESTS, unsetApplications);
             req.setAttribute(RequestParameterName.DRIVERS, driverList);
             return PagesBundleManager.getProperty(PageNameConstant.ASSIGNATION_FORM);

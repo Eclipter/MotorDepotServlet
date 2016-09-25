@@ -21,11 +21,11 @@ import java.util.List;
 public class DriverDAOJDBCImpl implements DriverDAO {
 
     @Override
-    public List<Driver> getAllDrivers(Integer offset) throws DAOException {
+    public List<Driver> getDrivers(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_DRIVERS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_QUERY_LIMIT);
+                statement.setInt(2, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getDriversFromResultSet(resultSet);
                 }
@@ -38,7 +38,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     }
 
     @Override
-    public List<Driver> getDriversWithHealthyTrucks() throws DAOException {
+    public List<Driver> getAllDriversWithHealthyTrucks() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVERS_WITH_HEALTHY_TRUCKS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
@@ -58,7 +58,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_DRIVERS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -72,7 +72,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     }
 
     @Override
-    public Driver searchByUser(User user) throws DAOException {
+    public Driver find(User user) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVER_BY_USER)) {
                 statement.setInt(1, user.getId());
@@ -93,7 +93,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     }
 
     @Override
-    public Driver searchByRequest(Request request) throws DAOException {
+    public Driver find(Request request) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_DRIVER_BY_REQUEST)) {
                 statement.setInt(1, request.getId());
@@ -114,7 +114,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
     }
 
     @Override
-    public void addNewDriver(String login, String password, Truck truck) throws DAOException {
+    public void addDriver(String login, String password, Truck truck) throws DAOException {
         if(login == null || password == null || "".equals(login) || "".equals(password)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

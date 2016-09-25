@@ -7,15 +7,15 @@
          fn:length(req.requestURI)), req.contextPath)}"/>
 <c:choose>
     <c:when test="${fn:contains(requestScope['javax.servlet.forward.query_string'], 'command')}">
-        <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=').concat(req.getParameter('command'))}"/>
+        <c:set var="currentURL" value="${baseURL}motor_depot?command=${param.command}"/>
     </c:when>
     <c:otherwise>
-        <c:set var="currentURL" value="${baseURL.concat('motor_depot?command=get_main_page')}"/>
+        <c:set var="currentURL" value="${baseURL}motor_depot?command=get_main_page"/>
     </c:otherwise>
 </c:choose>
 <c:choose>
-    <c:when test="${not empty req.getParameter('startFrom')}">
-        <c:set var="languageLink" value="${currentURL}&startFrom=${req.getParameter('startFrom')}&language="/>
+    <c:when test="${not empty param.startFrom}">
+        <c:set var="languageLink" value="${currentURL}&startFrom=${param.startFrom}&language="/>
     </c:when>
     <c:otherwise>
         <c:set var="languageLink" value="${currentURL}&language="/>

@@ -23,11 +23,11 @@ import java.util.List;
 public class RequestDAOJDBCImpl implements RequestDAO {
 
     @Override
-    public List<Request> getAllRequests(Integer offset) throws DAOException {
+    public List<Request> getRequests(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUESTS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_QUERY_LIMIT);
+                statement.setInt(2, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
@@ -55,11 +55,11 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     }
 
     @Override
-    public List<Request> getUnassignedRequests(Integer offset) throws DAOException {
+    public List<Request> getUnassignedRequests(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_UNASSIGNED_REQUESTS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_QUERY_LIMIT);
+                statement.setInt(2, COLLECTION_FETCH_LIMIT);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
@@ -77,7 +77,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -96,7 +96,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_UNASSIGNED_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
-                        return Math.toIntExact(resultSet.getLong(ColumnName.COUNT));
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
                     } else {
                         throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
                     }
@@ -110,7 +110,7 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     }
 
     @Override
-    public void addNewRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
+    public void addRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException {
         if(cargoWeight < 0) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

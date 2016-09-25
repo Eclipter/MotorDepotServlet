@@ -16,21 +16,21 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     private static final String GET_NUMBER_QUERY = "Trip.getNumberOfAll";
 
     @Override
-    public List<Trip> getAllTrips(Integer offset) {
+    public List<Trip> getTrips(int offset) {
         TypedQuery<Trip> query = getManager().createNamedQuery(GET_ALL_QUERY, Trip.class);
-        query.setMaxResults(COLLECTION_QUERY_LIMIT);
+        query.setMaxResults(COLLECTION_FETCH_LIMIT);
         query.setFirstResult(offset);
         return query.getResultList();
     }
 
     @Override
-    public List<Trip> getTripsByDriver(Integer driverId, Integer offset) throws DAOException {
+    public List<Trip> getTripsByDriver(int driverId, int offset) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         List<Trip> tripList = driver.getTripList();
-        int toIndex = offset + COLLECTION_QUERY_LIMIT;
+        int toIndex = offset + COLLECTION_FETCH_LIMIT;
         if(toIndex > tripList.size()) {
             toIndex = tripList.size();
         }
@@ -44,7 +44,7 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     }
 
     @Override
-    public Integer getNumberOfTripsByDriver(Integer driverId) throws DAOException {
+    public Integer getNumberOfTripsByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
@@ -53,7 +53,7 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     }
 
     @Override
-    public void assignDriverToATrip(int requestId, int driverId) throws DAOException {
+    public void addTrip(int requestId, int driverId) throws DAOException {
 
         EntityTransaction transaction = getManager().getTransaction();
         try {
@@ -90,7 +90,7 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     }
 
     @Override
-    public void changeTripState(Integer tripId, boolean state) throws DAOException {
+    public void changeTripState(int tripId, boolean state) throws DAOException {
         EntityTransaction transaction = getManager().getTransaction();
         transaction.begin();
         Trip trip = getManager().find(Trip.class, tripId);

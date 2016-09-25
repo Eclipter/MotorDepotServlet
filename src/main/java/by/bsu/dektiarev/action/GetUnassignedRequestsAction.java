@@ -32,7 +32,7 @@ public class GetUnassignedRequestsAction implements Action {
         try {
             LOG.info("requesting all unassigned requests");
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
-            Integer numberOfRequests = requestDAO.getNumberOfUnassignedRequests();
+            int numberOfRequests = requestDAO.getNumberOfUnassignedRequests();
             int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfRequests);
             List<Request> unassignedRequests = requestDAO.getUnassignedRequests(offset);
             List<RequestViewBean> requestViewBeanList =

@@ -5,5 +5,5 @@ package by.bsu.dektiarev.dao;
  * Created by USER on 15.06.2016.
  */
 public interface GenericDAO {
-    int COLLECTION_QUERY_LIMIT = 5;
+    int COLLECTION_FETCH_LIMIT = 5;
 }

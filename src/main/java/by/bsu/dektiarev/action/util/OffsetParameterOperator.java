@@ -6,7 +6,7 @@ import by.bsu.dektiarev.util.RequestParameterName;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.bsu.dektiarev.dao.GenericDAO.COLLECTION_QUERY_LIMIT;
+import static by.bsu.dektiarev.dao.GenericDAO.COLLECTION_FETCH_LIMIT;
 
 /**
  * Util class used to check the offset parameter for collection fetching,
@@ -36,7 +36,7 @@ public final class OffsetParameterOperator {
                 startFrom = 0;
             }
             else if(startFrom >= collectionSize) {
-                startFrom = collectionSize - collectionSize % COLLECTION_QUERY_LIMIT;
+                startFrom = collectionSize - collectionSize % COLLECTION_FETCH_LIMIT;
             }
         }
         req.setAttribute(RequestParameterName.START_FROM, startFrom);

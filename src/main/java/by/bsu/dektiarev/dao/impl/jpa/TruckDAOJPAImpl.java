@@ -18,15 +18,15 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     private static final String GET_NUMBER_QUERY = "Truck.getNumber";
 
     @Override
-    public List<Truck> getAllTrucks(Integer offset) {
+    public List<Truck> getTrucks(int offset) {
         TypedQuery<Truck> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Truck.class);
-        namedQuery.setMaxResults(COLLECTION_QUERY_LIMIT);
+        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
         namedQuery.setFirstResult(offset);
         return namedQuery.getResultList();
     }
 
     @Override
-    public Truck getTruckByDriver(Integer driverId) throws DAOException {
+    public Truck getTruckByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
         if(driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
@@ -69,7 +69,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     }
 
     @Override
-    public Truck addNewTruck(String number, double capacity) throws DAOException {
+    public Truck addTruck(String number, double capacity) throws DAOException {
         if(capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }

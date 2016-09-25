@@ -34,7 +34,7 @@ public class SignupAction implements Action {
             String username = req.getParameter(RequestParameterName.USERNAME);
             String password = req.getParameter(RequestParameterName.PASSWORD);
             String truckNumber = req.getParameter(RequestParameterName.TRUCK_NUMBER);
-            Double truckCapacity = Double.valueOf(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
+            double truckCapacity = Double.parseDouble(req.getParameter(RequestParameterName.TRUCK_CAPACITY));
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             DriverDAO driverDAO = (DriverDAO) daoFactory.getDAOFromFactory(DAOType.DRIVER);
             UserDAO userDAO = (UserDAO) daoFactory.getDAOFromFactory(DAOType.USER);
@@ -46,8 +46,8 @@ public class SignupAction implements Action {
             }
 
             LOG.info("registering new user");
-            Truck truck = truckDAO.addNewTruck(truckNumber, truckCapacity);
-            driverDAO.addNewDriver(username, password, truck);
+            Truck truck = truckDAO.addTruck(truckNumber, truckCapacity);
+            driverDAO.addDriver(username, password, truck);
             return URLConstant.GET_LOGIN_FORM;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());

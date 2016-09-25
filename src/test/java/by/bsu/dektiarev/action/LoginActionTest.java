@@ -85,10 +85,10 @@ public class LoginActionTest {
         userInfoBean.setAdmin(true);
 
         when(userDAO.authenticateUser(username, password)).thenReturn(confirmedUser);
-        when(driverDAO.searchByUser(confirmedUser)).thenReturn(null);
+        when(driverDAO.find(confirmedUser)).thenReturn(null);
         String answer = loginAction.execute(req, resp);
 
-        verify(driverDAO).searchByUser(confirmedUser);
+        verify(driverDAO).find(confirmedUser);
         verify(session).setAttribute(RequestParameterName.USER, userInfoBean);
         assertEquals(answer, URLConstant.GET_MAIN_PAGE);
     }
@@ -106,10 +106,10 @@ public class LoginActionTest {
         userInfoBean.setAdmin(false);
 
         when(userDAO.authenticateUser(username, password)).thenReturn(confirmedUser);
-        when(driverDAO.searchByUser(confirmedUser)).thenReturn(confirmedDriver);
+        when(driverDAO.find(confirmedUser)).thenReturn(confirmedDriver);
         String answer = loginAction.execute(req, resp);
 
-        verify(driverDAO).searchByUser(confirmedUser);
+        verify(driverDAO).find(confirmedUser);
         verify(session).setAttribute(RequestParameterName.USER, userInfoBean);
         assertEquals(answer, URLConstant.GET_MAIN_PAGE);
     }

@@ -17,7 +17,7 @@ public interface TruckDAO extends GenericDAO {
      * @return list of trucks
      * @throws DAOException
      */
-    List<Truck> getAllTrucks(Integer offset) throws DAOException;
+    List<Truck> getTrucks(int offset) throws DAOException;
 
     /**
      * Gets truck by driver ID
@@ -25,7 +25,7 @@ public interface TruckDAO extends GenericDAO {
      * @return corresponding truck
      * @throws DAOException
      */
-    Truck getTruckByDriver(Integer driverId) throws DAOException;
+    Truck getTruckByDriver(int driverId) throws DAOException;
 
     /**
      * Gets number of trucks
@@ -49,5 +49,5 @@ public interface TruckDAO extends GenericDAO {
      * @return resulting truck by.bsu.dektiarev.entity
      * @throws DAOException in case of DML error
      */
-    Truck addNewTruck(String number, double capacity) throws DAOException;
+    Truck addTruck(String number, double capacity) throws DAOException;
 }

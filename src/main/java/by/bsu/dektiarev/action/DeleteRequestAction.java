@@ -30,9 +30,9 @@ public class DeleteRequestAction implements Action {
             if(requestIdParameter == null) {
                 throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
-            Integer requestId;
+            int requestId;
             try {
-                requestId = Integer.valueOf(requestIdParameter);
+                requestId = Integer.parseInt(requestIdParameter);
             } catch (NumberFormatException e) {
                 throw new ActionExecutionException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
             }

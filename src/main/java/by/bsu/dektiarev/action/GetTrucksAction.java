@@ -32,9 +32,9 @@ public class GetTrucksAction implements Action {
         LOG.info("requesting trucks");
         try {
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
-            Integer trucksNumber = truckDAO.getNumberOfTrucks();
+            int trucksNumber = truckDAO.getNumberOfTrucks();
             int offset = OffsetParameterOperator.processOffsetParameter(req, trucksNumber);
-            List<Truck> allTrucks = truckDAO.getAllTrucks(offset);
+            List<Truck> allTrucks = truckDAO.getTrucks(offset);
             req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
             return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
         } catch (DAOException ex) {

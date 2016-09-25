@@ -36,8 +36,8 @@ public class ChangeTruckStateAction implements Action {
             }
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             UserInfoBean currentUser = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
-            Integer driverId = currentUser.getUser().getId();
-            Integer chosenTruck = truckDAO.getTruckByDriver(driverId).getId();
+            int driverId = currentUser.getUser().getId();
+            int chosenTruck = truckDAO.getTruckByDriver(driverId).getId();
             LOG.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
             truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;
