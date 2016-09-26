@@ -102,7 +102,7 @@ public class LoginActionTest {
         User confirmedUser = new User();
         Driver confirmedDriver = new Driver();
         UserInfoBean userInfoBean = new UserInfoBean();
-        userInfoBean.setUser(confirmedUser);
+        userInfoBean.setUser(confirmedDriver);
         userInfoBean.setAdmin(false);
 
         when(userDAO.authenticateUser(username, password)).thenReturn(confirmedUser);
