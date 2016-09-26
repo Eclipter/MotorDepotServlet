@@ -1,7 +1,6 @@
 package by.bsu.dektiarev.dao.impl.jpa;
 
 import by.bsu.dektiarev.dao.TruckDAO;
-import by.bsu.dektiarev.entity.Driver;
 import by.bsu.dektiarev.entity.Truck;
 import by.bsu.dektiarev.entity.TruckStateDTO;
 import by.bsu.dektiarev.entity.util.TruckState;
@@ -30,19 +29,6 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
             namedQuery.setFirstResult(offset);
             return namedQuery.getResultList();
         } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
-        }
-    }
-
-    @Override
-    public Truck getTruckByDriver(int driverId) throws DAOException {
-        try {
-            Driver driver = getManager().find(Driver.class, driverId);
-            if (driver == null) {
-                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
-            }
-            return driver.getTruck();
-        } catch (DAOException ex) {
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }

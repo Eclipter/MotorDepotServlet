@@ -4,6 +4,8 @@ import by.bsu.dektiarev.bean.UserInfoBean;
 import by.bsu.dektiarev.dao.TruckDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
+import by.bsu.dektiarev.entity.Driver;
+import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
@@ -35,11 +37,17 @@ public class ChangeTruckStateAction implements Action {
                 throw new ActionExecutionException(ExceptionalMessageKey.MISSING_REQUEST_PARAMETERS);
             }
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
-            UserInfoBean currentUser = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
-            int driverId = currentUser.getUser().getId();
-            int chosenTruck = truckDAO.getTruckByDriver(driverId).getId();
-            LOG.info("changing truck " + chosenTruck + " state to " + chosenStateParameter);
-            truckDAO.changeTruckState(chosenTruck, TruckState.valueOf(chosenStateParameter));
+            UserInfoBean currentUserBean = (UserInfoBean) req.getSession().getAttribute(RequestParameterName.USER);
+            User currentUser = currentUserBean.getUser();
+            Driver currentDriver;
+            try {
+                currentDriver = (Driver) currentUser;
+            } catch (ClassCastException ex) {
+                throw new ActionExecutionException(ExceptionalMessageKey.FORBIDDEN_ACTION);
+            }
+            int currentTruckId = currentDriver.getTruck().getId();
+            LOG.info("changing truck " + currentTruckId + " state to " + chosenStateParameter);
+            truckDAO.changeTruckState(currentTruckId, TruckState.valueOf(chosenStateParameter));
             return URLConstant.GET_TRUCKS;
         } catch (DAOException e) {
             throw new ActionExecutionException(e.getMessage());

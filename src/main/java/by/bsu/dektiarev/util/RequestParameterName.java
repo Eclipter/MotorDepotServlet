@@ -10,7 +10,6 @@ public final class RequestParameterName {
     public static final String CHOSEN_STATE = "chosenState";
     public static final String ERROR_MESSAGE = "errorMessage";
     public static final String TRIPS = "trips";
-    public static final String CHOSEN_TRUCK = "chosenTruck";
     public static final String TRUCKS = "trucks";
     public static final String DRIVERS = "drivers";
     public static final String REQUESTS = "requests";

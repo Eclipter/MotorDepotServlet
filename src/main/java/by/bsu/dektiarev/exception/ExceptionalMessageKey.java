@@ -25,5 +25,5 @@ public final class ExceptionalMessageKey {
     public static final String CONNECTION_ERROR = "connection_error";
     public static final String WRONG_INPUT_PARAMETERS = "wrong_parameters";
     public static final String ENCRYPTING_ERROR = "encrypting_error";
-    public static final String DELETING_ASSIGNED_REQUEST = "deleting_assigned_request";
+    public static final String FORBIDDEN_ACTION = "forbidden_action";
 }

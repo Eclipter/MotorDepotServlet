@@ -22,15 +22,6 @@ public interface TruckDAO extends GenericDAO {
     List<Truck> getTrucks(int offset) throws DAOException;
 
     /**
-     * Retrieves the truck by driver ID
-     *
-     * @param driverId
-     * @return corresponding truck
-     * @throws DAOException
-     */
-    Truck getTruckByDriver(int driverId) throws DAOException;
-
-    /**
      * Retrieves the whole number of trucks
      *
      * @return number of trucks

@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
+ * Util class used to encrypt passwords using MD5 algorithm
  * Created by USER on 12.07.2016.
  */
 public class PasswordEncryptor {
