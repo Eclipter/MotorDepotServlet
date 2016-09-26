@@ -9,6 +9,7 @@ import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.PasswordEncryptor;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -20,6 +21,10 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getDriversWithHealthyTrucks";
     private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.find";
     private static final String REQUEST_PARAMETER = "request";
+
+    public DriverDAOJPAImpl(EntityManager manager) {
+        super(manager);
+    }
 
     @Override
     public List<Driver> getDrivers(int offset) {
@@ -52,7 +57,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
         TypedQuery<Driver> namedQuery = getManager().createNamedQuery(SEARCH_FOR_DRIVER_QUERY, Driver.class);
         namedQuery.setParameter(REQUEST_PARAMETER, request);
         List<Driver> driverList = namedQuery.getResultList();
-        if(driverList.isEmpty()) {
+        if (driverList.isEmpty()) {
             return null;
         } else {
             return driverList.get(0);
@@ -61,23 +66,17 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
 
     @Override
     public void addDriver(String login, String password, Truck truck) throws DAOException {
-        if(login == null || password == null || "".equals(login) || "".equals(password)) {
+        if (login == null || password == null || "".equals(login) || "".equals(password)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
-        try {
-            transaction.begin();
-            Driver driver = new Driver();
-            String encryptedPassword = PasswordEncryptor.encryptPassword(password);
-            driver.setPassword(encryptedPassword);
-            driver.setLogin(login);
-            driver.setTruck(truck);
-            getManager().persist(driver);
-            transaction.commit();
-        } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
-        } finally {
-            getManager().clear();
-        }
+        transaction.begin();
+        Driver driver = new Driver();
+        String encryptedPassword = PasswordEncryptor.encryptPassword(password);
+        driver.setPassword(encryptedPassword);
+        driver.setLogin(login);
+        driver.setTruck(truck);
+        getManager().persist(driver);
+        transaction.commit();
     }
 }

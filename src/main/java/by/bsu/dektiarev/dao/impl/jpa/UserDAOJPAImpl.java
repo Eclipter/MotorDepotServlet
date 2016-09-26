@@ -5,6 +5,7 @@ import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
     private static final String PASSWORD_PARAMETER = "pass";
     private static final String SEARCH_BY_LOGIN_QUERY = "User.searchByLogin";
     private static final String SEARCH_QUERY = "User.authenticate";
+
+    public UserDAOJPAImpl(EntityManager manager) {
+        super(manager);
+    }
 
     @Override
     public boolean isLoginOccupied(String login) throws DAOException {

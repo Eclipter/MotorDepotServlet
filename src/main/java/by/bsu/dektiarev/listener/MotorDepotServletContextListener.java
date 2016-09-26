@@ -1,7 +1,7 @@
 package by.bsu.dektiarev.listener;
 
 import by.bsu.dektiarev.dao.GenericDAO;
-import by.bsu.dektiarev.dao.util.EntityManagerFactoryProvider;
+import by.bsu.dektiarev.dao.util.EntityManagerProvider;
 import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
                         INITIALIZING_POOL_ERROR + ": " + e.getCause().getMessage());
             }
         } else {
-            EntityManagerFactoryProvider.getInstance();
+            EntityManagerProvider.getInstance();
         }
         setCollectionFetchLimitParameter(servletContextEvent.getServletContext());
     }
@@ -52,7 +52,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
             ConnectionPool.getInstance().destroy();
         }
         else {
-            EntityManagerFactoryProvider.getInstance().getFactory().close();
+            EntityManagerProvider.getInstance().destroy();
         }
     }
 }

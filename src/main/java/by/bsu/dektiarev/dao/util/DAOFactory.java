@@ -4,9 +4,12 @@ import by.bsu.dektiarev.dao.GenericDAO;
 import by.bsu.dektiarev.dao.impl.jdbc.*;
 import by.bsu.dektiarev.dao.impl.jpa.*;
 import by.bsu.dektiarev.exception.DAOException;
+import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
 import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
+
+import javax.persistence.EntityManager;
 
 /**
  * Factory that creates and returns DAO object of a specified type
@@ -28,21 +31,46 @@ public final class DAOFactory {
     }
 
     public GenericDAO getDAOFromFactory(DAOType type) throws DAOException {
-        switch (type) {
-            case DRIVER:
-                return useJPA ? new DriverDAOJPAImpl() : new DriverDAOJDBCImpl();
-            case REQUEST:
-                return useJPA ? new RequestDAOJPAImpl() : new RequestDAOJDBCImpl();
-            case TRIP:
-                return useJPA ? new TripDAOJPAImpl() : new TripDAOJDBCImpl();
-            case TRUCK:
-                return useJPA ? new TruckDAOJPAImpl() : new TruckDAOJDBCImpl();
-            case USER:
-                return useJPA ? new UserDAOJPAImpl() : new UserDAOJDBCImpl();
-            case STATION:
-                return useJPA ? new StationDAOJPAImpl() : new StationDAOJDBCImpl();
-            default:
-                throw new DAOException(ExceptionalMessageKey.NO_DAO_CLASS);
+        if (useJPA) {
+            EntityManager manager;
+            try {
+                manager = EntityManagerProvider.getInstance().getManager();
+            } catch (DatabaseConnectionException ex) {
+                throw new DAOException(ex);
+            }
+            switch (type) {
+                case DRIVER:
+                    return new DriverDAOJPAImpl(manager);
+                case REQUEST:
+                    return new RequestDAOJPAImpl(manager);
+                case TRIP:
+                    return new TripDAOJPAImpl(manager);
+                case TRUCK:
+                    return new TruckDAOJPAImpl(manager);
+                case USER:
+                    return new UserDAOJPAImpl(manager);
+                case STATION:
+                    return new StationDAOJPAImpl(manager);
+                default:
+                    throw new DAOException(ExceptionalMessageKey.NO_DAO_CLASS);
+            }
+        } else {
+            switch (type) {
+                case DRIVER:
+                    return new DriverDAOJDBCImpl();
+                case REQUEST:
+                    return new RequestDAOJDBCImpl();
+                case TRIP:
+                    return new TruckDAOJDBCImpl();
+                case TRUCK:
+                    return new TruckDAOJDBCImpl();
+                case USER:
+                    return new UserDAOJDBCImpl();
+                case STATION:
+                    return new StationDAOJDBCImpl();
+                default:
+                    throw new DAOException(ExceptionalMessageKey.NO_DAO_CLASS);
+            }
         }
     }
 }

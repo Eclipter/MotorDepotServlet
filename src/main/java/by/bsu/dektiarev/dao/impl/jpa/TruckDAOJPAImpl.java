@@ -8,6 +8,7 @@ import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -16,6 +17,10 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
 
     private static final String GET_ALL_QUERY = "Truck.getAll";
     private static final String GET_NUMBER_QUERY = "Truck.getNumber";
+
+    public TruckDAOJPAImpl(EntityManager manager) {
+        super(manager);
+    }
 
     @Override
     public List<Truck> getTrucks(int offset) {
@@ -28,7 +33,7 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     @Override
     public Truck getTruckByDriver(int driverId) throws DAOException {
         Driver driver = getManager().find(Driver.class, driverId);
-        if(driver == null) {
+        if (driver == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         return driver.getTruck();
@@ -42,53 +47,45 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
 
     @Override
     public void changeTruckState(int truckId, TruckState truckStateToSet) throws DAOException {
-        if(truckStateToSet == null) {
+        if (truckStateToSet == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
-        try {
-            transaction.begin();
-            Truck truck = getManager().find(Truck.class, truckId);
-            if(truck == null) {
-                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
-            }
-            TruckStateDTO truckStateDTO = truck.getState();
-            if(truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
-                throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
-            }
-
-            TruckStateDTO newEntity = getManager().find(TruckStateDTO.class, truckStateToSet.ordinal() + 1);
-            if(newEntity == null) {
-                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
-            }
-            truck.setState(newEntity);
-            transaction.commit();
-        } finally {
-            getManager().clear();
+        transaction.begin();
+        Truck truck = getManager().find(Truck.class, truckId);
+        if (truck == null) {
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
+        TruckStateDTO truckStateDTO = truck.getState();
+        if (truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
+            throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
+        }
+
+        TruckStateDTO newEntity = getManager().find(TruckStateDTO.class, truckStateToSet.ordinal() + 1);
+        if (newEntity == null) {
+            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        }
+        truck.setState(newEntity);
+        transaction.commit();
+
     }
 
     @Override
     public Truck addTruck(String number, double capacity) throws DAOException {
-        if(capacity < 0 || number == null || number.equals("")) {
+        if (capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
         Truck truck = new Truck();
-        try {
-            transaction.begin();
+        transaction.begin();
 
-            truck.setNumber(number);
-            truck.setCapacity(capacity);
-            TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
-            truck.setState(truckStateDTO);
-            getManager().persist(truck);
-            transaction.commit();
-        } catch (Exception ex) {
-            throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
-        } finally {
-            getManager().clear();
-        }
+        truck.setNumber(number);
+        truck.setCapacity(capacity);
+        TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
+        truck.setState(truckStateDTO);
+        getManager().persist(truck);
+        transaction.commit();
+
         return truck;
     }
 }
