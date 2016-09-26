@@ -17,11 +17,11 @@ public class TruckStateDTO {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "STATE_NAME")
+    @Column(name = "STATE_NAME", nullable = false)
     @Enumerated(EnumType.STRING)
     private TruckState truckStateName;
 
-    @OneToMany(mappedBy = "state")
+    @OneToMany(mappedBy = "state", targetEntity = Truck.class)
     private List<Truck> truckList;
 
     public Integer getId() {

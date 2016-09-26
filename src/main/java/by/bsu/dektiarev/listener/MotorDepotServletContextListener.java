@@ -51,5 +51,8 @@ public class MotorDepotServletContextListener implements ServletContextListener 
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
             ConnectionPool.getInstance().destroy();
         }
+        else {
+            EntityManagerFactoryProvider.getInstance().getFactory().close();
+        }
     }
 }

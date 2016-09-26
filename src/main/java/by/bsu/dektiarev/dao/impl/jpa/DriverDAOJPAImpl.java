@@ -17,7 +17,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
 
     private static final String GET_ALL_QUERY = "Driver.getAll";
     private static final String GET_NUMBER_QUERY = "Driver.getNumber";
-    private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getAllDriversWithHealthyTrucks";
+    private static final String GET_DRIVERS_HEALTHY_TRUCKS_QUERY = "Driver.getDriversWithHealthyTrucks";
     private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.find";
     private static final String REQUEST_PARAMETER = "request";
 

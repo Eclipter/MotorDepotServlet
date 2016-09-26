@@ -8,8 +8,13 @@ import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +22,8 @@ import java.util.List;
  * Created by USER on 15.06.2016.
  */
 public class UserDAOJDBCImpl implements UserDAO {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public boolean isLoginOccupied(String login) throws DAOException {
@@ -31,6 +38,7 @@ public class UserDAOJDBCImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -57,6 +65,7 @@ public class UserDAOJDBCImpl implements UserDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);

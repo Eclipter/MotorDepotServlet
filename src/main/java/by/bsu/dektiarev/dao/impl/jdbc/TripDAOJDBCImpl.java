@@ -9,6 +9,8 @@ import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +24,8 @@ import java.util.List;
  */
 public class TripDAOJDBCImpl implements TripDAO {
 
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public List<Trip> getTrips(int offset) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
@@ -33,6 +37,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -51,6 +56,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -70,6 +76,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -90,6 +97,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -137,6 +145,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -167,6 +176,7 @@ public class TripDAOJDBCImpl implements TripDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);

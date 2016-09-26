@@ -10,6 +10,8 @@ import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.List;
  * Created by USER on 15.06.2016.
  */
 public class DriverDAOJDBCImpl implements DriverDAO {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public List<Driver> getDrivers(int offset) throws DAOException {
@@ -31,6 +35,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -46,6 +51,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -65,6 +71,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -86,6 +93,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -107,6 +115,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -140,6 +149,7 @@ public class DriverDAOJDBCImpl implements DriverDAO {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);

@@ -13,7 +13,7 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
     private static final String LOGIN_PARAMETER = "login";
     private static final String PASSWORD_PARAMETER = "pass";
     private static final String SEARCH_BY_LOGIN_QUERY = "User.searchByLogin";
-    private static final String SEARCH_QUERY = "User.search";
+    private static final String SEARCH_QUERY = "User.authenticate";
 
     @Override
     public boolean isLoginOccupied(String login) throws DAOException {

@@ -16,8 +16,7 @@ import java.util.Objects;
         @NamedQuery(name = "Driver.getNumber", query = "SELECT COUNT(d) FROM Driver d"),
         @NamedQuery(name = "Driver.getDriversWithHealthyTrucks", query = "SELECT d FROM Driver d WHERE d.truck IN " +
                 "(SELECT t FROM Truck t WHERE t.state = (SELECT s FROM TruckStateDTO s WHERE s.id = 1))"),
-        @NamedQuery(name = "Driver.getDriverByLogin", query = "SELECT d FROM Driver d WHERE d.login = :login"),
-        @NamedQuery(name = "Driver.searchByRequest",
+        @NamedQuery(name = "Driver.find",
                 query = "SELECT t.driver FROM Trip t WHERE t.request = :request")
 })
 public class Driver extends User implements Serializable {

@@ -19,10 +19,10 @@ public class Truck {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "NUMBER")
+    @Column(name = "NUMBER", nullable = false)
     private String number;
 
-    @Column(name = "CAPACITY")
+    @Column(name = "CAPACITY", nullable = false)
     private Double capacity;
 
     @ManyToOne

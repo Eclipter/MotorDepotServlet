@@ -40,6 +40,7 @@ public final class OffsetParameterOperator {
             }
         }
         req.setAttribute(RequestParameterName.START_FROM, startFrom);
+        req.setAttribute(RequestParameterName.LIST_SIZE, collectionSize);
         return startFrom;
     }
 

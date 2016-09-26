@@ -19,20 +19,9 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="MotorDepotHibernateManager" />
+          <factory-entry name="MotorDepotHibernateManager" value="b3608666-8479-4c71-8418-ab8b3f96b35f" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/java/META-INF/persistence.xml" />
-      </configuration>
-    </facet>
-    <facet type="google-app-engine" name="Google App Engine">
-      <configuration>
-        <sdk-home-path>D:/Java/appengine-java-sdk-1.9.34</sdk-home-path>
-        <run-enhancer-on-make>true</run-enhancer-on-make>
-        <files-to-enhance>
-          <file path="$MODULE_DIR$/src/main/java" />
-          <file path="$MODULE_DIR$/src/main/resources" />
-        </files-to-enhance>
-        <persistence-api>JPA2</persistence-api>
       </configuration>
     </facet>
   </component>
@@ -54,9 +43,7 @@
     <orderEntry type="library" name="org.mockito:mockito-all:1.10.19" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="tomcat-websocket-api-8.5.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="AppEngine Dev 1.9.34" level="application_server_libraries" />
-    <orderEntry type="library" name="AppEngine API" level="project" />
-    <orderEntry type="library" name="AppEngine ORM" level="project" />
-    <orderEntry type="library" name="tools" level="project" />
     <orderEntry type="library" name="log4j-api-2.6.2-javadoc" level="project" />
+    <orderEntry type="library" name="tools" level="project" />
   </component>
 </module>

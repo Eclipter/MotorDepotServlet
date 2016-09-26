@@ -22,7 +22,7 @@ public class Trip {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "IS_COMPLETE")
+    @Column(name = "IS_COMPLETE", nullable = false)
     private boolean isComplete;
 
     @OneToOne

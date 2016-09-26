@@ -8,7 +8,7 @@
 </c:if>
 <a href="${currentURL}&startFrom=${startFrom - applicationScope.fetchLimit}">
     <span class="glyphicon glyphicon-chevron-left"></span></a>
-     ${startFrom + 1} - ${startFrom + fn:length(list)}
+${startFrom + 1} - ${startFrom + fn:length(list)}
 <a href="${currentURL}&startFrom=${startFrom + fn:length(list)}">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-</a>
+    <span class="glyphicon glyphicon-chevron-right"></span></a>
+(${requestScope.listSize})

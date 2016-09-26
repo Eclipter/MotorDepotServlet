@@ -8,6 +8,8 @@ import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,6 +23,8 @@ import java.util.List;
  */
 public class StationDAOJDBCImpl implements StationDAO {
 
+    private static final Logger LOG = LogManager.getLogger();
+
     @Override
     public List<Station> getAllStations() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
@@ -30,6 +34,7 @@ public class StationDAOJDBCImpl implements StationDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);

@@ -31,6 +31,7 @@ public final class RequestParameterName {
     public static final String REQUEST_ID = "request_id";
     public static final String START_FROM = "startFrom";
     public static final String FETCH_LIMIT = "fetchLimit";
+    public static final String LIST_SIZE = "listSize";
 
     private RequestParameterName() {
     }

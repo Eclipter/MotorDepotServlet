@@ -10,6 +10,8 @@ import by.bsu.dektiarev.entity.util.TruckState;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.List;
  * Created by USER on 15.06.2016.
  */
 public class TruckDAOJDBCImpl implements TruckDAO {
+
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     public List<Truck> getTrucks(int offset) throws DAOException {
@@ -31,6 +35,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -51,6 +56,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -70,6 +76,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -102,6 +109,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);
@@ -140,6 +148,7 @@ public class TruckDAOJDBCImpl implements TruckDAO {
                 }
             }
         } catch (SQLException e) {
+            LOG.error(e);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
         } catch (DatabaseConnectionException e) {
             throw new DAOException(e);

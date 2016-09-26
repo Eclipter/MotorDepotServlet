@@ -140,14 +140,6 @@ public class ChatEndPoint {
                 InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT, ALL_USERS_BUNDLE_KEY,
                         (String) session.getAttribute(RequestParameterName.LANGUAGE)));
         jsonArray.add(jsonObject);
-        /*jsonArray.addAll(loginMap.entrySet().stream().map((Function<Map.Entry<Session, HttpSession>, Object>)
-                loginEntry -> {
-                    JSONObject userJsonObject = new JSONObject();
-                    UserInfoBean user = (UserInfoBean)
-                            loginEntry.getValue().getAttribute(RequestParameterName.USER);
-                    userJsonObject.put(JSONMessageParameter.NAME, user.getUser().getLogin());
-                    return userJsonObject;
-                }).collect(Collectors.toList()));*/
         for(Map.Entry<Session, HttpSession> loginEntry : loginMap.entrySet()) {
             JSONObject userJsonObject = new JSONObject();
             UserInfoBean user = (UserInfoBean)
