@@ -2,10 +2,10 @@ package by.bsu.dektiarev.dao.util.pool;
 
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
 import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,7 +35,16 @@ public class ConnectionPool {
     private BlockingQueue<ProxyConnection> freeConnections;
     private BlockingQueue<ProxyConnection> busyConnections;
 
+    private String url;
+    private String userName;
+    private String password;
+
     private ConnectionPool() {
+    }
+
+    private ProxyConnection createNewConnection() throws SQLException, InterruptedException {
+        Connection connection = DriverManager.getConnection(url, userName, password);
+        return new ProxyConnection(connection);
     }
 
     /**
@@ -55,11 +64,18 @@ public class ConnectionPool {
                 LOG.error("timed out waiting for pool");
                 throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
-            busyConnections.put(connection);
-            if(!connection.getAutoCommit()) {
-                connection.setAutoCommit(true);
+            if(!connection.isClosed()) {
+                busyConnections.put(connection);
+                if(!connection.getAutoCommit()) {
+                    connection.setAutoCommit(true);
+                }
+                return connection;
+            } else {
+                LOG.info("Creating new connection");
+                ProxyConnection newConnection = createNewConnection();
+                busyConnections.put(newConnection);
+                return newConnection;
             }
-            return connection;
         } catch (InterruptedException ex) {
             LOG.error("interrupted while retrieving pool from the pool");
             throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
@@ -79,12 +95,21 @@ public class ConnectionPool {
         try {
             boolean removed = busyConnections.remove(connection);
             if (!removed) {
-                LOG.error("returning wrong pool");
+                LOG.error("returning to wrong pool");
                 throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
-            freeConnections.put(connection);
+            if(!connection.isClosed()) {
+                freeConnections.put(connection);
+            } else {
+                LOG.info("Creating new connection");
+                ProxyConnection newConnection = createNewConnection();
+                freeConnections.put(newConnection);
+            }
         } catch (InterruptedException e) {
             LOG.error("interrupted while returning connection back to pool", e);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, e);
+        } catch (SQLException e) {
+            LOG.error("exception while checking connection before returning", e);
             throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, e);
         }
     }
@@ -105,16 +130,16 @@ public class ConnectionPool {
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.POOL_SIZE));
             this.freeConnections = new ArrayBlockingQueue<>(poolSize);
             this.busyConnections = new ArrayBlockingQueue<>(poolSize);
-            final String url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
-            final String username = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
-            final String password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
+            url = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.URL);
+            userName = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USERNAME);
+            password = DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.PASSWORD);
             this.maxWaitingTime = Integer.parseInt(
                     DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.MAX_WAITING_TIME));
             Class.forName(DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.DRIVER));
             for (int i = 0; i < poolSize; i++) {
-                Connection connection = DriverManager.getConnection(url, username, password);
-                ProxyConnection proxyConnection = new ProxyConnection(connection);
-                freeConnections.put(proxyConnection);
+                LOG.info("Creating new connection");
+                ProxyConnection connection = createNewConnection();
+                freeConnections.put(connection);
             }
             LOG.info("pool initialized");
         } catch (InterruptedException ex) {
