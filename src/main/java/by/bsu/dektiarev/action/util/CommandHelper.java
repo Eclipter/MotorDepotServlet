@@ -8,7 +8,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Class that helps to get an by.bsu.dektiarev.action class corresponding to the command name
+ * Class that helps to get an action class corresponding to the command name
  * Created by USER on 25.04.2016.
  */
 public final class CommandHelper {

@@ -12,39 +12,63 @@ import java.util.List;
 public interface RequestDAO extends GenericDAO {
 
     /**
-     * Gets all the requests
+     * Retrieves all the requests, no more than the limit
+     *
+     * @param offset from which record to start
+     * @param offset
      * @return request list
      * @throws DAOException
-     * @param offset
      */
     List<Request> getRequests(int offset) throws DAOException;
 
     /**
-     * Gets all unassigned requests
+     * Retrieves all unassigned requests
+     *
      * @return request list
      * @throws DAOException
      */
     List<Request> getUnassignedRequests() throws DAOException;
 
     /**
-     * Gets unassigned requests
+     * Retrieves unassigned requests, no more than the limit
+     *
+     * @param offset from which record to start
      * @return request list
      * @throws DAOException
      */
     List<Request> getUnassignedRequests(int offset) throws DAOException;
 
+    /**
+     * Retrieves the whole number of requests
+     *
+     * @return number of requests
+     * @throws DAOException
+     */
     Integer getNumberOfAllRequests() throws DAOException;
 
+    /**
+     * Retrieves the whole number of unassigned requests
+     *
+     * @return number of requests
+     * @throws DAOException
+     */
     Integer getNumberOfUnassignedRequests() throws DAOException;
 
     /**
      * Adds new request to the database
+     *
      * @param departurePointId
      * @param destinationPointId
-     * @param cargoWeight cargo weight parameter
+     * @param cargoWeight        cargo weight parameter
      * @throws DAOException in case of DML error
      */
     void addRequest(int departurePointId, int destinationPointId, double cargoWeight) throws DAOException;
 
+    /**
+     * Removes the specified request
+     *
+     * @param requestId id of request that should be removed
+     * @throws DAOException
+     */
     void deleteRequest(int requestId) throws DAOException;
 }

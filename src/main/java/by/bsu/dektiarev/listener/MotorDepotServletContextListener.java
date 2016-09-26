@@ -16,7 +16,7 @@ import javax.servlet.ServletContextListener;
 
 /**
  * Listener used to initialize and destroy connection pool if servlet is running in JDBC mode,
- * or initialize EntityManagerFactory, if servlet is running in JPA mode
+ * or initialize EntityManager, if servlet is running in JPA mode
  * Created by USER on 16.06.2016.
  */
 public class MotorDepotServletContextListener implements ServletContextListener {

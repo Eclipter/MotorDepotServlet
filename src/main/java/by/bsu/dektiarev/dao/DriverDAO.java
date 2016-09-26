@@ -15,23 +15,33 @@ import java.util.List;
 public interface DriverDAO extends GenericDAO {
 
     /**
-     * Gets all drivers that are present in the database
+     * Retrieves drivers that are present in the database, no more than the limit
+     *
+     * @param offset from which record to start
      * @return drivers list
      * @throws DAOException
      */
     List<Driver> getDrivers(int offset) throws DAOException;
 
     /**
-     * Gets all drivers whose trucks are in a good condition
+     * Retrieves all drivers whose trucks are in a good condition
+     *
      * @return drivers list
      * @throws DAOException
      */
     List<Driver> getAllDriversWithHealthyTrucks() throws DAOException;
 
+    /**
+     * Retrieves the whole number of drivers
+     *
+     * @return number of drivers
+     * @throws DAOException
+     */
     Integer getNumberOfDrivers() throws DAOException;
 
     /**
-     * Searches driver by user
+     * Retrieves the driver by user
+     *
      * @param user corresponding user
      * @return driver by.bsu.dektiarev.entity or null if there s no such user or this user is not a driver
      * @throws DAOException
@@ -40,7 +50,8 @@ public interface DriverDAO extends GenericDAO {
 
     /**
      * Searches for a driver that is currently completing given request
-     * @param request corresponding request by.bsu.dektiarev.entity
+     *
+     * @param request corresponding request entity
      * @return list with a driver or empty list if the request is not assigned
      * @throws DAOException
      */
@@ -48,7 +59,8 @@ public interface DriverDAO extends GenericDAO {
 
     /**
      * Adds new driver in the database
-     * @param truck corresponding truck by.bsu.dektiarev.entity
+     *
+     * @param truck corresponding truck entity
      * @throws DAOException in case of DML error
      */
     void addDriver(String login, String password, Truck truck) throws DAOException;

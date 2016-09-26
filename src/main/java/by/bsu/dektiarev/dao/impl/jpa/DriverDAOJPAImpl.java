@@ -60,8 +60,12 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     }
 
     @Override
-    public Driver find(User user) {
-        return getManager().find(Driver.class, user.getId());
+    public Driver find(User user) throws DAOException {
+        try {
+            return getManager().find(Driver.class, user.getId());
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override

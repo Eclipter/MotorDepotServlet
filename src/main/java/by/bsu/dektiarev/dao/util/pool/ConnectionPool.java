@@ -42,6 +42,13 @@ public class ConnectionPool {
     private ConnectionPool() {
     }
 
+    /**
+     * Creates a new connection
+     *
+     * @return connection
+     * @throws SQLException
+     * @throws InterruptedException
+     */
     private ProxyConnection createNewConnection() throws SQLException, InterruptedException {
         Connection connection = DriverManager.getConnection(url, userName, password);
         return new ProxyConnection(connection);
@@ -64,9 +71,9 @@ public class ConnectionPool {
                 LOG.error("timed out waiting for pool");
                 throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
-            if(!connection.isClosed()) {
+            if (!connection.isClosed()) {
                 busyConnections.put(connection);
-                if(!connection.getAutoCommit()) {
+                if (!connection.getAutoCommit()) {
                     connection.setAutoCommit(true);
                 }
                 return connection;
@@ -98,7 +105,7 @@ public class ConnectionPool {
                 LOG.error("returning to wrong pool");
                 throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
-            if(!connection.isClosed()) {
+            if (!connection.isClosed()) {
                 freeConnections.put(connection);
             } else {
                 LOG.info("Creating new connection");
@@ -178,7 +185,7 @@ public class ConnectionPool {
         while (!connections.isEmpty()) {
             try {
                 ProxyConnection connection = connections.take();
-                if(!connection.getAutoCommit()) {
+                if (!connection.getAutoCommit()) {
                     connection.commit();
                 }
                 connection.realClose();

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Singleton used to provide EntityManagerFactory to DAO classes
+ * Singleton used to provide EntityManager to DAO classes
  * Created by USER on 07.03.2016.
  */
 public class EntityManagerProvider {

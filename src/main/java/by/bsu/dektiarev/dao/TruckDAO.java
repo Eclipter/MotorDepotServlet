@@ -13,14 +13,17 @@ import java.util.List;
 public interface TruckDAO extends GenericDAO {
 
     /**
-     * Gets all the trucks
+     * Retrieves all the trucks
+     *
+     * @param offset from which record to start
      * @return list of trucks
      * @throws DAOException
      */
     List<Truck> getTrucks(int offset) throws DAOException;
 
     /**
-     * Gets truck by driver ID
+     * Retrieves the truck by driver ID
+     *
      * @param driverId
      * @return corresponding truck
      * @throws DAOException
@@ -28,7 +31,8 @@ public interface TruckDAO extends GenericDAO {
     Truck getTruckByDriver(int driverId) throws DAOException;
 
     /**
-     * Gets number of trucks
+     * Retrieves the whole number of trucks
+     *
      * @return number of trucks
      * @throws DAOException
      */
@@ -36,7 +40,8 @@ public interface TruckDAO extends GenericDAO {
 
     /**
      * Changes truck state
-     * @param truckId id of truck
+     *
+     * @param truckId         id of truck
      * @param truckStateToSet state to set
      * @throws DAOException in case of DML error
      */
@@ -44,7 +49,8 @@ public interface TruckDAO extends GenericDAO {
 
     /**
      * Add new truck to the database
-     * @param number truck number
+     *
+     * @param number   truck number
      * @param capacity capacity parameter
      * @return resulting truck by.bsu.dektiarev.entity
      * @throws DAOException in case of DML error
