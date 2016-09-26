@@ -40,7 +40,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
                         INITIALIZING_POOL_ERROR + ": " + e.getCause().getMessage());
             }
         } else {
-            EntityManagerProvider.getInstance();
+            EntityManagerProvider.getInstance().init();
         }
         setCollectionFetchLimitParameter(servletContextEvent.getServletContext());
     }
