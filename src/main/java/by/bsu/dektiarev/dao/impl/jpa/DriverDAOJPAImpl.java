@@ -27,24 +27,36 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     }
 
     @Override
-    public List<Driver> getDrivers(int offset) {
-        TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Driver.class);
-        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
-        namedQuery.setFirstResult(offset);
-        return namedQuery.getResultList();
+    public List<Driver> getDrivers(int offset) throws DAOException {
+        try {
+            TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Driver.class);
+            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setFirstResult(offset);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
-    public List<Driver> getAllDriversWithHealthyTrucks() {
-        TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_DRIVERS_HEALTHY_TRUCKS_QUERY,
-                Driver.class);
-        return namedQuery.getResultList();
+    public List<Driver> getAllDriversWithHealthyTrucks() throws DAOException {
+        try {
+            TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_DRIVERS_HEALTHY_TRUCKS_QUERY,
+                    Driver.class);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public Integer getNumberOfDrivers() throws DAOException {
-        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
-        return namedQuery.getSingleResult().intValue();
+        try {
+            TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+            return namedQuery.getSingleResult().intValue();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
@@ -53,14 +65,18 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     }
 
     @Override
-    public Driver find(Request request) {
-        TypedQuery<Driver> namedQuery = getManager().createNamedQuery(SEARCH_FOR_DRIVER_QUERY, Driver.class);
-        namedQuery.setParameter(REQUEST_PARAMETER, request);
-        List<Driver> driverList = namedQuery.getResultList();
-        if (driverList.isEmpty()) {
-            return null;
-        } else {
-            return driverList.get(0);
+    public Driver find(Request request) throws DAOException {
+        try {
+            TypedQuery<Driver> namedQuery = getManager().createNamedQuery(SEARCH_FOR_DRIVER_QUERY, Driver.class);
+            namedQuery.setParameter(REQUEST_PARAMETER, request);
+            List<Driver> driverList = namedQuery.getResultList();
+            if (driverList.isEmpty()) {
+                return null;
+            } else {
+                return driverList.get(0);
+            }
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
 
@@ -70,13 +86,17 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
         EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        Driver driver = new Driver();
-        String encryptedPassword = PasswordEncryptor.encryptPassword(password);
-        driver.setPassword(encryptedPassword);
-        driver.setLogin(login);
-        driver.setTruck(truck);
-        getManager().persist(driver);
-        transaction.commit();
+        try {
+            transaction.begin();
+            Driver driver = new Driver();
+            String encryptedPassword = PasswordEncryptor.encryptPassword(password);
+            driver.setPassword(encryptedPassword);
+            driver.setLogin(login);
+            driver.setTruck(truck);
+            getManager().persist(driver);
+            transaction.commit();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 }

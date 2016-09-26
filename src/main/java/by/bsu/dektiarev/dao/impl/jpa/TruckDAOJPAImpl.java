@@ -23,26 +23,38 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
     }
 
     @Override
-    public List<Truck> getTrucks(int offset) {
-        TypedQuery<Truck> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Truck.class);
-        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
-        namedQuery.setFirstResult(offset);
-        return namedQuery.getResultList();
+    public List<Truck> getTrucks(int offset) throws DAOException {
+        try {
+            TypedQuery<Truck> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Truck.class);
+            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setFirstResult(offset);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public Truck getTruckByDriver(int driverId) throws DAOException {
-        Driver driver = getManager().find(Driver.class, driverId);
-        if (driver == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        try {
+            Driver driver = getManager().find(Driver.class, driverId);
+            if (driver == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            return driver.getTruck();
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        return driver.getTruck();
     }
 
     @Override
     public Integer getNumberOfTrucks() throws DAOException {
-        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
-        return namedQuery.getSingleResult().intValue();
+        try {
+            TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+            return namedQuery.getSingleResult().intValue();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
@@ -50,24 +62,27 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
         if (truckStateToSet == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        Truck truck = getManager().find(Truck.class, truckId);
-        if (truck == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
-        }
-        TruckStateDTO truckStateDTO = truck.getState();
-        if (truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
-            throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
-        }
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            transaction.begin();
+            Truck truck = getManager().find(Truck.class, truckId);
+            if (truck == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            TruckStateDTO truckStateDTO = truck.getState();
+            if (truckStateToSet.equals(truckStateDTO.getTruckStateName())) {
+                throw new DAOException(ExceptionalMessageKey.TRUCK_HAS_THE_SAME_STATE);
+            }
 
-        TruckStateDTO newEntity = getManager().find(TruckStateDTO.class, truckStateToSet.ordinal() + 1);
-        if (newEntity == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            TruckStateDTO newEntity = getManager().find(TruckStateDTO.class, truckStateToSet.ordinal() + 1);
+            if (newEntity == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            truck.setState(newEntity);
+            transaction.commit();
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        truck.setState(newEntity);
-        transaction.commit();
-
     }
 
     @Override
@@ -75,17 +90,19 @@ public class TruckDAOJPAImpl extends GenericDAOJPAImpl implements TruckDAO {
         if (capacity < 0 || number == null || number.equals("")) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        EntityTransaction transaction = getManager().getTransaction();
-        Truck truck = new Truck();
-        transaction.begin();
-
-        truck.setNumber(number);
-        truck.setCapacity(capacity);
-        TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
-        truck.setState(truckStateDTO);
-        getManager().persist(truck);
-        transaction.commit();
-
-        return truck;
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            Truck truck = new Truck();
+            transaction.begin();
+            truck.setNumber(number);
+            truck.setCapacity(capacity);
+            TruckStateDTO truckStateDTO = getManager().find(TruckStateDTO.class, TruckState.OK.ordinal() + 1);
+            truck.setState(truckStateDTO);
+            getManager().persist(truck);
+            transaction.commit();
+            return truck;
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 }

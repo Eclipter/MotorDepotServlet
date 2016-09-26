@@ -25,10 +25,14 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
         if(login == null || "".equals(login)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        TypedQuery<User> query = getManager().createNamedQuery(SEARCH_BY_LOGIN_QUERY, User.class);
-        query.setParameter(LOGIN_PARAMETER, login);
-        List<User> resultList = query.getResultList();
-        return !resultList.isEmpty();
+        try {
+            TypedQuery<User> query = getManager().createNamedQuery(SEARCH_BY_LOGIN_QUERY, User.class);
+            query.setParameter(LOGIN_PARAMETER, login);
+            List<User> resultList = query.getResultList();
+            return !resultList.isEmpty();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
@@ -36,15 +40,19 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
         if(login == null || pass == null || "".equals(login) || "".equals(pass)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        TypedQuery<User> query = getManager().createNamedQuery(SEARCH_QUERY, User.class);
-        query.setParameter(LOGIN_PARAMETER, login);
-        query.setParameter(PASSWORD_PARAMETER, pass);
-        List<User> userList = query.getResultList();
-        if(userList.isEmpty()) {
-            return null;
-        }
-        else {
-            return userList.get(0);
+        try {
+            TypedQuery<User> query = getManager().createNamedQuery(SEARCH_QUERY, User.class);
+            query.setParameter(LOGIN_PARAMETER, login);
+            query.setParameter(PASSWORD_PARAMETER, pass);
+            List<User> userList = query.getResultList();
+            if(userList.isEmpty()) {
+                return null;
+            }
+            else {
+                return userList.get(0);
+            }
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
 }

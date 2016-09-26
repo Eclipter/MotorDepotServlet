@@ -30,82 +30,96 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
 
     @Override
     public List<Trip> getTripsByDriver(int driverId, int offset) throws DAOException {
-        Driver driver = getManager().find(Driver.class, driverId);
-        if (driver == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        try {
+            Driver driver = getManager().find(Driver.class, driverId);
+            if (driver == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            List<Trip> tripList = driver.getTripList();
+            int toIndex = offset + COLLECTION_FETCH_LIMIT;
+            if (toIndex > tripList.size()) {
+                toIndex = tripList.size();
+            }
+            return tripList.subList(offset, toIndex);
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        List<Trip> tripList = driver.getTripList();
-        int toIndex = offset + COLLECTION_FETCH_LIMIT;
-        if (toIndex > tripList.size()) {
-            toIndex = tripList.size();
-        }
-        return tripList.subList(offset, toIndex);
     }
 
     @Override
     public Integer getNumberOfTrips() throws DAOException {
-        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
-        return namedQuery.getSingleResult().intValue();
+        try {
+            TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
+            return namedQuery.getSingleResult().intValue();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public Integer getNumberOfTripsByDriver(int driverId) throws DAOException {
-        Driver driver = getManager().find(Driver.class, driverId);
-        if (driver == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        try {
+            Driver driver = getManager().find(Driver.class, driverId);
+            if (driver == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            return driver.getTripList().size();
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        return driver.getTripList().size();
     }
 
     @Override
     public void addTrip(int requestId, int driverId) throws DAOException {
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            transaction.begin();
+            Request request = getManager().find(Request.class, requestId);
+            if (request == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            double cargoWeight = request.getCargoWeight();
 
-        EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        Request request = getManager().find(Request.class, requestId);
-        if (request == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            Driver driver = getManager().find(Driver.class, driverId);
+            if (driver == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            Truck truck = driver.getTruck();
+            double capacity = truck.getCapacity();
+            if (cargoWeight > capacity) {
+                throw new DAOException(ExceptionalMessageKey.WEIGHT_MORE_THAN_CAPACITY);
+            }
+            TruckStateDTO truckStateDTO = truck.getState();
+            if (!TruckState.OK.equals(truckStateDTO.getTruckStateName())) {
+                throw new DAOException(ExceptionalMessageKey.TRUCK_NOT_OK);
+            }
+            Trip trip = new Trip();
+            trip.setIsComplete(false);
+            trip.setDriver(driver);
+            trip.setRequest(request);
+            getManager().persist(trip);
+            transaction.commit();
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        double cargoWeight = request.getCargoWeight();
-
-        Driver driver = getManager().find(Driver.class, driverId);
-        if (driver == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
-        }
-        Truck truck = driver.getTruck();
-        double capacity = truck.getCapacity();
-        if (cargoWeight > capacity) {
-            throw new DAOException(ExceptionalMessageKey.WEIGHT_MORE_THAN_CAPACITY);
-        }
-        TruckStateDTO truckStateDTO = truck.getState();
-        if (!TruckState.OK.equals(truckStateDTO.getTruckStateName())) {
-            throw new DAOException(ExceptionalMessageKey.TRUCK_NOT_OK);
-        }
-
-        Trip trip = new Trip();
-        trip.setIsComplete(false);
-        trip.setDriver(driver);
-        trip.setRequest(request);
-        getManager().persist(trip);
-        transaction.commit();
-
     }
 
     @Override
     public void changeTripState(int tripId, boolean state) throws DAOException {
-        EntityTransaction transaction = getManager().getTransaction();
-
-        transaction.begin();
-        Trip trip = getManager().find(Trip.class, tripId);
-        if (trip == null) {
-            throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            transaction.begin();
+            Trip trip = getManager().find(Trip.class, tripId);
+            if (trip == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            if (state == trip.getIsComplete()) {
+                throw new DAOException(ExceptionalMessageKey.TRIP_HAS_THIS_STATE);
+            }
+            trip.setIsComplete(state);
+            transaction.commit();
+        } catch (DAOException ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
-        if (state == trip.getIsComplete()) {
-            throw new DAOException(ExceptionalMessageKey.TRIP_HAS_THIS_STATE);
-        }
-
-        trip.setIsComplete(state);
-        transaction.commit();
-
     }
 }

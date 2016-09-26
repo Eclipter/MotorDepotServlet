@@ -24,37 +24,57 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     }
 
     @Override
-    public List<Request> getRequests(int offset) {
-        TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Request.class);
-        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
-        namedQuery.setFirstResult(offset);
-        return namedQuery.getResultList();
+    public List<Request> getRequests(int offset) throws DAOException {
+        try {
+            TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Request.class);
+            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setFirstResult(offset);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
-    public List<Request> getUnassignedRequests() {
-        TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
-        return namedQuery.getResultList();
+    public List<Request> getUnassignedRequests() throws DAOException {
+        try {
+            TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public List<Request> getUnassignedRequests(int offset) throws DAOException {
-        TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
-        namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
-        namedQuery.setFirstResult(offset);
-        return namedQuery.getResultList();
+        try {
+            TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
+            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setFirstResult(offset);
+            return namedQuery.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public Integer getNumberOfAllRequests() throws DAOException {
-        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_ALL_QUERY, Long.class);
-        return namedQuery.getSingleResult().intValue();
+        try {
+            TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_ALL_QUERY, Long.class);
+            return namedQuery.getSingleResult().intValue();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
     public Integer getNumberOfUnassignedRequests() throws DAOException {
-        TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_UNASSIGNED_QUERY, Long.class);
-        return namedQuery.getSingleResult().intValue();
+        try {
+            TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_UNASSIGNED_QUERY, Long.class);
+            return namedQuery.getSingleResult().intValue();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
@@ -67,15 +87,18 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
         if (departureStation == null || destinationStation == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        Request request = new Request();
-        request.setCargoWeight(cargoWeight);
-        request.setDepartureStation(departureStation);
-        request.setDestinationStation(destinationStation);
-        getManager().persist(request);
-        transaction.commit();
-
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            transaction.begin();
+            Request request = new Request();
+            request.setCargoWeight(cargoWeight);
+            request.setDepartureStation(departureStation);
+            request.setDestinationStation(destinationStation);
+            getManager().persist(request);
+            transaction.commit();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 
     @Override
@@ -87,10 +110,13 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
         if (request == null) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        EntityTransaction transaction = getManager().getTransaction();
-        transaction.begin();
-        getManager().remove(request);
-        transaction.commit();
-
+        try {
+            EntityTransaction transaction = getManager().getTransaction();
+            transaction.begin();
+            getManager().remove(request);
+            transaction.commit();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 }

@@ -3,6 +3,7 @@ package by.bsu.dektiarev.dao.impl.jpa;
 import by.bsu.dektiarev.dao.StationDAO;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
+import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -21,7 +22,11 @@ public class StationDAOJPAImpl extends GenericDAOJPAImpl implements StationDAO {
 
     @Override
     public List<Station> getAllStations() throws DAOException {
-        TypedQuery<Station> query = getManager().createNamedQuery(GET_ALL_QUERY, Station.class);
-        return query.getResultList();
+        try {
+            TypedQuery<Station> query = getManager().createNamedQuery(GET_ALL_QUERY, Station.class);
+            return query.getResultList();
+        } catch (Exception ex) {
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
     }
 }
