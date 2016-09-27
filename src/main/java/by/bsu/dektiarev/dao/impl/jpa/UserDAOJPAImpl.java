@@ -4,6 +4,8 @@ import by.bsu.dektiarev.dao.UserDAO;
 import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -15,6 +17,8 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
     private static final String PASSWORD_PARAMETER = "pass";
     private static final String SEARCH_BY_LOGIN_QUERY = "User.searchByLogin";
     private static final String SEARCH_QUERY = "User.authenticate";
+
+    private static final Logger LOG = LogManager.getLogger();
 
     public UserDAOJPAImpl(EntityManager manager) {
         super(manager);
@@ -31,6 +35,7 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
             List<User> resultList = query.getResultList();
             return !resultList.isEmpty();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -52,6 +57,7 @@ public class UserDAOJPAImpl extends GenericDAOJPAImpl implements UserDAO {
                 return userList.get(0);
             }
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }

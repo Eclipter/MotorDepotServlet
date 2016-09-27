@@ -18,7 +18,7 @@ public interface TripDAO extends GenericDAO {
      * @return list of trips
      * @throws DAOException
      */
-    List<Trip> getTrips(int offset) throws DAOException;
+    List<Trip> getTrips(int offset, int limit) throws DAOException;
 
     /**
      * Retrieves trips by driver id
@@ -28,7 +28,7 @@ public interface TripDAO extends GenericDAO {
      * @return list of trips
      * @throws DAOException
      */
-    List<Trip> getTripsByDriver(int driverId, int offset) throws DAOException;
+    List<Trip> getTripsByDriver(int driverId, int offset, int limit) throws DAOException;
 
     /**
      * Retrieves the whole number of trips

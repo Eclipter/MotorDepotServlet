@@ -15,11 +15,10 @@ public interface RequestDAO extends GenericDAO {
      * Retrieves all the requests, no more than the limit
      *
      * @param offset from which record to start
-     * @param offset
      * @return request list
      * @throws DAOException
      */
-    List<Request> getRequests(int offset) throws DAOException;
+    List<Request> getRequests(int offset, int limit) throws DAOException;
 
     /**
      * Retrieves all unassigned requests
@@ -36,7 +35,7 @@ public interface RequestDAO extends GenericDAO {
      * @return request list
      * @throws DAOException
      */
-    List<Request> getUnassignedRequests(int offset) throws DAOException;
+    List<Request> getUnassignedRequests(int offset, int limit) throws DAOException;
 
     /**
      * Retrieves the whole number of requests

@@ -8,6 +8,8 @@ import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
 import by.bsu.dektiarev.util.PasswordEncryptor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -22,18 +24,21 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
     private static final String SEARCH_FOR_DRIVER_QUERY = "Driver.find";
     private static final String REQUEST_PARAMETER = "request";
 
+    private static final Logger LOG = LogManager.getLogger();
+
     public DriverDAOJPAImpl(EntityManager manager) {
         super(manager);
     }
 
     @Override
-    public List<Driver> getDrivers(int offset) throws DAOException {
+    public List<Driver> getDrivers(int offset, int limit) throws DAOException {
         try {
             TypedQuery<Driver> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Driver.class);
-            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setMaxResults(limit);
             namedQuery.setFirstResult(offset);
             return namedQuery.getResultList();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -45,6 +50,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
                     Driver.class);
             return namedQuery.getResultList();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -55,6 +61,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
             TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_QUERY, Long.class);
             return namedQuery.getSingleResult().intValue();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -64,6 +71,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
         try {
             return getManager().find(Driver.class, user.getId());
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -80,6 +88,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
                 return driverList.get(0);
             }
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -89,8 +98,8 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
         if (login == null || password == null || "".equals(login) || "".equals(password)) {
             throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
         }
-        EntityTransaction transaction = getManager().getTransaction();
         try {
+            EntityTransaction transaction = getManager().getTransaction();
             transaction.begin();
             Driver driver = new Driver();
             String encryptedPassword = PasswordEncryptor.encryptPassword(password);
@@ -100,6 +109,7 @@ public class DriverDAOJPAImpl extends GenericDAOJPAImpl implements DriverDAO {
             getManager().persist(driver);
             transaction.commit();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }

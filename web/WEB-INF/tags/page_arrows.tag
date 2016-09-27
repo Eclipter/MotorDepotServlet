@@ -6,7 +6,7 @@
 <c:if test="${empty requestScope.startFrom or requestScope.startFrom < 0}">
     <c:set var="startFrom" value="0"/>
 </c:if>
-<a href="${currentURL}&startFrom=${startFrom - applicationScope.fetchLimit}">
+<a href="${currentURL}&startFrom=${startFrom - requestScope.fetchLimit}">
     <span class="glyphicon glyphicon-chevron-left"></span></a>
 ${startFrom + 1} - ${startFrom + fn:length(list)}
 <a href="${currentURL}&startFrom=${startFrom + fn:length(list)}">

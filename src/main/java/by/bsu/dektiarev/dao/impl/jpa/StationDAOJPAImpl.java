@@ -4,6 +4,8 @@ import by.bsu.dektiarev.dao.StationDAO;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,6 +18,8 @@ public class StationDAOJPAImpl extends GenericDAOJPAImpl implements StationDAO {
 
     private static final String GET_ALL_QUERY = "Station.getAll";
 
+    private static final Logger LOG = LogManager.getLogger();
+
     public StationDAOJPAImpl(EntityManager manager) {
         super(manager);
     }
@@ -26,6 +30,7 @@ public class StationDAOJPAImpl extends GenericDAOJPAImpl implements StationDAO {
             TypedQuery<Station> query = getManager().createNamedQuery(GET_ALL_QUERY, Station.class);
             return query.getResultList();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }

@@ -61,7 +61,7 @@ public class DAOFactory {
                 case REQUEST:
                     return new RequestDAOJDBCImpl();
                 case TRIP:
-                    return new TruckDAOJDBCImpl();
+                    return new TripDAOJDBCImpl();
                 case TRUCK:
                     return new TruckDAOJDBCImpl();
                 case USER:

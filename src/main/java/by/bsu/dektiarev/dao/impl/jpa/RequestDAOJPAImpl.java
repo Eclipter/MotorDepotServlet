@@ -5,6 +5,8 @@ import by.bsu.dektiarev.entity.Request;
 import by.bsu.dektiarev.entity.Station;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -19,18 +21,21 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     private static final String GET_NUMBER_OF_ALL_QUERY = "Request.getNumberOfAll";
     private static final String GET_NUMBER_OF_UNASSIGNED_QUERY = "Truck.getNumberOfUnassigned";
 
+    private static final Logger LOG = LogManager.getLogger();
+
     public RequestDAOJPAImpl(EntityManager manager) {
         super(manager);
     }
 
     @Override
-    public List<Request> getRequests(int offset) throws DAOException {
+    public List<Request> getRequests(int offset, int limit) throws DAOException {
         try {
             TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_ALL_QUERY, Request.class);
-            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setMaxResults(limit);
             namedQuery.setFirstResult(offset);
             return namedQuery.getResultList();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -46,13 +51,14 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
     }
 
     @Override
-    public List<Request> getUnassignedRequests(int offset) throws DAOException {
+    public List<Request> getUnassignedRequests(int offset, int limit) throws DAOException {
         try {
             TypedQuery<Request> namedQuery = getManager().createNamedQuery(GET_UNASSIGNED_QUERY, Request.class);
-            namedQuery.setMaxResults(COLLECTION_FETCH_LIMIT);
+            namedQuery.setMaxResults(limit);
             namedQuery.setFirstResult(offset);
             return namedQuery.getResultList();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -63,6 +69,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_ALL_QUERY, Long.class);
             return namedQuery.getSingleResult().intValue();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -73,6 +80,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             TypedQuery<Long> namedQuery = getManager().createNamedQuery(GET_NUMBER_OF_UNASSIGNED_QUERY, Long.class);
             return namedQuery.getSingleResult().intValue();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -97,6 +105,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             getManager().persist(request);
             transaction.commit();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }
@@ -116,6 +125,7 @@ public class RequestDAOJPAImpl extends GenericDAOJPAImpl implements RequestDAO {
             getManager().remove(request);
             transaction.commit();
         } catch (Exception ex) {
+            LOG.error(ex);
             throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
         }
     }

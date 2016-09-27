@@ -21,7 +21,7 @@ public interface DriverDAO extends GenericDAO {
      * @return drivers list
      * @throws DAOException
      */
-    List<Driver> getDrivers(int offset) throws DAOException;
+    List<Driver> getDrivers(int offset, int limit) throws DAOException;
 
     /**
      * Retrieves all drivers whose trucks are in a good condition

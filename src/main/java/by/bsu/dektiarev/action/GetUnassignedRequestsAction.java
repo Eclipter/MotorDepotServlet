@@ -1,6 +1,6 @@
 package by.bsu.dektiarev.action;
 
-import by.bsu.dektiarev.action.util.OffsetParameterOperator;
+import by.bsu.dektiarev.action.util.PaginationParametersOperator;
 import by.bsu.dektiarev.action.util.RequestViewBeanListProvider;
 import by.bsu.dektiarev.bean.RequestViewBean;
 import by.bsu.dektiarev.dao.RequestDAO;
@@ -33,8 +33,9 @@ public class GetUnassignedRequestsAction implements Action {
             LOG.info("requesting all unassigned requests");
             RequestDAO requestDAO = (RequestDAO) daoFactory.getDAOFromFactory(DAOType.REQUEST);
             int numberOfRequests = requestDAO.getNumberOfUnassignedRequests();
-            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfRequests);
-            List<Request> unassignedRequests = requestDAO.getUnassignedRequests(offset);
+            int fetchLimit = PaginationParametersOperator.processFetchLimitParameter(req);
+            int offset = PaginationParametersOperator.processOffsetParameter(req, numberOfRequests, fetchLimit);
+            List<Request> unassignedRequests = requestDAO.getUnassignedRequests(offset, fetchLimit);
             List<RequestViewBean> requestViewBeanList =
                     RequestViewBeanListProvider.createRequestViewBeanList(unassignedRequests);
             req.setAttribute(RequestParameterName.REQUESTS, requestViewBeanList);

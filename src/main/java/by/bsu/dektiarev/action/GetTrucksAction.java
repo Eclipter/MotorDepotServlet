@@ -1,6 +1,6 @@
 package by.bsu.dektiarev.action;
 
-import by.bsu.dektiarev.action.util.OffsetParameterOperator;
+import by.bsu.dektiarev.action.util.PaginationParametersOperator;
 import by.bsu.dektiarev.dao.TruckDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
@@ -33,8 +33,9 @@ public class GetTrucksAction implements Action {
         try {
             TruckDAO truckDAO = (TruckDAO) daoFactory.getDAOFromFactory(DAOType.TRUCK);
             int trucksNumber = truckDAO.getNumberOfTrucks();
-            int offset = OffsetParameterOperator.processOffsetParameter(req, trucksNumber);
-            List<Truck> allTrucks = truckDAO.getTrucks(offset);
+            int fetchLimit = PaginationParametersOperator.processFetchLimitParameter(req);
+            int offset = PaginationParametersOperator.processOffsetParameter(req, trucksNumber, fetchLimit);
+            List<Truck> allTrucks = truckDAO.getTrucks(offset, fetchLimit);
             req.setAttribute(RequestParameterName.TRUCKS, allTrucks);
             return PagesBundleManager.getProperty(PageNameConstant.TRUCKS);
         } catch (DAOException ex) {

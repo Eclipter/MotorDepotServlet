@@ -1,16 +1,14 @@
 package by.bsu.dektiarev.listener;
 
-import by.bsu.dektiarev.dao.GenericDAO;
 import by.bsu.dektiarev.dao.util.EntityManagerProvider;
 import by.bsu.dektiarev.dao.util.pool.ConnectionPool;
 import by.bsu.dektiarev.exception.DatabaseConnectionException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import by.bsu.dektiarev.util.DatabaseConfigurationBundleManager;
 import by.bsu.dektiarev.util.DatabaseConfigurationParameterName;
 import by.bsu.dektiarev.util.RequestParameterName;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -23,10 +21,6 @@ public class MotorDepotServletContextListener implements ServletContextListener 
 
     private static final Logger LOG = LogManager.getLogger();
     private static final String INITIALIZING_POOL_ERROR = "Initializing pool error";
-
-    private void setCollectionFetchLimitParameter(ServletContext context) {
-        context.setAttribute(RequestParameterName.FETCH_LIMIT, GenericDAO.COLLECTION_FETCH_LIMIT);
-    }
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -42,7 +36,6 @@ public class MotorDepotServletContextListener implements ServletContextListener 
         } else {
             EntityManagerProvider.getInstance().init();
         }
-        setCollectionFetchLimitParameter(servletContextEvent.getServletContext());
     }
 
     @Override

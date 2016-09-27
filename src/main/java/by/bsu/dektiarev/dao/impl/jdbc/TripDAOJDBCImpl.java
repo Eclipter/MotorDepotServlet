@@ -27,11 +27,11 @@ public class TripDAOJDBCImpl implements TripDAO {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public List<Trip> getTrips(int offset) throws DAOException {
+    public List<Trip> getTrips(int offset, int limit) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_TRIPS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_FETCH_LIMIT);
+                statement.setInt(2, limit);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }
@@ -45,12 +45,12 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
-    public List<Trip> getTripsByDriver(int driverId, int offset) throws DAOException {
+    public List<Trip> getTripsByDriver(int driverId, int offset, int limit) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_TRIPS_BY_DRIVER_LIMITED)) {
                 statement.setInt(1, driverId);
                 statement.setInt(2, offset);
-                statement.setInt(3, COLLECTION_FETCH_LIMIT);
+                statement.setInt(3, limit);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getTripsFromResultSet(resultSet);
                 }

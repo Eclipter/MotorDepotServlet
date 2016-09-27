@@ -27,11 +27,11 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     private static final Logger LOG = LogManager.getLogger();
 
     @Override
-    public List<Request> getRequests(int offset) throws DAOException {
+    public List<Request> getRequests(int offset, int limit) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_REQUESTS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_FETCH_LIMIT);
+                statement.setInt(2, limit);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }
@@ -61,11 +61,11 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     }
 
     @Override
-    public List<Request> getUnassignedRequests(int offset) throws DAOException {
+    public List<Request> getUnassignedRequests(int offset, int limit) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_ALL_UNASSIGNED_REQUESTS_LIMITED)) {
                 statement.setInt(1, offset);
-                statement.setInt(2, COLLECTION_FETCH_LIMIT);
+                statement.setInt(2, limit);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     return getRequestsFromResultSet(resultSet);
                 }

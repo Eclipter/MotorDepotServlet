@@ -1,6 +1,6 @@
 package by.bsu.dektiarev.action;
 
-import by.bsu.dektiarev.action.util.OffsetParameterOperator;
+import by.bsu.dektiarev.action.util.PaginationParametersOperator;
 import by.bsu.dektiarev.dao.TripDAO;
 import by.bsu.dektiarev.dao.util.DAOFactory;
 import by.bsu.dektiarev.dao.util.DAOType;
@@ -31,8 +31,9 @@ public class GetTripsAction implements Action {
         try {
             TripDAO tripDAO = (TripDAO) daoFactory.getDAOFromFactory(DAOType.TRIP);
             int numberOfTrips = tripDAO.getNumberOfTrips();
-            int offset = OffsetParameterOperator.processOffsetParameter(req, numberOfTrips);
-            List<Trip> allTrips = tripDAO.getTrips(offset);
+            int fetchLimit = PaginationParametersOperator.processFetchLimitParameter(req);
+            int offset = PaginationParametersOperator.processOffsetParameter(req, numberOfTrips, fetchLimit);
+            List<Trip> allTrips = tripDAO.getTrips(offset, fetchLimit);
             req.setAttribute(RequestParameterName.TRIPS, allTrips);
             return PagesBundleManager.getProperty(PageNameConstant.TRIP_LIST);
         } catch (DAOException ex) {

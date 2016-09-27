@@ -19,7 +19,7 @@ public interface TruckDAO extends GenericDAO {
      * @return list of trucks
      * @throws DAOException
      */
-    List<Truck> getTrucks(int offset) throws DAOException;
+    List<Truck> getTrucks(int offset, int limit) throws DAOException;
 
     /**
      * Retrieves the whole number of trucks
