@@ -125,8 +125,13 @@ public class ChatEndPoint {
                 }
             }
         } catch (IOException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage());
         }
+    }
+
+    @OnError
+    public void onError(Throwable e) {
+        LOG.error(e.getMessage());
     }
 
 
@@ -201,7 +206,7 @@ public class ChatEndPoint {
             return message;
 
         } catch (ParseException e) {
-            LOG.error(e);
+            LOG.error(e.getMessage());
         }
         return message;
     }
