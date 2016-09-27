@@ -68,11 +68,14 @@
         }
         window.addEventListener('load', connect);
 
-        $('#message').on('keypress', function (event) {
-            var code = event.which || event.keyCode;
-            if (code == 13) {
-                $('#sendButton').click();
-            }
+        $(document).ready(function() {
+            $('#message').keypress(function (event) {
+                var code = event.which || event.keyCode;
+                console.log(code);
+                if (code == 13) {
+                    $('#sendButton').click();
+                }
+            });
         });
     </script>
 </head>
