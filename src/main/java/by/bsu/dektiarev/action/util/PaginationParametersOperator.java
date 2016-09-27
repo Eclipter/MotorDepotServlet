@@ -17,9 +17,10 @@ import static by.bsu.dektiarev.dao.GenericDAO.COLLECTION_MAX_LIMIT;
 public final class PaginationParametersOperator {
 
     /**
-     *
+     * Retrieves offset parameter from request, checks it's correctness or absence, and sets it back to the request
      * @param req servlet request
      * @param collectionSize size of the actual collection to select from
+     * @param fetchLimit correct fetchLimit parameter
      * @return correct offset parameter
      * @throws ActionExecutionException in case of error while parsing offset parameter
      */
@@ -45,6 +46,12 @@ public final class PaginationParametersOperator {
         return startFrom;
     }
 
+    /**
+     * Retrieves fetch limit parameter from request, checks it's correctness or absence, and sets it back to the request
+     * @param req servlet request
+     * @return correct fetch limit parameter
+     * @throws ActionExecutionException in case of error while parsing fetch limit parameter
+     */
     public static int processFetchLimitParameter(HttpServletRequest req) throws ActionExecutionException {
         String fetchLimitParameter = req.getParameter(RequestParameterName.FETCH_LIMIT);
         if(fetchLimitParameter != null) {
