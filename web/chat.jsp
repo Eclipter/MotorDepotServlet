@@ -68,13 +68,12 @@
         }
         window.addEventListener('load', connect);
 
-        document.getElementById("message")
-                .addEventListener("keyup", function (event) {
-                    event.preventDefault();
-                    if (event.keyCode == 13) {
-                        document.getElementById("sendButton").click();
-                    }
-                });
+        $('#message').on('keypress', function (event) {
+            var code = event.which || event.keyCode;
+            if (code == 13) {
+                $('#sendButton').click();
+            }
+        });
     </script>
 </head>
 <body>
@@ -115,7 +114,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" id="message" class="form-control" placeholder="Сообщение" required/>
-                    <span class="input-group-btn">
+                        <span class="input-group-btn">
                         <button id="sendButton" class="btn btn-primary" type="button"
                                 onclick="sendMessage()"><fmt:message key="chat.button.send"/></button>
                     </span>

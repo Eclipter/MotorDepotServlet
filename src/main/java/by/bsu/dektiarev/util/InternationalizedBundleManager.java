@@ -1,5 +1,7 @@
 package by.bsu.dektiarev.util;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -9,7 +11,7 @@ import java.util.ResourceBundle;
  */
 public final class InternationalizedBundleManager {
 
-    private static final String LANGUAGE_RUSSIAN = "ru";
+    private static final List<String> languages = Arrays.asList("ru");
 
     /**
      * Gets the value from specified bundle
@@ -19,11 +21,12 @@ public final class InternationalizedBundleManager {
      * @return value from bundle
      */
     public static String getProperty(String bundleName, String key, String languageTag) {
-        Locale locale;
-        if(LANGUAGE_RUSSIAN.equals(languageTag)) {
-            locale = new Locale(languageTag);
-        } else {
-            locale = Locale.getDefault();
+        Locale locale = Locale.ROOT;
+        for(String language : languages) {
+            if(language.equals(languageTag)) {
+                locale = new Locale(languageTag);
+                break;
+            }
         }
         ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName, locale);
         return resourceBundle.getString(key);
