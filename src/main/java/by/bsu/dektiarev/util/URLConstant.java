@@ -8,7 +8,7 @@ import by.bsu.dektiarev.action.util.ActionEnum;
  */
 public final class URLConstant {
 
-    private static final String baseURL = "motor_depot?command=";
+    private static final String baseURL = "motor_depot" + "?" + RequestParameterName.COMMAND + "=";
 
     public static final String GET_REQUESTS = baseURL + ActionEnum.GET_REQUESTS.toString().toLowerCase();
     public static final String GET_TRIPS = baseURL + ActionEnum.GET_TRIPS.toString().toLowerCase();
