@@ -39,7 +39,7 @@ public class ChatEndPoint {
     public void onOpen(Session session, EndpointConfig config) {
         LOG.info("chat session opened");
         this.session = session;
-        HttpSession httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        HttpSession httpSession = (HttpSession) config.getUserProperties().get(UserProperty.HTTP_SESSION);
         loginMap.put(session, httpSession);
     }
 
@@ -84,9 +84,12 @@ public class ChatEndPoint {
                             session.getBasicRemote().sendText(buildMessage(sender.getUser().getLogin(),
                                     message.getMessage()));
                         } else {
-                            session.getBasicRemote().sendText(
-                                    InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT, NO_ADMIN_BUNDLE_KEY,
-                                            (String) loginMap.get(session).getAttribute(RequestParameterName.LANGUAGE)));
+                            String language = (String)
+                                    loginMap.get(session).getAttribute(RequestParameterName.LANGUAGE);
+                            String messageToSend =
+                                    InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT,
+                                            NO_ADMIN_BUNDLE_KEY, language);
+                            session.getBasicRemote().sendText(messageToSend);
                         }
                         break;
                     default:
@@ -111,15 +114,18 @@ public class ChatEndPoint {
                                         buildMessage(sender.getUser().getLogin(), message.getMessage()));
                             }
                         } else {
-                            session.getBasicRemote().sendText(
-                                    InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT, NO_USER_BUNDLE_KEY,
-                                            (String) loginMap.get(session).getAttribute(RequestParameterName.LANGUAGE)));
+                            String language = (String)
+                                    loginMap.get(session).getAttribute(RequestParameterName.LANGUAGE);
+                            String messageToSend =
+                                    InternationalizedBundleManager.getProperty(BundleName.JSP_TEXT,
+                                            NO_USER_BUNDLE_KEY, language);
+                            session.getBasicRemote().sendText(messageToSend);
                         }
                         break;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
     }
 
@@ -195,7 +201,7 @@ public class ChatEndPoint {
             return message;
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.error(e);
         }
         return message;
     }

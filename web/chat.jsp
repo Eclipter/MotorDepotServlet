@@ -23,22 +23,9 @@
                     return;
                 }
 
-                $('#users').empty();
-                var select = document.createElement("select");
-                select.setAttribute("class", "form-control");
-                $('#users').append(select);
                 message.forEach(function (item, i, arr) {
-                    var option = document.createElement("option");
-                    var value = document.createTextNode(item["name"]);
-                    option.setAttribute("value", item["name"]);
-                    option.appendChild(value);
-                    select.appendChild(option);
-                    $(option).click(function () {
-                        var name = $(this).innerText;
-                        $('#receiver').attr("value", name);
-                    });
 
-                    /*var radio = document.createElement("div");
+                    var radio = document.createElement("div");
                     radio.setAttribute("class", "radio");
                     var label = document.createElement("label");
                     var button = document.createElement("input");
@@ -52,7 +39,7 @@
                     $(radio).click(function () {
                         var name = $(this).children("label")[0].innerText;
                         $('#receiver').attr("value", name);
-                    });*/
+                    });
                 });
             };
         }
