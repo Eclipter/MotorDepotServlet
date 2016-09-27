@@ -21,6 +21,7 @@ public class MotorDepotServletContextListener implements ServletContextListener 
 
     private static final Logger LOG = LogManager.getLogger();
     private static final String INITIALIZING_POOL_ERROR = "Initializing pool error";
+    private static final String INITIALIZING_MANAGER_ERROR = "Initializing manager error";
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -28,13 +29,19 @@ public class MotorDepotServletContextListener implements ServletContextListener 
                 DatabaseConfigurationBundleManager.getProperty(DatabaseConfigurationParameterName.USE_JPA))) {
             try {
                 ConnectionPool.getInstance().init();
-            } catch (DatabaseConnectionException e) {
-                LOG.error(e);
+            } catch (DatabaseConnectionException ex) {
+                LOG.error(ex.getCause());
                 servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
-                        INITIALIZING_POOL_ERROR + ": " + e.getCause().getMessage());
+                        INITIALIZING_POOL_ERROR);
             }
         } else {
-            EntityManagerProvider.getInstance().init();
+            try {
+                EntityManagerProvider.getInstance().init();
+            } catch (Exception ex) {
+                LOG.error(ex.getCause());
+                servletContextEvent.getServletContext().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                        INITIALIZING_MANAGER_ERROR);
+            }
         }
     }
 
