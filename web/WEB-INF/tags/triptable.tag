@@ -1,7 +1,7 @@
 <%@ tag body-content="empty" pageEncoding="UTF-8" %>
 <%@ attribute name="trips" required="true" rtexprvalue="true" type="java.util.List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../../bundle.jspf"%>
+<%@ include file="../../pages/bundle.jspf"%>
 <table class="table">
     <thead>
     <tr>

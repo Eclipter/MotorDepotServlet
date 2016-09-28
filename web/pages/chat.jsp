@@ -5,24 +5,25 @@
 <head>
     <meta charset="UTF-8"/>
     <title><fmt:message key="chat.heading"/></title>
-    <link href="css/custom-bootstrap.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="js/jquery-2.1.4.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link href="../css/custom-bootstrap.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <script src="../js/jquery-2.1.4.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <script type="text/javascript">
         var chat;
         function connect() {
             socket = new WebSocket("ws://localhost:9090/chat");
             socket.onmessage = function (event) {
-                console.log(event.data);
 
                 try {
                     var message = JSON.parse(event.data);
                 } catch (e) {
-                    document.getElementById('chatArea').value += '\n' + event.data;
+                    document.getElementById('chatArea').value += event.data + '\n';
                     return;
                 }
 
+
+                $('#users').empty();
                 message.forEach(function (item, i, arr) {
 
                     var radio = document.createElement("div");
@@ -40,6 +41,10 @@
                         var name = $(this).children("label")[0].innerText;
                         $('#receiver').attr("value", name);
                     });
+
+                    if(i == 0) {
+                        $(radio).click();
+                    }
                 });
             };
         }
@@ -67,6 +72,11 @@
             document.getElementById('message').value = "";
         }
         window.addEventListener('load', connect);
+
+        function scrollDown() {
+            var area = $('#chatArea');
+            area.scrollTop(area[0].scrollHeight);
+        }
 
         $(document).ready(function() {
             $('#message').keypress(function (event) {

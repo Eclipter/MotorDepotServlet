@@ -6,10 +6,10 @@
 <body>
 <c:choose>
     <c:when test="${empty sessionScope.user}">
-        <jsp:forward page="login.jsp"/>
+        <jsp:forward page="pages/login.jsp"/>
     </c:when>
     <c:otherwise>
-        <jsp:forward page="main_page.jsp"/>
+        <jsp:forward page="pages/main_page.jsp"/>
     </c:otherwise>
 </c:choose>
 </body>

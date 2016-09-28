@@ -4,10 +4,10 @@
 <html>
 <head>
     <title><fmt:message key="errorpage.heading"/></title>
-    <link href="css/custom-bootstrap.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="js/jquery-2.1.4.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link href="../css/custom-bootstrap.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <script src="../js/jquery-2.1.4.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-static-top">

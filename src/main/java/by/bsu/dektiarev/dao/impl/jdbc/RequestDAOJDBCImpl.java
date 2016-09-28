@@ -101,7 +101,8 @@ public class RequestDAOJDBCImpl implements RequestDAO {
     @Override
     public Integer getNumberOfUnassignedRequests() throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
-            try (PreparedStatement statement = connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_UNASSIGNED_REQUESTS)) {
+            try (PreparedStatement statement =
+                         connection.prepareStatement(DatabaseQuery.GET_NUMBER_OF_UNASSIGNED_REQUESTS)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if(resultSet.next()) {
                         return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();

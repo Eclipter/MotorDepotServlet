@@ -105,18 +105,9 @@ public class ConnectionPool {
                 LOG.error("returning to wrong pool");
                 throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
             }
-            if (!connection.isClosed()) {
-                freeConnections.put(connection);
-            } else {
-                LOG.info("Creating new connection");
-                ProxyConnection newConnection = createNewConnection();
-                freeConnections.put(newConnection);
-            }
+            freeConnections.put(connection);
         } catch (InterruptedException e) {
             LOG.error("interrupted while returning connection back to pool", e);
-            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, e);
-        } catch (SQLException e) {
-            LOG.error("exception while checking connection before returning", e);
             throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, e);
         }
     }
@@ -151,16 +142,16 @@ public class ConnectionPool {
             LOG.info("pool initialized");
         } catch (InterruptedException ex) {
             LOG.error("interrupted while initializing pool", ex);
-            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
         } catch (ClassNotFoundException ex) {
             LOG.error("driver class not found", ex);
-            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
         } catch (SQLException ex) {
             LOG.error("sql error while initializing pool", ex);
-            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
         } catch (NumberFormatException ex) {
             LOG.error("error while parsing db configuration");
-            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
+            throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR);
         }
     }
 

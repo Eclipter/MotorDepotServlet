@@ -5,10 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <title><fmt:message key="index.text.heading"/></title>
-    <link href="css/custom-bootstrap.css" rel="stylesheet">
-    <link href="css/custom.css" rel="stylesheet">
-    <script src="js/jquery-2.1.4.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <link href="../css/custom-bootstrap.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
+    <script src="../js/jquery-2.1.4.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
 </head>
 <body>
 <%@include file="navbar.jspf" %>
@@ -40,7 +40,7 @@
                     </c:otherwise>
                 </c:choose>
                 <br>
-                <img src="images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
+                <img src="../images/drivers.jpg" alt="<fmt:message key="index.image.alt"/>"/>
             </div>
         </div>
     </div>

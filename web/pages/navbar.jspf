@@ -78,10 +78,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="${languageLink}ru"><img class="language-icon" src="images/icon-rus.ico" alt="ru"/></a>
+                <a href="${languageLink}ru"><img class="language-icon" src="../images/icon-rus.ico" alt="ru"/></a>
             </li>
             <li>
-                <a href="${languageLink}en"><img class="language-icon" src="images/icon-us.ico" alt="en"/></a>
+                <a href="${languageLink}en"><img class="language-icon" src="../images/icon-us.ico" alt="en"/></a>
             </li>
             <li>
                 <a href="<c:url value="motor_depot"><c:param name="command" value="chat"/></c:url>"><span
