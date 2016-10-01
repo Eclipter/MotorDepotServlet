@@ -17,6 +17,10 @@ public class RequestViewBean implements Serializable {
     private Request request;
     private Driver driver;
 
+    public RequestViewBean(Request request) {
+        this.request = request;
+    }
+
     public RequestViewBean(Request request, Driver driver) {
         this.request = request;
         this.driver = driver;
@@ -34,10 +38,6 @@ public class RequestViewBean implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(request, driver);
-    }
-
-    public RequestViewBean(Request request) {
-        this.request = request;
     }
 
     public Request getRequest() {

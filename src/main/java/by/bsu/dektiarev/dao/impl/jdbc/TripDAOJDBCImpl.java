@@ -105,6 +105,28 @@ public class TripDAOJDBCImpl implements TripDAO {
     }
 
     @Override
+    public Integer getNumberOfCompletedTripsByDriver(int driverId) throws DAOException {
+        try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
+            try (PreparedStatement statement = connection.prepareStatement(
+                    DatabaseQuery.GET_NUMBER_OF_COMPLETED_TRIPS_BY_DRIVER)) {
+                statement.setInt(1, driverId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if(resultSet.next()) {
+                        return new Long(resultSet.getLong(ColumnName.COUNT)).intValue();
+                    } else {
+                        throw new DAOException(ExceptionalMessageKey.DML_EXCEPTION);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            LOG.error(e);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, e);
+        } catch (DatabaseConnectionException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    @Override
     public void addTrip(int requestId, int driverId) throws DAOException {
         try (Connection connection = ConnectionPool.getInstance().takeConnection()) {
             Double capacity;

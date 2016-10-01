@@ -82,6 +82,20 @@ public class TripDAOJPAImpl extends GenericDAOJPAImpl implements TripDAO {
     }
 
     @Override
+    public Integer getNumberOfCompletedTripsByDriver(int driverId) throws DAOException {
+        try {
+            Driver driver = getManager().find(Driver.class, driverId);
+            if (driver == null) {
+                throw new DAOException(ExceptionalMessageKey.WRONG_INPUT_PARAMETERS);
+            }
+            return Math.toIntExact(driver.getTripList().stream().filter(Trip::getIsComplete).count());
+        } catch (DAOException ex) {
+            LOG.error(ex);
+            throw new DAOException(ExceptionalMessageKey.SQL_ERROR, ex);
+        }
+    }
+
+    @Override
     public void addTrip(int requestId, int driverId) throws DAOException {
         Request request = getManager().find(Request.class, requestId);
         if (request == null) {

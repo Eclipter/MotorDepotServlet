@@ -25,19 +25,23 @@
                     <tr>
                         <th><fmt:message key="drivers.table.login"/></th>
                         <th><fmt:message key="drivers.table.truck_id"/></th>
+                        <th><fmt:message key="drivers.table.trips_completed_all"/></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.drivers}" var="driver">
                         <tr>
-                            <td><c:out value="${driver.login}"/></td>
+                            <td><c:out value="${driver.driver.login}"/></td>
                             <td>
                                 <a href="#" data-toggle="popover"
-                                   title="<fmt:message key="trucks.modal.label.truck"/> ${driver.truck.id}"
+                                   title="<fmt:message key="trucks.modal.label.truck"/> ${driver.driver.truck.id}"
                                    data-trigger="hover" data-content="<fmt:message key="trucks.table.capacity"/>:
-                                   ${driver.truck.capacity}">
-                                        ${driver.truck.id}
+                                   ${driver.driver.truck.capacity}">
+                                        ${driver.driver.truck.id}
                                 </a>
+                            </td>
+                            <td>
+                                ${driver.completedTripsCount} / ${driver.tripsCount}
                             </td>
                         </tr>
                     </c:forEach>

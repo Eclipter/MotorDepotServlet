@@ -190,6 +190,10 @@ public final class DatabaseQuery {
     public static final String GET_NUMBER_OF_TRIPS_BY_DRIVER = "SELECT COUNT(*) AS COUNT FROM trip " +
             "WHERE trip.DRIVER_ID = ?";
 
+    public static final String GET_NUMBER_OF_COMPLETED_TRIPS_BY_DRIVER = "SELECT COUNT(*) AS COUNT FROM trip " +
+            "WHERE trip.DRIVER_ID = ? " +
+            "AND trip.IS_COMPLETE = 1";
+
     public static final String GET_REQUEST_BY_ID = "SELECT\n" +
             "  request.ID,\n" +
             "  request.CARGO_WEIGHT,\n" +

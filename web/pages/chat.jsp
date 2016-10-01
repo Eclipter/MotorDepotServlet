@@ -43,7 +43,9 @@
                     });
 
                     if(i == 0) {
-                        $(radio).click();
+                        $(button).checked = true;
+                        var name = $(radio).children("label")[0].innerText;
+                        $('#receiver').attr("value", name);
                     }
                 });
             };

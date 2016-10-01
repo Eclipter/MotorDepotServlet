@@ -87,7 +87,7 @@ public class ConnectionPool {
             LOG.error("interrupted while retrieving pool from the pool");
             throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         } catch (SQLException ex) {
-            LOG.error("error during connection setup");
+            LOG.error(ex);
             throw new DatabaseConnectionException(ExceptionalMessageKey.CONNECTION_ERROR, ex);
         }
     }
@@ -181,7 +181,7 @@ public class ConnectionPool {
                 }
                 connection.realClose();
             } catch (SQLException e) {
-                LOG.error("error while closing connections: ", e);
+                LOG.error("error while closing connections", e);
             } catch (InterruptedException e) {
                 LOG.error("interrupted while closing connections", e);
             }

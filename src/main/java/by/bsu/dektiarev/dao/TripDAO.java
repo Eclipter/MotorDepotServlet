@@ -46,6 +46,8 @@ public interface TripDAO extends GenericDAO {
      */
     Integer getNumberOfTripsByDriver(int driverId) throws DAOException;
 
+    Integer getNumberOfCompletedTripsByDriver(int driverId) throws DAOException;
+
     /**
      * Assigns driver to a trip
      *
