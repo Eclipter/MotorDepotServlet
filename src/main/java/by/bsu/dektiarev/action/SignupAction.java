@@ -9,6 +9,8 @@ import by.bsu.dektiarev.entity.Truck;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import by.bsu.dektiarev.util.BundleName;
+import by.bsu.dektiarev.util.InternationalizedBundleManager;
 import by.bsu.dektiarev.util.RequestParameterName;
 import by.bsu.dektiarev.util.URLConstant;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +43,10 @@ public class SignupAction implements Action {
             LOG.info("checking new user");
             if (userDAO.isLoginOccupied(username)) {
                 LOG.info("login " + username + " is already occupied");
-                req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE, ExceptionalMessageKey.LOGIN_OCCUPIED);
+                req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                        InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                        ExceptionalMessageKey.LOGIN_OCCUPIED,
+                        (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 return URLConstant.GET_SIGNUP_FORM;
             }
 

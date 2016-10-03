@@ -10,6 +10,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Filter that checks if the signup form fields are filled correctly
@@ -30,7 +32,6 @@ public class SignupFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
-        String contextPath = req.getContextPath();
 
         String command = req.getParameter(RequestParameterName.COMMAND);
         if(command != null) {
@@ -73,6 +74,18 @@ public class SignupFilter implements Filter {
                                 (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
                 res.sendRedirect(URLConstant.GET_SIGNUP_FORM);
             } else {
+                Pattern usernamePattern = Pattern.compile(CredentialPattern.USERNAME_PATTERN);
+                Matcher usernameMatcher = usernamePattern.matcher(username);
+                Pattern passwordPattern = Pattern.compile(CredentialPattern.PASSWORD_PATTERN);
+                Matcher passwordMatcher = passwordPattern.matcher(password);
+                if(!usernameMatcher.matches() || !passwordMatcher.matches()) {
+                    req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                            InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                                    ExceptionalMessageKey.WRONG_INPUT_PARAMETERS,
+                                    (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                    res.sendRedirect(URLConstant.GET_SIGNUP_FORM);
+                    return;
+                }
                 try {
                     double capacity = Double.parseDouble(truckCapacity);
                     if (capacity <= 0) {

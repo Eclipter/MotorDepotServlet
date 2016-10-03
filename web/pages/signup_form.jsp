@@ -51,11 +51,19 @@
                 <form action="motor_depot" method="post">
                     <div class="form-group">
                         <label for="inputUsername" class="control-label"><fmt:message key="signup.label.username"/></label>
-                        <input type="text" value="${fn:escapeXml(param.username)}" name="username" id="inputUsername" class="form-control" placeholder="<fmt:message key="signup.placeholder.login"/>" required>
+                        <input type="text" pattern="[_0-9a-zA-Z]{4,}"
+                               title="<fmt:message key="signup.username.pattern"/>"
+                               value="${fn:escapeXml(param.username)}" name="username"
+                               id="inputUsername" class="form-control"
+                               placeholder="<fmt:message key="signup.placeholder.login"/>" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPassword" class="control-label"><fmt:message key="signup.label.password"/></label>
-                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="<fmt:message key="signup.placeholder.password"/>" required>
+                        <input type="password" pattern="[_0-9a-zA-Z]{6,}"
+                               title="<fmt:message key="signup.password.pattern"/>"
+                               name="password" id="inputPassword"
+                               class="form-control"
+                               placeholder="<fmt:message key="signup.placeholder.password"/>" required>
                     </div>
                     <div class="form-group">
                         <label for="inputPasswordRepeat" class="control-label"><fmt:message key="signup.label.password.repeat"/></label>

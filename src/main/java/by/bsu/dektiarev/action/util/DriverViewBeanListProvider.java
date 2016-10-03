@@ -26,7 +26,7 @@ public final class DriverViewBeanListProvider {
             driverViewBeanList.add(driverViewBean);
         }
         return driverViewBeanList;
-    }
+}
 
     private DriverViewBeanListProvider() {
     }
