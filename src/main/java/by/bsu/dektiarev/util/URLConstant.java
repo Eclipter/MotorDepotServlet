@@ -16,6 +16,7 @@ public final class URLConstant {
     public static final String GET_MAIN_PAGE = baseURL + ActionEnum.GET_MAIN_PAGE.toString().toLowerCase();
     public static final String GET_SIGNUP_FORM = baseURL + ActionEnum.GET_SIGNUP_FORM.toString().toLowerCase();
     public static final String GET_LOGIN_FORM = baseURL + ActionEnum.GET_LOGIN_FORM.toString().toLowerCase();
+    public static final String GET_ERROR_PAGE = baseURL + ActionEnum.GET_ERROR_PAGE.toString().toLowerCase();
 
     private URLConstant() {
     }

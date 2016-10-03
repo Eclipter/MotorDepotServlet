@@ -19,4 +19,5 @@ textarea.chat-area[disabled] {
 
 a[data-toggle='popover'] {
     color: #bbae9e;
+    text-decoration: none;
 }

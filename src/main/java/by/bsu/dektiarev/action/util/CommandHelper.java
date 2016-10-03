@@ -35,6 +35,7 @@ public final class CommandHelper {
         ACTION_MAP.put(ActionEnum.GET_UNASSIGNED_REQUESTS, new GetUnassignedRequestsAction());
         ACTION_MAP.put(ActionEnum.GET_LOGIN_FORM, new GetLoginFormAction());
         ACTION_MAP.put(ActionEnum.DELETE_REQUEST, new DeleteRequestAction());
+        ACTION_MAP.put(ActionEnum.GET_ERROR_PAGE, new GetErrorPageAction());
     }
 
     public static Action getCommand(String command) throws CommandNotFoundException {

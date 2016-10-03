@@ -11,6 +11,11 @@
     <script src="../js/bootstrap.min.js"></script>
     <link href="../css/custom.css" rel="stylesheet">
 </head>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 <body>
 <%@include file="navbar.jspf" %>
 <div class="container">
@@ -182,10 +187,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
-    });
-</script>
 </body>
 </html>

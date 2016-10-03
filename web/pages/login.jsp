@@ -36,6 +36,12 @@
                     <strong><fmt:message key="login.heading"/></strong>
                 </div>
                 <div class="panel-body">
+                    <c:if test="${sessionScope.errorMessage != null}">
+                        <div class="alert alert-danger">
+                            <c:out value="${sessionScope.errorMessage}"/>
+                            <c:remove var="errorMessage" scope="session"/>
+                        </div>
+                    </c:if>
                     <form method="post" action="motor_depot" class="form-horizontal">
                         <div class="form-group">
                             <label for="inputLogin" class="col-sm-3 control-label"><fmt:message key="login.label.login"/></label>

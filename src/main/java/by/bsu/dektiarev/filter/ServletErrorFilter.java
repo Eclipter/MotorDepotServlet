@@ -1,8 +1,7 @@
 package by.bsu.dektiarev.filter;
 
-import by.bsu.dektiarev.util.PageNameConstant;
-import by.bsu.dektiarev.util.PagesBundleManager;
 import by.bsu.dektiarev.util.RequestParameterName;
+import by.bsu.dektiarev.util.URLConstant;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +34,7 @@ public class ServletErrorFilter implements Filter {
         if(errorMessage != null) {
             LOG.warn("got a servlet error");
             req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE, errorMessage);
-            res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
+            res.sendRedirect(URLConstant.GET_ERROR_PAGE);
         }
         else {
             LOG.info("servlet error filter passed");

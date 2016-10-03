@@ -20,6 +20,9 @@
             </div>
             <div class="panel-body">
                 <h3>${errorMessage}</h3>
+                <c:if test="${not empty sessionScope.errorMessage}">
+                    <c:remove var="errorMessage" scope="session"/>
+                </c:if>
             </div>
         </div>
     </div>

@@ -10,10 +10,9 @@ import by.bsu.dektiarev.entity.User;
 import by.bsu.dektiarev.exception.ActionExecutionException;
 import by.bsu.dektiarev.exception.DAOException;
 import by.bsu.dektiarev.exception.ExceptionalMessageKey;
+import by.bsu.dektiarev.util.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import by.bsu.dektiarev.util.RequestParameterName;
-import by.bsu.dektiarev.util.URLConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +56,11 @@ public class LoginAction implements Action {
                 session.setAttribute(RequestParameterName.USER, userInfoBean);
                 return URLConstant.GET_MAIN_PAGE;
             } else {
-                throw new ActionExecutionException(ExceptionalMessageKey.WRONG_LOGIN_PASS);
+                req.getSession().setAttribute(RequestParameterName.ERROR_MESSAGE,
+                        InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
+                                ExceptionalMessageKey.WRONG_LOGIN_PASS,
+                                (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
+                return URLConstant.GET_LOGIN_FORM;
             }
         } catch (DAOException ex) {
             throw new ActionExecutionException(ex.getMessage());

@@ -30,7 +30,6 @@ public class LocaleFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
-        String contextPath = req.getContextPath();
         String languageParameter = req.getParameter(RequestParameterName.LANGUAGE);
 
         if(languageParameter != null) {
@@ -40,7 +39,7 @@ public class LocaleFilter implements Filter {
                         InternationalizedBundleManager.getProperty(BundleName.ERROR_MESSAGE,
                                 ExceptionalMessageKey.WRONG_COMMAND,
                         (String) req.getSession().getAttribute(RequestParameterName.LANGUAGE)));
-                res.sendRedirect(contextPath + PagesBundleManager.getProperty(PageNameConstant.ERROR));
+                res.sendRedirect(URLConstant.GET_ERROR_PAGE);
             }
             else {
                 LOG.info("new language setup: {}", languageParameter);
